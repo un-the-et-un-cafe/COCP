@@ -1,0 +1,16 @@
+.DS_Store
+node_modules/
+web/node_modules/
+web/.vinext/
+web/.next/
+/.next/
+web/dist/
+coverage/
+.env
+.env.*
+!.env.example
+*.log
+contracts/cache/
+contracts/out/
+/dist/
+.vinext/
