@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useState, type SyntheticEvent } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 import { AlertTriangle, ArrowLeft, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -39,9 +38,7 @@ async function postCorrection(payload: CorrectionPayload) {
 }
 
 export default function CorrectionsPage() {
-  const params = useSearchParams();
-  const requestedListing = params.get('listing') ?? '';
-  const initialListing = useMemo(() => listings.some((item) => item.id === requestedListing) ? requestedListing : listings[0].id, [requestedListing]);
+  const initialListing = useMemo(() => listings[0].id, []);
   const [language, setLanguage] = useState<Language>('fr');
   const [listingId, setListingId] = useState(initialListing);
   const [reportType, setReportType] = useState<ReportType>('hours');
@@ -51,6 +48,14 @@ export default function CorrectionsPage() {
   const [state, setState] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [error, setError] = useState('');
   const text = copy[language];
+
+  useEffect(() => {
+    const requestedListing = new URLSearchParams(window.location.search).get('listing') ?? '';
+    const frame = window.requestAnimationFrame(() => {
+      if (listings.some((item) => item.id === requestedListing)) setListingId(requestedListing);
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   const submitCorrection = useCallback(async (payload: CorrectionPayload) => {
     setState('sending');

@@ -4,7 +4,9 @@ web/node_modules/
 web/.vinext/
 web/.next/
 /.next/
+.netlify/
 web/dist/
+web/tsconfig.tsbuildinfo
 coverage/
 .env
 .env.*

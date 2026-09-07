@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "vinext dev",
     "build": "vinext build",
+    "build:netlify": "vinext build --prerender-all && node scripts/prepare-netlify.mjs",
     "start": "wrangler dev --config dist/server/wrangler.json",
     "db:generate": "drizzle-kit generate",
     "lint": "oxlint app",
@@ -15,6 +16,7 @@
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",
+    "@netlify/blobs": "^11.0.3",
     "@shadcn/react": "0.3.0",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
