@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises';
 
 const api = await readFile(new URL('../web/app/api/corrections/route.ts', import.meta.url), 'utf8');
 const netlifyApi = await readFile(new URL('../web/netlify/functions/corrections.mts', import.meta.url), 'utf8');
+const netlifyPurge = await readFile(new URL('../web/netlify/functions/purge-corrections.mts', import.meta.url), 'utf8');
 const database = await readFile(new URL('../web/db/schema.ts', import.meta.url), 'utf8');
 const form = await readFile(new URL('../web/app/corrections/page.tsx', import.meta.url), 'utf8');
 const purge = await readFile(new URL('../web/scripts/purge-resolved-corrections.sql', import.meta.url), 'utf8');
@@ -30,6 +31,9 @@ test('moderation records support resolution and scheduled deletion', () => {
   assert.match(purge, /delete_after <=/);
   assert.match(netlifyApi, /expiresAt/);
   assert.match(netlifyApi, /onlyIfNew: true/);
+  assert.match(netlifyPurge, /schedule: '@daily'/);
+  assert.match(netlifyPurge, /store\.delete\(blob\.key\)/);
+  assert.doesNotMatch(netlifyPurge, /path:/);
 });
 
 test('correction WebMCP tool is explicit about its write and untrusted content', () => {
