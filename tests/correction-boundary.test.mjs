@@ -4,36 +4,45 @@ import { readFile } from 'node:fs/promises';
 
 const api = await readFile(new URL('../web/app/api/corrections/route.ts', import.meta.url), 'utf8');
 const netlifyApi = await readFile(new URL('../web/netlify/functions/corrections.mts', import.meta.url), 'utf8');
-const netlifyPurge = await readFile(new URL('../web/netlify/functions/purge-corrections.mts', import.meta.url), 'utf8');
-const database = await readFile(new URL('../web/db/schema.ts', import.meta.url), 'utf8');
+const schema = await readFile(new URL('../web/convex/schema.ts', import.meta.url), 'utf8');
+const corrections = await readFile(new URL('../web/convex/corrections.ts', import.meta.url), 'utf8');
+const crons = await readFile(new URL('../web/convex/crons.ts', import.meta.url), 'utf8');
+const http = await readFile(new URL('../web/convex/http.ts', import.meta.url), 'utf8');
 const form = await readFile(new URL('../web/app/corrections/page.tsx', import.meta.url), 'utf8');
-const purge = await readFile(new URL('../web/scripts/purge-resolved-corrections.sql', import.meta.url), 'utf8');
 
 test('anonymous correction route has no public read operation or identity fields', () => {
   assert.doesNotMatch(api, /export\s+async\s+function\s+GET/);
   assert.match(netlifyApi, /request\.method !== 'POST'/);
-  assert.doesNotMatch(netlifyApi, /store\.(?:list|get)\(/);
-  assert.doesNotMatch(database, /email|phone|ip_address|immigration|nationality|case_history/i);
+  assert.doesNotMatch(http, /method:\s*'GET'/);
+  assert.doesNotMatch(corrections, /export const \w+ = (?:query|mutation)\(/);
+  assert.match(corrections, /internalQuery/);
+  assert.match(corrections, /internalMutation/);
+  assert.doesNotMatch(schema, /email|phone|ipAddress|immigration|nationality|caseHistory/i);
 });
 
 test('correction input is bounded and requires an explicit privacy confirmation', () => {
   assert.match(form, /maxLength=\{800\}/);
   assert.match(form, /privacyConfirmed/);
   assert.match(api, /application\/json/);
-  assert.match(api, /content-length/);
+  assert.match(api, /byteLength > 4096/);
+  assert.match(netlifyApi, /application\/json/);
   assert.match(netlifyApi, /byteLength > 4096/);
+  assert.match(netlifyApi, /rateLimit/);
+  assert.match(netlifyApi, /aggregateBy: \['ip', 'domain'\]/);
 });
 
 test('moderation records support resolution and scheduled deletion', () => {
-  assert.match(database, /resolvedAt/);
-  assert.match(database, /deleteAfter/);
-  assert.match(purge, /DELETE FROM correction_reports/);
-  assert.match(purge, /delete_after <=/);
-  assert.match(netlifyApi, /expiresAt/);
-  assert.match(netlifyApi, /onlyIfNew: true/);
-  assert.match(netlifyPurge, /schedule: '@daily'/);
-  assert.match(netlifyPurge, /store\.delete\(blob\.key\)/);
-  assert.doesNotMatch(netlifyPurge, /path:/);
+  assert.match(schema, /resolvedAt/);
+  assert.match(schema, /by_expiresAt/);
+  assert.match(corrections, /export const listPending = internalQuery/);
+  assert.match(corrections, /export const moderate = internalMutation/);
+  assert.match(corrections, /v\.id\('correctionReports'\)/);
+  assert.match(corrections, /report\.status !== 'pending'/);
+  assert.match(corrections, /ctx\.db\.patch\(reportId, \{ status: outcome, resolvedAt \}\)/);
+  assert.match(corrections, /retentionMs = 30 \* 24 \* 60 \* 60 \* 1000/);
+  assert.match(corrections, /ctx\.db\.delete\(report\._id\)/);
+  assert.match(crons, /crons\.daily/);
+  assert.match(http, /CORRECTION_API_TOKEN/);
 });
 
 test('correction WebMCP tool is explicit about its write and untrusted content', () => {

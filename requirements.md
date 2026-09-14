@@ -34,11 +34,20 @@ Once the current safety and launch tasks are complete, develop these revenue lin
 
 1. **Verification subscriptions** — associations, cities, and institutions pay monthly for freshness monitoring, broken-link alerts, and signed reports while public data stays free.
 2. **White-label city launches** — fixed-price deployments for other cities, with local verification teams and portable open data.
-3. **Translation underwriting** — sponsors fund reviewed language releases and printed QR materials with a clear delivered result.
-4. **Data assurance API** — paid access to signed freshness feeds, change notifications, and compliance exports; never sell personal or behavioral data.
-5. **Institutional cleanup projects** — paid import, deduplication, accessibility review, and structured publication of existing public directories.
-6. **Sponsor evidence service** — recurring evidence packs, proof pages, matching campaigns, and renewal reports using aggregate outcomes only.
-7. **Training and implementation support** — paid workshops for charities and municipalities on verification, privacy, safeguarding, and running independent mirrors.
-8. **Resilience and print service** — sponsored offline packs, QR cards, and emergency information refreshes for partner venues.
+3. **Managed operations and support** — annual contracts for hosting, security updates, backups, uptime monitoring, recovery testing, incident response, and export support for independent COCP deployments; public data remains open and every customer retains a tested exit path.
+4. **Translation underwriting** — sponsors fund reviewed language releases and printed QR materials with a clear delivered result.
+5. **Data assurance API** — paid access to signed freshness feeds, change notifications, and compliance exports; never sell personal or behavioral data.
+6. **Institutional cleanup projects** — paid import, deduplication, accessibility review, and structured publication of existing public directories.
+7. **Accessibility and comprehensibility assurance** — fixed-price RGAA/WCAG audits, manual assistive-technology testing, declarations, remediation backlogs, re-audits, and qualified FALC/plain-language adaptation for public-interest directories; certification claims require competent independent reviewers, and participating disabled reviewers must be paid fairly.
+8. **Open service-coverage assessments** — fixed-price, reproducible reports for public bodies and foundations on service availability, freshness, geographic or category gaps, accessibility, and language coverage, using only public listings and safe aggregate statistics; no beneficiary records, inferred movements, unpublished profiling, or purchaser suppression of findings.
+9. **Sponsor evidence service** — recurring evidence packs, proof pages, matching campaigns, and renewal reports using aggregate outcomes only.
+10. **Training and implementation support** — paid workshops for charities and municipalities on verification, privacy, safeguarding, and running independent mirrors.
+11. **Resilience and print service** — sponsored offline packs, QR cards, and emergency information refreshes for partner venues.
+
+Published comparable-market evidence supports the three added lines: UK public-sector catalogues price managed open-source hosting and Open Referral directory support as recurring services; French and UK suppliers publish prices for accessibility audits; and French public bodies procure territorial social-needs and service-gap studies. This demonstrates an existing paid market, not guaranteed sales for COCP. Before building any line, require at least one buyer interview and either a paid pilot, signed letter of intent, or procurement route.
+
+- Managed operations evidence: [G-Cloud managed open-source hosting](https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/704089/153768543937957-pricing-document-2024-05-06-0953.pdf) and [Open Place Directory pricing](https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/documents/712497/520558693082509-pricing-document-2024-05-03-1442.pdf).
+- Accessibility assurance evidence: [official RGAA audit rules](https://accessibilite.numerique.gouv.fr/obligations/evaluation-conformite/), [public-sector accessibility audit pricing](https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-13/documents/92589/493103729633349-pricing-document-2022-05-18-0819.pdf), and [French commercial RGAA audit pricing](https://www.rgaa-audit.com/faq-audit-rgaa).
+- Coverage assessment evidence: [Grand Paris Seine Ouest procurement notice](https://ted.europa.eu/fr/notice/760127-2025/pdfs) and [Le Compas published territorial-analysis prices](https://mon-abs.fr/).
 
 Each new revenue line must have a named buyer, fixed deliverable, measured cost, safeguarding review, and a public record of the resulting net-profit donation. Stop any product whose income depends on beneficiary surveillance, restricted access, unsafe work, or sponsor influence over listings.

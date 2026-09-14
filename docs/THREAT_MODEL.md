@@ -22,12 +22,12 @@ The browser may display only public, reviewed listing releases. Source documents
 | Threat | Consequence | Current control | Required before launch |
 | --- | --- | --- | --- |
 | Stale or false listing | A person misses essential help or travels unnecessarily | All imported rows are visibly unverified and non-publishable | Provider confirmation, required verifier threshold, expiry and correction workflow |
-| Sensitive data submitted or logged | Exposure, profiling, or retaliation | No accounts or public submission endpoint in this slice | Field minimization, warning, redaction, short retention, incident route |
+| Sensitive data submitted or logged | Exposure, profiling, or retaliation | No accounts; correction intake is field-limited, size-bounded, write-only, and warns against personal data | Moderation procedure, incident route, and periodic retention checks |
 | Sponsor affects service order | Essential information becomes advertising | No sponsor code exists in the directory route; boundary test scans it | Separate sponsor application and automated rank-independence tests |
 | Wallet or checkout loads on public route | Tracking, confusion, or coercion | No wallet or payment dependency in the frontend | Separate sponsor route and bundle inspection |
 | Unsafe or unauthorized work offer | Exploitation or unlawful employment | Activity features are absent and deny-by-default | Operator attestation, work eligibility, contract or invoice, sector and complaint gates |
 | Forged verification | Untrusted content appears reliable | No listing is presently marked verified | Typed signature verification, role separation, expiry and threshold policy |
-| Malicious correction content | Stored script, doxxing, or spam | No correction endpoint yet | Sanitization, moderation, rate limit and deletion-after-resolution policy |
+| Malicious correction content | Stored script, doxxing, or spam | Correction input strips control characters, rejects a honeypot field, is capped at 800 characters, is visible only in the authenticated dashboard, and the Netlify intake is rate-limited per IP and domain | Moderation procedure, abuse monitoring, and retention checks |
 | Payment replay or reversal error | Duplicate recognition or incorrect allocation | Payments are disabled | Signed timestamped webhooks, idempotency, settlement state and exact reversal ledger |
 | Wrong immutable wallet or token | Irrecoverable fund loss | No deployment manifest or live contract | Checksum, ownership proof, two-person review, testnet rehearsal and explicit mainnet confirmation |
 | Speculative token code enters repository | Legal, financial, and exploitation risk | Prohibited-feature test scans source and dependencies | Independent review and continuing CI enforcement |
