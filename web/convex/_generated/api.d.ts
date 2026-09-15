@@ -11,6 +11,7 @@
 import type * as corrections from "../corrections.js";
 import type * as crons from "../crons.js";
 import type * as http from "../http.js";
+import type * as listings from "../listings.js";
 
 import type {
   ApiFromModules,
@@ -22,6 +23,7 @@ declare const fullApi: ApiFromModules<{
   corrections: typeof corrections;
   crons: typeof crons;
   http: typeof http;
+  listings: typeof listings;
 }>;
 
 /**

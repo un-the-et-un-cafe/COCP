@@ -14,11 +14,12 @@ The project may earn revenue from sponsors and institutional services. After ref
 2. Complete reviewed French, English, and Arabic content.
 3. Complete operational review of correction moderation. Protected review, one-way resolution, anonymous intake, and automated 30-day deletion are implemented.
 4. Publish the first signed listing release after human verification. Signed releases, expiry enforcement, JSON/CSV exports, and the public change log are implemented.
-5. Finish the separate sponsor journey, evidence pack, consent, and public ledger.
-6. Build card and SEPA sandboxes and the tested Base sponsorship router.
-7. Add the deny-by-default Activity Idea Lab and its legal and safety gates.
-8. Complete accessibility, privacy, security, performance, and mobile testing.
-9. Obtain the legal, accounting, safeguarding, wallet, content, and payment approvals required before launch.
+5. Configure Netlify’s production-only Convex credentials and run the first production deployment. ChatGPT Sites/Convex development and Netlify/Convex production are separated in code; source hashing, count validation, and the live environment-labelled sync indicator are implemented.
+6. Finish the separate sponsor journey, evidence pack, consent, and public ledger.
+7. Build card and SEPA sandboxes and the tested Base sponsorship router.
+8. Add the deny-by-default Activity Idea Lab and its legal and safety gates.
+9. Complete accessibility, privacy, security, performance, and mobile testing.
+10. Obtain the legal, accounting, safeguarding, wallet, content, and payment approvals required before launch.
 
 ## Rules that do not change
 

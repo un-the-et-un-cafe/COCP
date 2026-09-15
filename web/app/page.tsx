@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
-import { AlertTriangle, CheckCircle2, Clock3, ExternalLink, Languages, MapPin, Search, ShieldCheck } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, Clock3, Database, ExternalLink, Languages, MapPin, Search, ShieldCheck } from 'lucide-react';
 import publishedListings from '../data/published-listings.json';
 import candidateListings from '../data/listings.json';
 import fr from '../locales/fr.json';
@@ -25,8 +25,32 @@ type Listing = {
   source: { notes: string; page: number };
   verification: { status: string; checked_at: string | null; expires_at: string | null };
 };
+type DatabaseStatus = {
+  state: 'checking' | 'synced' | 'unavailable';
+  listingCount?: number;
+  environment?: 'development' | 'production';
+};
 const releasedListings = publishedListings as Listing[];
 const sourceListings = candidateListings as Listing[];
+const buildEnvironment = (import.meta as ImportMeta & { env?: { VITE_CONVEX_SITE_URL?: string } }).env;
+const databaseStatusUrl = buildEnvironment?.VITE_CONVEX_SITE_URL
+  ? `${buildEnvironment.VITE_CONVEX_SITE_URL.replace(/\/$/, '')}/directory-status`
+  : null;
+
+function canonicalJson(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
+  if (value && typeof value === 'object') {
+    const record = value as Record<string, unknown>;
+    return `{${Object.keys(record).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(record[key])}`).join(',')}}`;
+  }
+  return JSON.stringify(value) ?? 'null';
+}
+
+async function sourceHash() {
+  const bytes = new TextEncoder().encode(canonicalJson(sourceListings));
+  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  return `sha256-${Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('')}`;
+}
 
 function getLocaleSnapshot(): Locale {
   const saved = localStorage.getItem('cocp-locale');
@@ -47,12 +71,33 @@ export default function Home() {
   const [category, setCategory] = useState<(typeof categories)[number]>('all');
   const [query, setQuery] = useState('');
   const [currentTime, setCurrentTime] = useState(0);
+  const [databaseStatus, setDatabaseStatus] = useState<DatabaseStatus>({ state: databaseStatusUrl ? 'checking' : 'unavailable' });
   const copy = copies[locale];
   useEffect(() => {
     const refresh = () => setCurrentTime(Date.now());
     refresh();
     const interval = window.setInterval(refresh, 60_000);
     return () => window.clearInterval(interval);
+  }, []);
+  useEffect(() => {
+    if (!databaseStatusUrl) {
+      return;
+    }
+    const controller = new AbortController();
+    Promise.all([fetch(databaseStatusUrl, { cache: 'no-store', signal: controller.signal }), sourceHash()])
+      .then(async ([response, expectedSourceHash]) => {
+        if (!response.ok) throw new Error('Directory status is unavailable.');
+        const status = await response.json() as { synced: boolean; listingCount: number; sourceHash?: string; environment?: 'development' | 'production' };
+        return { ...status, synced: status.synced && status.sourceHash === expectedSourceHash };
+      })
+      .then((status) => setDatabaseStatus(status.synced
+        ? { state: 'synced', listingCount: status.listingCount, environment: status.environment }
+        : { state: 'unavailable' }))
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return;
+        setDatabaseStatus({ state: 'unavailable' });
+      });
+    return () => controller.abort();
   }, []);
   const visibleListings = useMemo(() => {
     const needle = query.trim().toLocaleLowerCase(locale);
@@ -108,7 +153,17 @@ export default function Home() {
       <section className="directory-shell" id="services" aria-labelledby="directory-title">
         <div className="directory-heading">
           <div><p className="eyebrow">{copy.eyebrow}</p><h2 id="directory-title">{copy.directory_title}</h2><p>{copy.directory_intro}</p></div>
-          <div className="freshness-key"><Clock3 size={18} aria-hidden="true" /><span>{copy.unverified_key}</span></div>
+          <div className="directory-indicators">
+            <div className="freshness-key"><Clock3 size={18} aria-hidden="true" /><span>{copy.unverified_key}</span></div>
+            <div className={`database-key ${databaseStatus.state}`} aria-live="polite">
+              <Database size={18} aria-hidden="true" />
+              <span>{databaseStatus.state === 'checking'
+                ? copy.database_checking
+                : databaseStatus.state === 'synced'
+                  ? `${databaseStatus.environment === 'production' ? copy.database_production : copy.database_development}: ${databaseStatus.listingCount} ${copy.database_entries}`
+                  : copy.database_unavailable}</span>
+            </div>
+          </div>
         </div>
         <search className="controls">
           <label className="search-box"><Search size={20} aria-hidden="true" /><span className="sr-only">{copy.search_label}</span><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={copy.search_placeholder} /></label>

@@ -3,6 +3,15 @@
   command = "npm run build:netlify"
   publish = "dist/client"
 
+[context.production]
+  command = "npm run deploy:netlify"
+
+[context.deploy-preview]
+  command = "npm run build:netlify"
+
+[context.branch-deploy]
+  command = "npm run build:netlify"
+
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"

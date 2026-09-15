@@ -16,11 +16,34 @@ Keep the Convex team on the Free plan. Do not upgrade it or enable usage-based b
 
 Before resolving a report, verify the public fact with the named provider or an independent reviewer. Publish only the resulting listing change and its source evidence; never publish the original report text.
 
-## Deployment
+## Environments and deployment
 
-Deploy the Convex production functions with `npm --prefix web run convex:deploy` before releasing a site version that changes the correction schema or functions. Store the production deployment's site URL as `CONVEX_SITE_URL` on Netlify, and use a production-only `CORRECTION_API_TOKEN` with the same value in both services.
+The owner-only ChatGPT Sites deployment is the development/staging surface. Its build uses the personal development Convex deployment configured in ignored `web/.env.local` values. The directory badge must say “Development database synced”; it must never imply that this data is production.
 
-The `main` branch deploys automatically through Netlify. Netlify builds the site but does not deploy Convex, so its build does not require a long-lived Convex deploy key. A release is acceptable only after the repository tests, lint, type check, Netlify production build, and production dependency audit pass.
+Netlify is the production surface. Only `[context.production]` runs `npm run deploy:netlify`, which deploys the Convex schema and functions, atomically replaces the production `serviceListings` table, records the sync receipt, and then builds the site. Deploy Previews and branch deploys build the frontend without touching production Convex.
+
+Configure these values in Netlify for the **Production** deploy context only:
+
+- `CONVEX_DEPLOY_KEY`: production deploy key with deployment permission.
+- `CONVEX_SITE_URL`: production `*.convex.site` URL used by the correction function.
+- `VITE_CONVEX_SITE_URL`: the same production site URL, exposed to the browser only for the read-only sync-status endpoint.
+- `CORRECTION_API_TOKEN`: production-only secret, with the same value configured in production Convex.
+
+Do not commit any of those values. Netlify’s production context must target the repository’s production branch. A normal production push then deploys both Convex and the frontend; manual production sync remains available through `npm run sync:listings:prod` for recovery.
+
+## Listing database sync
+
+The versioned JSON file remains the portable source of record. Convex stores a queryable copy plus a sync receipt containing its content hash, row count, environment, and timestamp. The directory reads `/directory-status` only for the sync indicator; it continues to show the bundled source data if Convex is unavailable.
+
+Sync the configured development deployment:
+
+```bash
+npm run sync:listings:dev
+```
+
+This deploys the development schema and functions, atomically replaces the `serviceListings` table with all source entries, validates unique IDs and row count, and records the receipt. Production sync is normally owned by Netlify’s production pipeline. Confirm the target deployment and backup policy before any manual production recovery.
+
+A release is acceptable only after the repository tests, lint, type check, Netlify production build, database sync receipt, and production dependency audit pass.
 
 Payment collection remains disabled until every approval listed in `requirements.md` is complete.
 

@@ -14,7 +14,7 @@ const netlifyConfig = await readFile(new URL('../netlify.toml', import.meta.url)
 test('anonymous correction route has no public read operation or identity fields', () => {
   assert.doesNotMatch(api, /export\s+async\s+function\s+GET/);
   assert.match(netlifyApi, /request\.method !== 'POST'/);
-  assert.doesNotMatch(http, /method:\s*'GET'/);
+  assert.doesNotMatch(http, /path:\s*'\/corrections'[\s\S]{0,80}method:\s*'GET'/);
   assert.doesNotMatch(corrections, /export const \w+ = (?:query|mutation)\(/);
   assert.match(corrections, /internalQuery/);
   assert.match(corrections, /internalMutation/);
@@ -55,7 +55,8 @@ test('correction WebMCP tool is explicit about its write and untrusted content',
   assert.match(form, /untrustedContentHint: true/);
 });
 
-test('Netlify builds the site without a Convex production deploy credential', () => {
-  assert.match(netlifyConfig, /command = "npm run build:netlify"/);
-  assert.doesNotMatch(netlifyConfig, /convex deploy|CONVEX_DEPLOY_KEY/);
+test('Netlify deploys Convex only in production and keeps credentials out of source', () => {
+  assert.match(netlifyConfig, /\[context\.production\][\s\S]*command = "npm run deploy:netlify"/);
+  assert.match(netlifyConfig, /\[context\.deploy-preview\][\s\S]*command = "npm run build:netlify"/);
+  assert.doesNotMatch(netlifyConfig, /CONVEX_DEPLOY_KEY\s*=/);
 });

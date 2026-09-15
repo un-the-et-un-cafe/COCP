@@ -5,6 +5,20 @@ import { httpRouter } from 'convex/server';
 const http = httpRouter();
 
 http.route({
+  path: '/directory-status',
+  method: 'GET',
+  handler: httpAction(async (ctx) => {
+    const status = await ctx.runQuery(internal.listings.getStatus, {});
+    return Response.json(status, {
+      headers: {
+        'access-control-allow-origin': '*',
+        'cache-control': 'no-store',
+      },
+    });
+  }),
+});
+
+http.route({
   path: '/corrections',
   method: 'POST',
   handler: httpAction(async (ctx, request) => {
