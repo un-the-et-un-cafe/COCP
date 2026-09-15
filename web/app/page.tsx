@@ -10,6 +10,7 @@ import {
   ExternalLink,
   Languages,
   MapPin,
+  RefreshCw,
   Search,
   ShieldCheck,
 } from 'lucide-react';
@@ -63,6 +64,7 @@ type DatabaseStatus = {
   state: 'checking' | 'synced' | 'unavailable';
   listingCount?: number;
   environment?: 'development' | 'production';
+  syncedAt?: number;
 };
 const releasedListings = publishedListings as Listing[];
 const sourceListings = candidateListings as Listing[];
@@ -99,6 +101,7 @@ export default function Home() {
   const [databaseStatus, setDatabaseStatus] = useState<DatabaseStatus>({
     state: databaseStatusUrl ? 'checking' : 'unavailable',
   });
+  const [databaseCheck, setDatabaseCheck] = useState(0);
   const copy = copies[locale];
   useEffect(() => {
     const refresh = () => setCurrentTime(Date.now());
@@ -125,6 +128,7 @@ export default function Home() {
           listingCount: number;
           sourceHash?: string;
           environment?: 'development' | 'production';
+          syncedAt?: number;
         };
         return {
           ...status,
@@ -138,6 +142,7 @@ export default function Home() {
                 state: 'synced',
                 listingCount: status.listingCount,
                 environment: status.environment,
+                syncedAt: status.syncedAt,
               }
             : { state: 'unavailable' },
         ),
@@ -148,7 +153,14 @@ export default function Home() {
         setDatabaseStatus({ state: 'unavailable' });
       });
     return () => controller.abort();
-  }, []);
+  }, [databaseCheck]);
+  const databaseSyncedAt = useMemo(() => {
+    if (!databaseStatus.syncedAt) return null;
+    return new Intl.DateTimeFormat(
+      locale === 'fr' ? 'fr-FR' : locale === 'en' ? 'en-GB' : 'ar',
+      { dateStyle: 'medium', timeStyle: 'short' },
+    ).format(new Date(databaseStatus.syncedAt));
+  }, [databaseStatus.syncedAt, locale]);
   const visibleListings = useMemo(() => {
     const needle = query.trim().toLocaleLowerCase(locale);
     const currentReleasedListings = releasedListings.filter(
@@ -257,13 +269,36 @@ export default function Home() {
               aria-live="polite"
             >
               <Database size={18} aria-hidden="true" />
-              <span>
+              <span className="database-copy">
                 {databaseStatus.state === 'checking'
                   ? copy.database_checking
                   : databaseStatus.state === 'synced'
                     ? `${databaseStatus.environment === 'production' ? copy.database_production : copy.database_development}: ${databaseStatus.listingCount} ${copy.database_entries}`
                     : copy.database_unavailable}
+                {databaseSyncedAt && databaseStatus.syncedAt ? (
+                  <small>
+                    {copy.database_synced_at}{' '}
+                    <time
+                      dateTime={new Date(databaseStatus.syncedAt).toISOString()}
+                    >
+                      {databaseSyncedAt}
+                    </time>
+                  </small>
+                ) : null}
               </span>
+              {databaseStatus.state === 'unavailable' && databaseStatusUrl ? (
+                <button
+                  className="database-retry"
+                  type="button"
+                  onClick={() => {
+                    setDatabaseStatus({ state: 'checking' });
+                    setDatabaseCheck((attempt) => attempt + 1);
+                  }}
+                >
+                  <RefreshCw size={15} aria-hidden="true" />
+                  {copy.database_retry}
+                </button>
+              ) : null}
             </div>
           </div>
         </div>

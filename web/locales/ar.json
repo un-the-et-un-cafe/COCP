@@ -15,6 +15,8 @@
   "database_development": "تمت مزامنة قاعدة بيانات التطوير",
   "database_production": "تمت مزامنة قاعدة بيانات الإنتاج",
   "database_entries": "سجلاً",
+  "database_synced_at": "آخر مزامنة:",
+  "database_retry": "إعادة المحاولة",
   "database_unavailable": "لم يتم تأكيد مزامنة قاعدة البيانات",
   "search_label": "البحث عن خدمة",
   "search_placeholder": "الاسم أو المكان أو الخدمة…",

@@ -42,6 +42,9 @@ a { color:inherit; }
 .database-key { display:flex; align-items:center; gap:.45rem; padding:.65rem .8rem; border:1px solid var(--line); border-radius:.65rem; color:var(--muted-text); background:var(--surface); font-size:.88rem; }
 .database-key.synced { border-color:#9fd4b2; color:#12552d; background:#e7f6ed; }
 .database-key.unavailable { border-color:#e4c67e; color:#6f4300; background:var(--warning-soft); }
+.database-copy { display:grid; }
+.database-copy small { font-size:.76rem; }
+.database-retry { display:inline-flex; min-height:36px; align-items:center; gap:.35rem; margin-inline-start:.25rem; padding:.35rem .55rem; border:1px solid currentColor; border-radius:.45rem; background:transparent; color:inherit; cursor:pointer; font-size:.8rem; font-weight:800; }
 .controls { display:grid; gap:1rem; margin:1.7rem 0 1rem; }
 .search-box { display:flex; align-items:center; gap:.6rem; padding:0 .9rem; border:1px solid #9fb1a9; border-radius:.75rem; background:#fff; }
 .search-box input { width:100%; min-height:50px; border:0; outline:0; background:transparent; }

@@ -15,6 +15,8 @@
   "database_development": "Development database synced",
   "database_production": "Production database synced",
   "database_entries": "entries",
+  "database_synced_at": "Last synchronized:",
+  "database_retry": "Retry",
   "database_unavailable": "Database sync not confirmed",
   "search_label": "Search services",
   "search_placeholder": "Name, place or service…",

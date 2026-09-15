@@ -39,5 +39,7 @@ test('the directory exposes live Convex sync state without hiding bundled data',
   assert.match(page, /VITE_CONVEX_SITE_URL/);
   assert.match(page, /status\.sourceHash === expectedSourceHash/);
   assert.match(page, /databaseStatus\.state === 'synced'/);
+  assert.match(page, /syncedAt: status\.syncedAt/);
+  assert.match(page, /setDatabaseCheck\(\(attempt\) => attempt \+ 1\)/);
   assert.match(page, /database_unavailable/);
 });
