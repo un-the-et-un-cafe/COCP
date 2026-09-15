@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises';
 
 const page = await readFile(new URL('../web/app/page.tsx', import.meta.url), 'utf8');
 const publicListings = await readFile(new URL('../web/data/published-listings.json', import.meta.url), 'utf8');
+const candidateListings = JSON.parse(await readFile(new URL('../web/data/listings.json', import.meta.url), 'utf8'));
 const sponsorPage = await readFile(new URL('../web/app/sponsors/page.tsx', import.meta.url), 'utf8');
 const requirements = await readFile(new URL('../requirements.md', import.meta.url), 'utf8');
 const manifest = JSON.parse(await readFile(new URL('../web/package.json', import.meta.url), 'utf8'));
@@ -15,11 +16,15 @@ test('beneficiary-facing page has no sponsor attribution or payment calls', () =
   }
 });
 
-test('beneficiary-facing directory reads only the release-controlled public dataset', () => {
+test('beneficiary-facing directory restores source leads without claiming verification', () => {
   assert.match(page, /published-listings\.json/);
-  assert.doesNotMatch(page, /data\/listings\.json/);
+  assert.match(page, /data\/listings\.json/);
   assert.match(page, /Date\.parse\(listing\.verification\.expires_at\) > currentTime/);
+  assert.match(page, /copy\.unverified/);
+  assert.match(page, /copy\.confirm_service/);
   assert.deepEqual(JSON.parse(publicListings), []);
+  assert.equal(candidateListings.length, 21);
+  assert.equal(candidateListings.filter((listing) => listing.categories.includes('showers')).length, 3);
 });
 
 test('beneficiary-facing bundle declares no wallet SDK', () => {

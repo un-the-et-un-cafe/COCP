@@ -7,12 +7,12 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select';
 import { Textarea } from '@/components/ui/textarea';
-import publishedListings from '@/data/published-listings.json';
+import directoryListings from '@/data/listings.json';
 
 type Language = 'fr' | 'en' | 'ar';
 type ReportType = 'hours' | 'location' | 'contact' | 'service' | 'closed' | 'safety' | 'other';
 type CorrectionPayload = { listingId: string; reportType: ReportType; message: string; language: Language; privacyConfirmed: boolean; website?: string };
-type PublishedListing = { id: string; name: string };
+type DirectoryListing = { id: string; name: string };
 type ToolDefinition = { name: string; title: string; description: string; inputSchema: object; annotations: { readOnlyHint: boolean; untrustedContentHint: boolean }; execute(input: unknown): Promise<unknown> };
 
 declare global {
@@ -20,11 +20,11 @@ declare global {
 }
 
 const copy = {
-  fr: { title: 'Signaler une correction', intro: 'Aidez le service concerné à vérifier une information. Ne donnez aucun nom de personne, statut administratif, dossier, lieu de vie précis ou autre donnée privée.', service: 'Service concerné', noServices: 'Aucun service vérifié n’est encore publié.', type: 'Information à corriger', message: 'Que faut-il vérifier ?', placeholder: 'Décrivez uniquement l’information publique qui semble incorrecte…', confirm: 'Je confirme que ce message ne contient aucune information personnelle ou liée à un dossier individuel.', submit: 'Envoyer pour modération', sending: 'Envoi…', success: 'Merci. Le signalement a été placé dans la file de modération.', back: 'Retour au répertoire', language: 'Langue du signalement' },
-  en: { title: 'Report a correction', intro: 'Help the relevant provider verify public information. Do not include anyone’s name, immigration status, case details, precise living location, or other private data.', service: 'Service concerned', noServices: 'No verified service has been published yet.', type: 'Information to correct', message: 'What should be checked?', placeholder: 'Describe only the public information that appears incorrect…', confirm: 'I confirm this message contains no personal information or individual case details.', submit: 'Send for moderation', sending: 'Sending…', success: 'Thank you. The report has entered the moderation queue.', back: 'Back to directory', language: 'Report language' },
-  ar: { title: 'الإبلاغ عن تصحيح', intro: 'ساعد الجهة المعنية على التحقق من المعلومات العامة. لا تذكر أسماء أشخاص أو وضع الهجرة أو تفاصيل الملفات أو مكان السكن الدقيق أو أي بيانات خاصة.', service: 'الخدمة المعنية', noServices: 'لم تُنشر أي خدمة متحقق منها بعد.', type: 'المعلومة المطلوب تصحيحها', message: 'ما الذي يجب التحقق منه؟', placeholder: 'صف فقط المعلومات العامة التي تبدو غير صحيحة…', confirm: 'أؤكد أن هذه الرسالة لا تحتوي على معلومات شخصية أو تفاصيل حالة فردية.', submit: 'إرسال للمراجعة', sending: 'جارٍ الإرسال…', success: 'شكراً. أُضيف البلاغ إلى قائمة المراجعة.', back: 'العودة إلى الدليل', language: 'لغة البلاغ' },
+  fr: { title: 'Signaler une correction', intro: 'Aidez le service concerné à vérifier une information. Ne donnez aucun nom de personne, statut administratif, dossier, lieu de vie précis ou autre donnée privée.', service: 'Service concerné', noServices: 'Aucun service n’est disponible.', type: 'Information à corriger', message: 'Que faut-il vérifier ?', placeholder: 'Décrivez uniquement l’information publique qui semble incorrecte…', confirm: 'Je confirme que ce message ne contient aucune information personnelle ou liée à un dossier individuel.', submit: 'Envoyer pour modération', sending: 'Envoi…', success: 'Merci. Le signalement a été placé dans la file de modération.', back: 'Retour au répertoire', language: 'Langue du signalement' },
+  en: { title: 'Report a correction', intro: 'Help the relevant provider verify public information. Do not include anyone’s name, immigration status, case details, precise living location, or other private data.', service: 'Service concerned', noServices: 'No service is available.', type: 'Information to correct', message: 'What should be checked?', placeholder: 'Describe only the public information that appears incorrect…', confirm: 'I confirm this message contains no personal information or individual case details.', submit: 'Send for moderation', sending: 'Sending…', success: 'Thank you. The report has entered the moderation queue.', back: 'Back to directory', language: 'Report language' },
+  ar: { title: 'الإبلاغ عن تصحيح', intro: 'ساعد الجهة المعنية على التحقق من المعلومات العامة. لا تذكر أسماء أشخاص أو وضع الهجرة أو تفاصيل الملفات أو مكان السكن الدقيق أو أي بيانات خاصة.', service: 'الخدمة المعنية', noServices: 'لا توجد خدمة متاحة.', type: 'المعلومة المطلوب تصحيحها', message: 'ما الذي يجب التحقق منه؟', placeholder: 'صف فقط المعلومات العامة التي تبدو غير صحيحة…', confirm: 'أؤكد أن هذه الرسالة لا تحتوي على معلومات شخصية أو تفاصيل حالة فردية.', submit: 'إرسال للمراجعة', sending: 'جارٍ الإرسال…', success: 'شكراً. أُضيف البلاغ إلى قائمة المراجعة.', back: 'العودة إلى الدليل', language: 'لغة البلاغ' },
 } as const;
-const listings = publishedListings as PublishedListing[];
+const listings = directoryListings as DirectoryListing[];
 
 const typeLabels: Record<Language, Record<ReportType, string>> = {
   fr: { hours: 'Horaires', location: 'Lieu', contact: 'Contact', service: 'Service proposé', closed: 'Service fermé', safety: 'Problème urgent de sécurité', other: 'Autre information' },

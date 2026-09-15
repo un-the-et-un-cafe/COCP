@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { AlertTriangle, CheckCircle2, Clock3, ExternalLink, Languages, MapPin, Search, ShieldCheck } from 'lucide-react';
 import publishedListings from '../data/published-listings.json';
+import candidateListings from '../data/listings.json';
 import fr from '../locales/fr.json';
 import en from '../locales/en.json';
 import ar from '../locales/ar.json';
@@ -14,7 +15,7 @@ const copies: Record<Locale, Copy> = { fr, en, ar };
 const supportLabels: Record<Locale, string> = { fr: 'Financer la vérification', en: 'Fund verification', ar: 'تمويل التحقق' };
 const changeLabels: Record<Locale, string> = { fr: 'Modifications et exports', en: 'Changes and exports', ar: 'التغييرات والتصدير' };
 const correctionLabels: Record<Locale, string> = { fr: 'Signaler une correction', en: 'Report a correction', ar: 'الإبلاغ عن تصحيح' };
-const categories = ['all', 'emergency', 'food', 'water', 'healthcare', 'community', 'legal'] as const;
+const categories = ['all', 'emergency', 'food', 'showers', 'water', 'healthcare', 'community', 'legal'] as const;
 const localeEvent = 'cocp-locale-change';
 type Listing = {
   id: string;
@@ -22,9 +23,10 @@ type Listing = {
   categories: string[];
   location: { label: string; map_url: string | null };
   source: { notes: string; page: number };
-  verification: { status: string; checked_at: string; expires_at: string };
+  verification: { status: string; checked_at: string | null; expires_at: string | null };
 };
-const listings = publishedListings as Listing[];
+const releasedListings = publishedListings as Listing[];
+const sourceListings = candidateListings as Listing[];
 
 function getLocaleSnapshot(): Locale {
   const saved = localStorage.getItem('cocp-locale');
@@ -54,11 +56,17 @@ export default function Home() {
   }, []);
   const visibleListings = useMemo(() => {
     const needle = query.trim().toLocaleLowerCase(locale);
+    const currentReleasedListings = releasedListings.filter((listing) => (
+      listing.verification.status === 'verified'
+      && listing.verification.expires_at
+      && (currentTime === 0 || Date.parse(listing.verification.expires_at) > currentTime)
+    ));
+    const releasedIds = new Set(currentReleasedListings.map((listing) => listing.id));
+    const listings = [...currentReleasedListings, ...sourceListings.filter((listing) => !releasedIds.has(listing.id))];
     return listings.filter((listing) => {
       const inCategory = category === 'all' || listing.categories.includes(category);
       const text = [listing.name, listing.location.label, listing.source.notes].join(' ').toLocaleLowerCase(locale);
-      const isCurrent = listing.verification.status === 'verified' && (currentTime === 0 || Date.parse(listing.verification.expires_at) > currentTime);
-      return isCurrent && inCategory && (!needle || text.includes(needle));
+      return inCategory && (!needle || text.includes(needle));
     });
   }, [category, currentTime, locale, query]);
 
@@ -112,11 +120,20 @@ export default function Home() {
         <div className="listing-grid">
           {visibleListings.map((listing) => (
             <article className="listing-card" key={listing.id}>
-              <div className="listing-topline"><span className="status verified"><CheckCircle2 size={15} aria-hidden="true" />{copy.verified}</span><span>{copy.source_page} {listing.source.page}</span></div>
+              <div className="listing-topline">
+                {listing.verification.status === 'verified'
+                  ? <span className="status verified"><CheckCircle2 size={15} aria-hidden="true" />{copy.verified}</span>
+                  : <span className="status"><AlertTriangle size={15} aria-hidden="true" />{copy.unverified}</span>}
+                <span>{copy.source_page} {listing.source.page}</span>
+              </div>
               <h3>{listing.name}</h3>
               <p className="location"><MapPin size={18} aria-hidden="true" />{listing.location.label}</p>
               <p className="service-note">{listing.source.notes}</p>
-              <dl><div><dt>{copy.last_checked}</dt><dd>{listing.verification.checked_at.slice(0, 10)}</dd></div><div><dt>{copy.expires}</dt><dd>{listing.verification.expires_at.slice(0, 10)}</dd></div></dl>
+              {listing.verification.status === 'verified' && listing.verification.checked_at && listing.verification.expires_at ? (
+                <dl><div><dt>{copy.last_checked}</dt><dd>{listing.verification.checked_at.slice(0, 10)}</dd></div><div><dt>{copy.expires}</dt><dd>{listing.verification.expires_at.slice(0, 10)}</dd></div></dl>
+              ) : (
+                <dl><div><dt>{copy.source_status}</dt><dd>{copy.listed_in_guide}</dd></div><div><dt>{copy.before_travel}</dt><dd>{copy.confirm_service}</dd></div></dl>
+              )}
               <div className="card-actions">
                 {listing.location.map_url ? <a href={listing.location.map_url} target="_blank" rel="noreferrer"><ExternalLink size={17} aria-hidden="true" />{copy.map}</a> : null}
                 <Link href={`/corrections?listing=${listing.id}`}>{correctionLabels[locale]}</Link>
@@ -124,7 +141,7 @@ export default function Home() {
             </article>
           ))}
         </div>
-        {visibleListings.length === 0 ? <p className="empty-state">{listings.length === 0 ? copy.no_release : copy.no_results}</p> : null}
+        {visibleListings.length === 0 ? <p className="empty-state">{copy.no_results}</p> : null}
       </section>
       <footer><ShieldCheck size={20} aria-hidden="true" /><p>{copy.footer_privacy}</p></footer>
     </main>

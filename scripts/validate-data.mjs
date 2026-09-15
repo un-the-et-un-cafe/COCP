@@ -5,7 +5,7 @@ const listings = JSON.parse(await readFile(path, 'utf8'));
 const publishedPath = new URL('../web/data/published-listings.json', import.meta.url);
 const publishedListings = JSON.parse(await readFile(publishedPath, 'utf8'));
 const ids = new Set();
-const allowedCategories = new Set(['emergency', 'food', 'water', 'healthcare', 'community', 'legal']);
+const allowedCategories = new Set(['emergency', 'food', 'showers', 'water', 'healthcare', 'community', 'legal']);
 const allowedAudiences = new Set(['all', 'men', 'women_children', 'minors', 'detained']);
 const errors = [];
 

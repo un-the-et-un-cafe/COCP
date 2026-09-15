@@ -15,13 +15,13 @@ This model covers the public service directory and the repository’s current pr
 
 ## Trust boundaries
 
-The browser may display only public, reviewed listing releases. Source documents and transcriptions are evidence, not verification. Provider, verifier, and translator attestations are distinct trust roles. Sponsor and payment code must stay outside beneficiary-facing bundles. Any future form endpoint is an untrusted input boundary. External map, telephone, and messaging links leave the application.
+The browser may display public source leads when they are prominently marked as unverified and tell people to confirm the place and time before travelling. Only reviewed, signed listing releases may be labelled verified or included in public exports. Source documents and transcriptions are evidence, not verification. Provider, verifier, and translator attestations are distinct trust roles. Sponsor and payment code must stay outside beneficiary-facing bundles. Any future form endpoint is an untrusted input boundary. External map, telephone, and messaging links leave the application.
 
 ## Primary threats and controls
 
 | Threat | Consequence | Current control | Required before launch |
 | --- | --- | --- | --- |
-| Stale or false listing | A person misses essential help or travels unnecessarily | Imported rows remain outside the public dataset; release tooling rejects expired or incomplete publication claims | Provider confirmation and required verifier threshold |
+| Stale or false listing | A person misses essential help or travels unnecessarily | Source leads carry an unverified warning and confirmation instruction; they remain outside signed exports, and release tooling rejects expired or incomplete publication claims | Provider confirmation and required verifier threshold |
 | Sensitive data submitted or logged | Exposure, profiling, or retaliation | No accounts; correction intake is field-limited, size-bounded, write-only, and warns against personal data | Moderation procedure, incident route, and periodic retention checks |
 | Sponsor affects service order | Essential information becomes advertising | No sponsor code exists in the directory route; boundary test scans it | Separate sponsor application and automated rank-independence tests |
 | Wallet or checkout loads on public route | Tracking, confusion, or coercion | No wallet or payment dependency in the frontend | Separate sponsor route and bundle inspection |

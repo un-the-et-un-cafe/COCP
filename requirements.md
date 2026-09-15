@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Build a free, private, multilingual directory of verified services in Calais. The directory must remain useful without an account, wallet, payment, or tracking.
+Build a free, private, multilingual directory of services in Calais. Source leads must be clearly distinguished from verified services, and the directory must remain useful without an account, wallet, payment, or tracking.
 
 ## Financial rule
 
