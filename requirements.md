@@ -12,8 +12,8 @@ The project may earn revenue from sponsors and institutional services. After ref
 
 1. Verify the imported service listings with providers and independent reviewers.
 2. Complete reviewed French, English, and Arabic content.
-3. Finish correction moderation with protected review and resolution. Anonymous intake and automated 30-day deletion are implemented.
-4. Add signed listing releases, expiry rules, exports, and a public change log.
+3. Complete operational review of correction moderation. Protected review, one-way resolution, anonymous intake, and automated 30-day deletion are implemented.
+4. Publish the first signed listing release after human verification. Signed releases, expiry enforcement, JSON/CSV exports, and the public change log are implemented.
 5. Finish the separate sponsor journey, evidence pack, consent, and public ledger.
 6. Build card and SEPA sandboxes and the tested Base sponsorship router.
 7. Add the deny-by-default Activity Idea Lab and its legal and safety gates.

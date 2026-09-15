@@ -12,6 +12,7 @@ coverage/
 .env.*
 !.env.example
 *.log
+ovh.conf
 contracts/cache/
 contracts/out/
 /dist/

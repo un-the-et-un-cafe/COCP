@@ -18,6 +18,28 @@ Before resolving a report, verify the public fact with the named provider or an 
 
 ## Deployment
 
-The `main` branch deploys automatically through Netlify. A release is acceptable only after the repository tests, lint, type check, Netlify production build, and production dependency audit pass.
+Deploy the Convex production functions with `npm --prefix web run convex:deploy` before releasing a site version that changes the correction schema or functions. Store the production deployment's site URL as `CONVEX_SITE_URL` on Netlify, and use a production-only `CORRECTION_API_TOKEN` with the same value in both services.
+
+The `main` branch deploys automatically through Netlify. Netlify builds the site but does not deploy Convex, so its build does not require a long-lived Convex deploy key. A release is acceptable only after the repository tests, lint, type check, Netlify production build, and production dependency audit pass.
 
 Payment collection remains disabled until every approval listed in `requirements.md` is complete.
+
+## Signed listing releases
+
+Keep the Ed25519 private release key outside this repository. The matching public key may be committed with a release. Before publishing, confirm that every selected row has `publishable: true`, a `verified` status, a named review owner, and valid `checked_at` and `expires_at` timestamps.
+
+Create a release from the repository root with:
+
+```sh
+npm run release:listings -- --released-at 2026-09-15T12:00:00Z --key-id release-2026 --private-key /secure/path/release-private.pem --public-key /secure/path/release-public.pem
+```
+
+The command refuses empty releases, expired listings, incomplete verification, and mismatched keys. It updates the release-controlled directory data, JSON and CSV exports, signed release files, public key, and change history. Review and commit all generated public files together.
+
+Anyone can verify a downloaded release with:
+
+```sh
+npm run verify:release -- release.json signature.json public-key.pem
+```
+
+Stop publication immediately when the current time reaches the earliest `expires_at` in a release. Verify and republish affected listings rather than extending dates without a fresh review.

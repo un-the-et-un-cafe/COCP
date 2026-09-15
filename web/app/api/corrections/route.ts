@@ -1,6 +1,8 @@
 import { env } from 'cloudflare:workers';
 import { validateCorrection } from '@/lib/correction-validation';
-import listings from '@/data/listings.json';
+import publishedListings from '@/data/published-listings.json';
+
+const listings = publishedListings as Array<{ id: string }>;
 
 const jsonHeaders = {
   'content-type': 'application/json; charset=utf-8',

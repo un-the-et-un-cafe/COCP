@@ -1,5 +1,7 @@
-import listings from '../../data/listings.json';
+import publishedListings from '../../data/published-listings.json';
 import { validateCorrection } from '../../lib/correction-validation';
+
+const listings = publishedListings as Array<{ id: string }>;
 
 const jsonHeaders = {
   'content-type': 'application/json; charset=utf-8',

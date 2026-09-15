@@ -1,9 +1,9 @@
 'use client';
 
-import { useMemo, useState, useSyncExternalStore } from 'react';
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
-import { AlertTriangle, Clock3, ExternalLink, Languages, MapPin, Search, ShieldCheck } from 'lucide-react';
-import listings from '../data/listings.json';
+import { AlertTriangle, CheckCircle2, Clock3, ExternalLink, Languages, MapPin, Search, ShieldCheck } from 'lucide-react';
+import publishedListings from '../data/published-listings.json';
 import fr from '../locales/fr.json';
 import en from '../locales/en.json';
 import ar from '../locales/ar.json';
@@ -12,9 +12,19 @@ type Locale = 'fr' | 'en' | 'ar';
 type Copy = typeof fr;
 const copies: Record<Locale, Copy> = { fr, en, ar };
 const supportLabels: Record<Locale, string> = { fr: 'Financer la vérification', en: 'Fund verification', ar: 'تمويل التحقق' };
+const changeLabels: Record<Locale, string> = { fr: 'Modifications et exports', en: 'Changes and exports', ar: 'التغييرات والتصدير' };
 const correctionLabels: Record<Locale, string> = { fr: 'Signaler une correction', en: 'Report a correction', ar: 'الإبلاغ عن تصحيح' };
 const categories = ['all', 'emergency', 'food', 'water', 'healthcare', 'community', 'legal'] as const;
 const localeEvent = 'cocp-locale-change';
+type Listing = {
+  id: string;
+  name: string;
+  categories: string[];
+  location: { label: string; map_url: string | null };
+  source: { notes: string; page: number };
+  verification: { status: string; checked_at: string; expires_at: string };
+};
+const listings = publishedListings as Listing[];
 
 function getLocaleSnapshot(): Locale {
   const saved = localStorage.getItem('cocp-locale');
@@ -34,15 +44,23 @@ export default function Home() {
   const locale = useSyncExternalStore(subscribeLocale, getLocaleSnapshot, (): Locale => 'fr');
   const [category, setCategory] = useState<(typeof categories)[number]>('all');
   const [query, setQuery] = useState('');
+  const [currentTime, setCurrentTime] = useState(0);
   const copy = copies[locale];
+  useEffect(() => {
+    const refresh = () => setCurrentTime(Date.now());
+    refresh();
+    const interval = window.setInterval(refresh, 60_000);
+    return () => window.clearInterval(interval);
+  }, []);
   const visibleListings = useMemo(() => {
     const needle = query.trim().toLocaleLowerCase(locale);
     return listings.filter((listing) => {
       const inCategory = category === 'all' || listing.categories.includes(category);
       const text = [listing.name, listing.location.label, listing.source.notes].join(' ').toLocaleLowerCase(locale);
-      return inCategory && (!needle || text.includes(needle));
+      const isCurrent = listing.verification.status === 'verified' && (currentTime === 0 || Date.parse(listing.verification.expires_at) > currentTime);
+      return isCurrent && inCategory && (!needle || text.includes(needle));
     });
-  }, [category, locale, query]);
+  }, [category, currentTime, locale, query]);
 
   function changeLocale(next: Locale) {
     localStorage.setItem('cocp-locale', next);
@@ -58,6 +76,7 @@ export default function Home() {
           <div><p className="brand-name">Calais Open Commons</p><p className="brand-note">{copy.private_access}</p></div>
         </div>
         <div className="header-actions">
+          <Link className="changes-link" href="/changes">{changeLabels[locale]}</Link>
           <Link className="support-link" href="/sponsors">{supportLabels[locale]}</Link>
           <label className="language-control">
             <Languages size={19} aria-hidden="true" />
@@ -93,11 +112,11 @@ export default function Home() {
         <div className="listing-grid">
           {visibleListings.map((listing) => (
             <article className="listing-card" key={listing.id}>
-              <div className="listing-topline"><span className="status"><AlertTriangle size={15} aria-hidden="true" />{copy.unverified}</span><span>{copy.source_page} {listing.source.page}</span></div>
+              <div className="listing-topline"><span className="status verified"><CheckCircle2 size={15} aria-hidden="true" />{copy.verified}</span><span>{copy.source_page} {listing.source.page}</span></div>
               <h3>{listing.name}</h3>
               <p className="location"><MapPin size={18} aria-hidden="true" />{listing.location.label}</p>
               <p className="service-note">{listing.source.notes}</p>
-              <dl><div><dt>{copy.last_checked}</dt><dd>{copy.not_checked}</dd></div><div><dt>{copy.expires}</dt><dd>{copy.not_publishable}</dd></div></dl>
+              <dl><div><dt>{copy.last_checked}</dt><dd>{listing.verification.checked_at.slice(0, 10)}</dd></div><div><dt>{copy.expires}</dt><dd>{listing.verification.expires_at.slice(0, 10)}</dd></div></dl>
               <div className="card-actions">
                 {listing.location.map_url ? <a href={listing.location.map_url} target="_blank" rel="noreferrer"><ExternalLink size={17} aria-hidden="true" />{copy.map}</a> : null}
                 <Link href={`/corrections?listing=${listing.id}`}>{correctionLabels[locale]}</Link>
@@ -105,7 +124,7 @@ export default function Home() {
             </article>
           ))}
         </div>
-        {visibleListings.length === 0 ? <p className="empty-state">{copy.no_results}</p> : null}
+        {visibleListings.length === 0 ? <p className="empty-state">{listings.length === 0 ? copy.no_release : copy.no_results}</p> : null}
       </section>
       <footer><ShieldCheck size={20} aria-hidden="true" /><p>{copy.footer_privacy}</p></footer>
     </main>

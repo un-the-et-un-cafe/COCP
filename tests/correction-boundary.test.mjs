@@ -9,6 +9,7 @@ const corrections = await readFile(new URL('../web/convex/corrections.ts', impor
 const crons = await readFile(new URL('../web/convex/crons.ts', import.meta.url), 'utf8');
 const http = await readFile(new URL('../web/convex/http.ts', import.meta.url), 'utf8');
 const form = await readFile(new URL('../web/app/corrections/page.tsx', import.meta.url), 'utf8');
+const netlifyConfig = await readFile(new URL('../netlify.toml', import.meta.url), 'utf8');
 
 test('anonymous correction route has no public read operation or identity fields', () => {
   assert.doesNotMatch(api, /export\s+async\s+function\s+GET/);
@@ -18,6 +19,9 @@ test('anonymous correction route has no public read operation or identity fields
   assert.match(corrections, /internalQuery/);
   assert.match(corrections, /internalMutation/);
   assert.doesNotMatch(schema, /email|phone|ipAddress|immigration|nationality|caseHistory/i);
+  assert.match(api, /published-listings\.json/);
+  assert.match(netlifyApi, /published-listings\.json/);
+  assert.match(form, /published-listings\.json/);
 });
 
 test('correction input is bounded and requires an explicit privacy confirmation', () => {
@@ -49,4 +53,9 @@ test('correction WebMCP tool is explicit about its write and untrusted content',
   assert.match(form, /name: 'submit_service_correction'/);
   assert.match(form, /readOnlyHint: false/);
   assert.match(form, /untrustedContentHint: true/);
+});
+
+test('Netlify builds the site without a Convex production deploy credential', () => {
+  assert.match(netlifyConfig, /command = "npm run build:netlify"/);
+  assert.doesNotMatch(netlifyConfig, /convex deploy|CONVEX_DEPLOY_KEY/);
 });
