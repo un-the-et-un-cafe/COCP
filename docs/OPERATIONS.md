@@ -6,7 +6,23 @@ Correction reports are write-only from the public site. They contain only the se
 
 Correction reports are stored in the `correctionReports` table in Convex. Review them only through the authenticated Convex dashboard by running the internal `corrections:listPending` query. It returns at most the 100 oldest pending reports. Do not add a public read function or endpoint.
 
-After independently verifying the public fact, run the internal `corrections:moderate` mutation with the report ID and an outcome of `resolved` or `dismissed`. Moderation is one-way: a report that has already left `pending` cannot be changed again. Apply any verified listing update separately so it still passes the publication and provenance gates.
+The guarded operator command uses those same internal functions. It targets development by default and hides report messages unless they are deliberately requested:
+
+```sh
+npm run corrections:review -- list
+npm run corrections:review -- list --show-messages
+```
+
+Resolve or dismiss one pending report only after checking the public fact and the privacy boundary:
+
+```sh
+npm run corrections:review -- resolve REPORT_ID --confirm-reviewed
+npm run corrections:review -- dismiss REPORT_ID --confirm-reviewed
+```
+
+Production additionally requires both `--prod` and `--confirm-production`. The command first confirms that the report is still pending in the selected deployment, while the Convex mutation remains the final one-way concurrency guard.
+
+After independently verifying the public fact, resolve or dismiss the report. Moderation is one-way: a report that has already left `pending` cannot be changed again. Apply any verified listing update separately so it still passes the publication and provenance gates.
 
 The Convex cron runs daily and deletes reports whose 30-day expiry timestamp has passed. Its logs include deletion counts only, never report contents.
 

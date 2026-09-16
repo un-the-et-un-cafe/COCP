@@ -10,6 +10,8 @@ const crons = await readFile(new URL('../web/convex/crons.ts', import.meta.url),
 const http = await readFile(new URL('../web/convex/http.ts', import.meta.url), 'utf8');
 const form = await readFile(new URL('../web/app/corrections/page.tsx', import.meta.url), 'utf8');
 const netlifyConfig = await readFile(new URL('../netlify.toml', import.meta.url), 'utf8');
+const moderationScript = await readFile(new URL('../scripts/moderate-corrections.mjs', import.meta.url), 'utf8');
+const rootManifest = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
 
 test('anonymous correction route has no public read operation or identity fields', () => {
   assert.doesNotMatch(api, /export\s+async\s+function\s+GET/);
@@ -47,6 +49,18 @@ test('moderation records support resolution and scheduled deletion', () => {
   assert.match(corrections, /ctx\.db\.delete\(report\._id\)/);
   assert.match(crons, /crons\.daily/);
   assert.match(http, /CORRECTION_API_TOKEN/);
+});
+
+test('operator moderation is private, deliberate, and production-guarded', () => {
+  assert.equal(rootManifest.scripts['corrections:review'], 'node scripts/moderate-corrections.mjs');
+  assert.match(moderationScript, /corrections:listPending/);
+  assert.match(moderationScript, /corrections:moderate/);
+  assert.match(moderationScript, /--show-messages/);
+  assert.match(moderationScript, /\[hidden; \$\{report\.message\.length\} characters\]/);
+  assert.match(moderationScript, /--confirm-reviewed/);
+  assert.match(moderationScript, /--prod --confirm-production/);
+  assert.match(moderationScript, /reports\.some\(\(report\) => report\._id === reportId\)/);
+  assert.doesNotMatch(moderationScript, /shell:\s*true/);
 });
 
 test('correction WebMCP tool is explicit about its write and untrusted content', () => {
