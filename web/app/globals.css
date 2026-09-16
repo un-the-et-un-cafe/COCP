@@ -69,6 +69,27 @@ a { color:inherit; }
 .empty-state { padding:2rem; text-align:center; background:#fff; border:1px dashed var(--line); border-radius:.8rem; }
 footer { display:flex; align-items:center; justify-content:center; gap:.55rem; padding:1.5rem; border-top:1px solid var(--line); background:#e5f5fb; color:#244f64; }
 footer p { margin:0; }
+footer a { color:var(--brand-dark); font-weight:800; }
+.accessibility-page { min-height:100vh; background:linear-gradient(180deg,#e5f5fb 0,#f8fbfd 28rem); }
+.accessibility-shell { width:min(980px,calc(100% - 2rem)); margin:0 auto; padding:4rem 0; }
+.accessibility-intro { max-width:780px; }
+.accessibility-intro h1 { margin:.2rem 0 1rem; font-size:clamp(2.2rem,6vw,4.5rem); line-height:1; letter-spacing:-.055em; }
+.accessibility-intro>p:not(.eyebrow) { color:#345f73; font-size:1.08rem; }
+.audit-status { display:flex; align-items:flex-start; gap:.85rem; margin:2rem 0; padding:1.1rem; border:1px solid #dfbd71; border-radius:.8rem; background:var(--warning-soft); color:#5f3a00; }
+.audit-status svg { flex:0 0 auto; margin-top:.15rem; }
+.audit-status h2,.audit-status p { margin:0; }
+.audit-status p { margin-top:.25rem; }
+.accessibility-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.accessibility-grid>section { padding:1.3rem; border:1px solid var(--line); border-radius:.8rem; background:#fff; }
+.accessibility-grid svg { color:var(--brand-dark); }
+.accessibility-grid h2 { margin:.5rem 0; font-size:1.35rem; }
+.accessibility-grid ul { margin:.6rem 0 0; padding-inline-start:1.3rem; }
+.accessibility-grid li+li { margin-top:.55rem; }
+.accessibility-feedback { margin-top:1rem; padding:1.3rem; border-left:4px solid var(--brand); background:#fff; }
+.accessibility-feedback h2,.accessibility-feedback p { margin:0; }
+.accessibility-feedback p { margin-top:.35rem; color:#345f73; }
+.accessibility-feedback a { display:inline-flex; min-height:44px; align-items:center; gap:.4rem; margin-top:1rem; color:var(--brand-dark); font-weight:800; }
+.accessibility-review { color:var(--muted-text); text-align:end; }
 .sponsor-page { min-height:100vh; background:linear-gradient(180deg,#e5f5fb 0,#f8fbfd 34rem); }
 .sponsor-hero,.sponsor-section { width:min(1050px,calc(100% - 2rem)); margin:0 auto; }
 .sponsor-hero { padding:4.5rem 0 3rem; }
@@ -164,5 +185,7 @@ footer p { margin:0; }
 .release-list>a { color:var(--brand-dark); font-weight:800; }
 @media (max-width:800px) { .emergency-band{grid-template-columns:1fr}.emergency-actions{grid-template-columns:1fr}.directory-heading{align-items:flex-start;flex-direction:column;gap:1rem}.listing-grid{grid-template-columns:1fr} }
 @media (max-width:800px) { .offer-grid{grid-template-columns:1fr}.allocation-section{grid-template-columns:1fr;gap:1rem}.evidence-grid{grid-template-columns:1fr}.ledger-summary{grid-template-columns:repeat(2,1fr)}.ledger-breakdown{grid-template-columns:repeat(2,1fr)}.ledger-evidence{grid-template-columns:1fr}.correction-shell{grid-template-columns:1fr;gap:1.5rem;padding:2.5rem 0}.export-grid{grid-template-columns:1fr}.release-list li{grid-template-columns:1fr}.release-list dl{justify-content:flex-start} }
+@media (max-width:800px) { .accessibility-grid{grid-template-columns:1fr} }
 @media (max-width:560px) { .site-header{align-items:flex-start}.brand-note{display:none}.header-actions{align-items:stretch;flex-direction:column}.support-link,.changes-link{font-size:.85rem}.language-control{padding:0 .4rem}.listing-card dl{grid-template-columns:1fr}.sponsor-hero{padding-top:3rem}.sponsor-hero h1{font-size:2.5rem}.ledger-shell{padding-top:2.5rem}.ledger-summary,.ledger-breakdown{grid-template-columns:1fr}.directory-link{font-size:.9rem}.changes-shell{padding-top:2.5rem} }
 @media print { .site-header,.controls,.card-actions,footer{display:none!important}.emergency-band{grid-template-columns:1fr 2fr;padding:.5cm}.emergency-actions{grid-template-columns:repeat(3,1fr)}.directory-shell{width:100%;padding:.5cm}.listing-grid{grid-template-columns:repeat(2,1fr);gap:.3cm}.listing-card{break-inside:avoid;box-shadow:none;padding:.35cm} }
+@media (prefers-reduced-motion:reduce) { html{scroll-behavior:auto} *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important} }

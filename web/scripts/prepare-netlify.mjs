@@ -6,6 +6,7 @@ const prerendered = new URL('../dist/server/prerendered-routes/', import.meta.ur
 
 const pages = [
   ['index.html', 'index.html'],
+  ['accessibility.html', 'accessibility/index.html'],
   ['corrections.html', 'corrections/index.html'],
   ['changes.html', 'changes/index.html'],
   ['sponsors.html', 'sponsors/index.html'],

@@ -38,6 +38,11 @@ const correctionLabels: Record<Locale, string> = {
   en: 'Report a correction',
   ar: 'الإبلاغ عن تصحيح',
 };
+const accessibilityLabels: Record<Locale, string> = {
+  fr: 'Accessibilité',
+  en: 'Accessibility',
+  ar: 'إمكانية الوصول',
+};
 const categories = [
   'all',
   'emergency',
@@ -404,6 +409,7 @@ export default function Home() {
       <footer>
         <ShieldCheck size={20} aria-hidden="true" />
         <p>{copy.footer_privacy}</p>
+        <Link href="/accessibility">{accessibilityLabels[locale]}</Link>
       </footer>
     </main>
   );
