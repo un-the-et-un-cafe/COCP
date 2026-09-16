@@ -9,6 +9,7 @@ const pages = [
   ['activities.html', 'activities/index.html'],
   ['accessibility.html', 'accessibility/index.html'],
   ['privacy.html', 'privacy/index.html'],
+  ['readiness.html', 'readiness/index.html'],
   ['corrections.html', 'corrections/index.html'],
   ['changes.html', 'changes/index.html'],
   ['sponsors.html', 'sponsors/index.html'],

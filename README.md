@@ -2,7 +2,7 @@
 
 Privacy-first, multilingual service information for Calais, with sponsorship and activity features isolated behind legal, safeguarding, payment, and verification gates.
 
-The master source of truth is `Calais_Open_Commons_Protocol_Master_Requirements.docx`. The short active backlog and post-launch revenue roadmap are maintained in `requirements.md`. This repository currently implements an emergency-first directory, persistent French/English/Arabic navigation across every public route, an unverified Appendix A transcription, a separate disabled-by-default sponsorship surface with an aggregate public ledger, a privacy-limited anonymous correction queue, a deny-by-default Activity Idea Lab planning register, multilingual accessibility and privacy status pages, data validation, and prohibited-feature tests.
+The master source of truth is `Calais_Open_Commons_Protocol_Master_Requirements.docx`. The short active backlog and post-launch revenue roadmap are maintained in `requirements.md`. This repository currently implements an emergency-first directory, persistent French/English/Arabic navigation across every public route, an unverified Appendix A transcription, a separate disabled-by-default sponsorship surface with an aggregate public ledger, a privacy-limited anonymous correction queue, a deny-by-default Activity Idea Lab planning register, a public fail-closed launch-readiness register, multilingual accessibility and privacy status pages, data validation, and prohibited-feature tests.
 
 ## Current safety posture
 

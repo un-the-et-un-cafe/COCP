@@ -53,6 +53,11 @@ const activityLabels: Record<Locale, string> = {
   en: 'Activity ideas',
   ar: 'أفكار الأنشطة',
 };
+const readinessLabels: Record<Locale, string> = {
+  fr: 'État du lancement',
+  en: 'Launch status',
+  ar: 'حالة الإطلاق',
+};
 const categories = [
   'all',
   'emergency',
@@ -419,6 +424,7 @@ export default function Home() {
       <footer>
         <ShieldCheck size={20} aria-hidden="true" />
         <p>{copy.footer_privacy}</p>
+        <Link href="/readiness">{readinessLabels[locale]}</Link>
         <Link href="/activities">{activityLabels[locale]}</Link>
         <Link href="/privacy">{privacyLabels[locale]}</Link>
         <Link href="/accessibility">{accessibilityLabels[locale]}</Link>

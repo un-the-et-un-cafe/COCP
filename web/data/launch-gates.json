@@ -1,0 +1,169 @@
+{
+  "version": 1,
+  "updated_at": "2026-09-16",
+  "launch_state": "blocked",
+  "operational_activation": false,
+  "payment_lanes": {
+    "card": false,
+    "sepa": false,
+    "base": false
+  },
+  "gates": [
+    {
+      "id": "G1",
+      "title": { "fr": "Sauvegarde", "en": "Safeguarding", "ar": "الحماية" },
+      "owner_roles": ["association_lead"],
+      "status": "pending",
+      "pass_condition": {
+        "fr": "Une association confirme l’absence de recrutement de bénéficiaires, de vente de données, d’incitation au travail, d’image exploitante et de dépendance à un jeton.",
+        "en": "An association confirms there is no beneficiary recruitment, data sale, work inducement, exploitative imagery or token dependency.",
+        "ar": "تؤكد جمعية عدم تجنيد المستفيدين أو بيع البيانات أو التحريض على العمل أو الصور الاستغلالية أو الاعتماد على رمز."
+      },
+      "implemented_controls": ["no_accounts", "no_beneficiary_tracking"],
+      "evidence": [], "approved_at": null, "expires_at": null
+    },
+    {
+      "id": "G2",
+      "title": { "fr": "Droit et fiscalité", "en": "Legal and tax", "ar": "القانون والضرائب" },
+      "owner_roles": ["fiscal_host", "accountant_or_counsel"],
+      "status": "pending",
+      "pass_condition": {
+        "fr": "L’entité, les paiements, factures, taxes et dons sont confirmés par écrit.",
+        "en": "The entity, payments, invoices, tax and donation route are confirmed in writing.",
+        "ar": "يتم تأكيد الجهة والمدفوعات والفواتير والضرائب ومسار التبرعات كتابياً."
+      },
+      "implemented_controls": ["payments_disabled"],
+      "evidence": [], "approved_at": null, "expires_at": null
+    },
+    {
+      "id": "G3",
+      "title": { "fr": "Contenu", "en": "Content", "ar": "المحتوى" },
+      "owner_roles": ["provider_reviewer", "independent_provider_reviewer"],
+      "status": "pending",
+      "pass_condition": {
+        "fr": "Deux relecteurs confirment les 15 premières fiches et toutes les urgences; les autres restent non vérifiées.",
+        "en": "Two reviewers confirm the top 15 listings and every emergency entry; all others remain labelled unverified.",
+        "ar": "يؤكد مراجعان أول 15 سجلاً وجميع سجلات الطوارئ، وتبقى السجلات الأخرى موسومة بأنها غير متحقق منها."
+      },
+      "implemented_controls": ["unverified_labels", "signed_release_gate"],
+      "evidence": [], "approved_at": null, "expires_at": null
+    },
+    {
+      "id": "G4",
+      "title": { "fr": "Traduction", "en": "Translation", "ar": "الترجمة" },
+      "owner_roles": ["human_language_reviewer"],
+      "status": "pending",
+      "pass_condition": {
+        "fr": "Des humains confirment que le sens, les numéros, horaires et critères correspondent au français canonique.",
+        "en": "Human reviewers confirm meaning, phone numbers, times and eligibility match canonical French.",
+        "ar": "يؤكد مراجعون بشريون تطابق المعنى والأرقام والمواعيد وشروط الأهلية مع النص الفرنسي المعتمد."
+      },
+      "implemented_controls": ["language_continuity", "rtl_direction"],
+      "evidence": [], "approved_at": null, "expires_at": null
+    },
+    {
+      "id": "G5",
+      "title": { "fr": "Vie privée et sécurité", "en": "Privacy and security", "ar": "الخصوصية والأمن" },
+      "owner_roles": ["technical_owner"],
+      "status": "pending",
+      "pass_condition": {
+        "fr": "Le modèle de menace, les formulaires, en-têtes, dépendances et secrets passent leur revue.",
+        "en": "The threat model, forms, headers, dependencies and secret checks pass review.",
+        "ar": "تجتاز مراجعة نموذج التهديد والنماذج والترويسات والتبعيات وفحوص الأسرار."
+      },
+      "implemented_controls": ["threat_model", "privacy_notice", "static_build_audit", "security_headers"],
+      "evidence": [], "approved_at": null, "expires_at": null
+    },
+    {
+      "id": "G6",
+      "title": { "fr": "Utilisabilité", "en": "Usability", "ar": "سهولة الاستخدام" },
+      "owner_roles": ["partner_facilitator"],
+      "status": "pending",
+      "pass_condition": {
+        "fr": "Cinq tests mobiles accompagnés sont réalisés et quatre personnes au moins trouvent un service cible en 60 secondes.",
+        "en": "Five assisted mobile tests are completed and at least four people find a target service within 60 seconds.",
+        "ar": "تُجرى خمسة اختبارات هاتفية بمساعدة ويجد أربعة أشخاص على الأقل خدمة مستهدفة خلال 60 ثانية."
+      },
+      "implemented_controls": ["mobile_viewport_audit", "responsive_layout"],
+      "evidence": [], "approved_at": null, "expires_at": null
+    },
+    {
+      "id": "G7",
+      "title": { "fr": "Offre commerciale", "en": "Commercial offer", "ar": "العرض التجاري" },
+      "owner_roles": ["founder"],
+      "status": "pending",
+      "pass_condition": {
+        "fr": "L’offre de 90 secondes, le récapitulatif, les preuves, le consentement, l’expiration et les conditions de paiement sont approuvés.",
+        "en": "The 90-second offer, order summary, evidence, consent, expiry and payment terms are approved.",
+        "ar": "تُعتمد صيغة العرض المختصر والملخص والأدلة والموافقة والانتهاء وشروط الدفع."
+      },
+      "implemented_controls": ["sponsor_separation", "aggregate_ledger", "payments_disabled"],
+      "evidence": [], "approved_at": null, "expires_at": null
+    },
+    {
+      "id": "G7A",
+      "title": { "fr": "Paiements fiat", "en": "Fiat payments", "ar": "المدفوعات النقدية" },
+      "owner_roles": ["payment_operator", "technical_owner"],
+      "status": "pending",
+      "pass_condition": {
+        "fr": "Le paiement hébergé, SCA, les webhooks signés, la réconciliation, les remboursements et contestations passent en bac à sable.",
+        "en": "Hosted checkout, SCA, signed webhooks, reconciliation, refund and chargeback drills pass in sandbox.",
+        "ar": "تنجح تجارب الدفع المستضاف والمصادقة وwebhooks الموقعة والتسوية والاسترداد والاعتراض في البيئة التجريبية."
+      },
+      "implemented_controls": ["payments_disabled", "ledger_reconciliation_rules"],
+      "evidence": [], "approved_at": null, "expires_at": null
+    },
+    {
+      "id": "G7B",
+      "title": { "fr": "Activités", "en": "Activities", "ar": "الأنشطة" },
+      "owner_roles": ["association_or_operator", "labour_adviser"],
+      "status": "pending",
+      "pass_condition": {
+        "fr": "Le laboratoire peut ouvrir et chaque pilote payé dispose des contrôles d’éligibilité, contrat, secteur, assurance et plainte.",
+        "en": "The Idea Lab may open and every paid pilot has eligibility, contract, sector, insurance and complaint gates.",
+        "ar": "يمكن فتح المختبر ويملك كل مشروع مدفوع ضوابط الأهلية والعقد والقطاع والتأمين والشكاوى."
+      },
+      "implemented_controls": ["activity_register", "activity_gate_validator", "activity_features_disabled"],
+      "evidence": [], "approved_at": null, "expires_at": null
+    },
+    {
+      "id": "G7C",
+      "title": { "fr": "Exclusion des jetons", "en": "Token exclusion", "ar": "استبعاد الرموز" },
+      "owner_roles": ["technical_owner", "independent_reviewer"],
+      "status": "pending",
+      "pass_condition": {
+        "fr": "Aucun jeton d’activité transférable ni code de marché, burn, rachat ou conversion; les tests CI passent.",
+        "en": "No transferable activity token or market, burn, buyback or redemption code; CI exclusion tests pass.",
+        "ar": "لا رمز نشاط قابل للتحويل ولا شفرة سوق أو حرق أو إعادة شراء أو استرداد، وتنجح اختبارات الاستبعاد."
+      },
+      "implemented_controls": ["token_exclusion_tests", "dependency_scan"],
+      "evidence": [], "approved_at": null, "expires_at": null
+    },
+    {
+      "id": "G8",
+      "title": { "fr": "Contrat Base", "en": "Base contract", "ar": "عقد Base" },
+      "owner_roles": ["independent_contract_reviewer"],
+      "status": "pending",
+      "pass_condition": {
+        "fr": "Aucun défaut critique ou élevé; invariants, fuzzing, analyse statique et déploiement reproductible passent.",
+        "en": "No critical or high finding; invariants, fuzzing, static analysis and reproducible deployment pass.",
+        "ar": "لا نتائج حرجة أو عالية، وتنجح الثوابت والاختبار العشوائي والتحليل الساكن والنشر القابل للتكرار."
+      },
+      "implemented_controls": ["base_lane_absent"],
+      "evidence": [], "approved_at": null, "expires_at": null
+    },
+    {
+      "id": "G9",
+      "title": { "fr": "Portefeuille", "en": "Wallet", "ar": "المحفظة" },
+      "owner_roles": ["founder", "independent_witness"],
+      "status": "pending",
+      "pass_condition": {
+        "fr": "L’adresse est contrôlée, la propriété signée, la récupération documentée et un transfert de test confirmé.",
+        "en": "The address is checksummed, ownership signed, recovery documented and a test transfer confirmed.",
+        "ar": "يتم التحقق من العنوان وتوقيع الملكية وتوثيق الاسترداد وتأكيد تحويل اختباري."
+      },
+      "implemented_controls": ["wallet_not_configured"],
+      "evidence": [], "approved_at": null, "expires_at": null
+    }
+  ]
+}

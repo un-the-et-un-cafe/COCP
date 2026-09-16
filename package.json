@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "validate:data": "node scripts/validate-data.mjs && node scripts/validate-sponsor-ledger.mjs && node scripts/validate-activity-ideas.mjs",
+    "validate:data": "node scripts/validate-data.mjs && node scripts/validate-sponsor-ledger.mjs && node scripts/validate-activity-ideas.mjs && node scripts/validate-launch-gates.mjs",
     "validate:activities": "node scripts/validate-activity-ideas.mjs",
+    "validate:launch": "node scripts/validate-launch-gates.mjs",
     "validate:sponsor-ledger": "node scripts/validate-sponsor-ledger.mjs",
     "sync:listings:dev": "node scripts/sync-convex-listings.mjs",
     "sync:listings:prod": "node scripts/sync-convex-listings.mjs --prod --confirm-production",

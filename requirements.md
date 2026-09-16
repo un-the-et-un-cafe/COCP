@@ -18,7 +18,7 @@ The project may earn revenue from sponsors and institutional services. After ref
 6. Build card and SEPA sandboxes and the tested Base sponsorship router.
 7. Complete the deny-by-default Activity Idea Lab. The public planning register, multilingual concepts, risk-to-gate validator, and disabled activation/payment/badge/voucher flags are implemented; anonymous proposal intake, accountable triage, complaints, evidence review, and lawful pilot activation remain blocked.
 8. Complete accessibility, privacy, security, performance, and mobile testing. Language continuity, document-language updates, right-to-left page direction, keyboard focus and skip navigation, reduced-motion support, multilingual accessibility and privacy status pages, and deployment-blocking static security, privacy, mobile-metadata, and asset-budget checks are implemented; independent review and device testing remain required and no conformity claim is made.
-9. Obtain the legal, accounting, safeguarding, wallet, content, and payment approvals required before launch.
+9. Obtain the legal, accounting, safeguarding, wallet, content, and payment approvals required before launch. The public G1–G9 readiness register and fail-closed validator are implemented with 0 of 12 gates passed; operational activation and every payment lane remain disabled until all required evidence is reviewed and unexpired.
 
 The first production deployment is complete. ChatGPT Sites/Convex development and Netlify/Convex production are separated, the 21 source listings are synchronized with count and source-hash validation, and the directory displays a live environment-labelled database indicator.
 
