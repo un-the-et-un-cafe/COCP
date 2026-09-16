@@ -48,6 +48,11 @@ const privacyLabels: Record<Locale, string> = {
   en: 'Privacy',
   ar: 'الخصوصية',
 };
+const activityLabels: Record<Locale, string> = {
+  fr: 'Idées d’activités',
+  en: 'Activity ideas',
+  ar: 'أفكار الأنشطة',
+};
 const categories = [
   'all',
   'emergency',
@@ -414,6 +419,7 @@ export default function Home() {
       <footer>
         <ShieldCheck size={20} aria-hidden="true" />
         <p>{copy.footer_privacy}</p>
+        <Link href="/activities">{activityLabels[locale]}</Link>
         <Link href="/privacy">{privacyLabels[locale]}</Link>
         <Link href="/accessibility">{accessibilityLabels[locale]}</Link>
       </footer>

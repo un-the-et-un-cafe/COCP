@@ -12,6 +12,7 @@ export const budgets = Object.freeze({
 
 const routes = [
   ['/', 'index.html'],
+  ['/activities/', 'activities/index.html'],
   ['/accessibility/', 'accessibility/index.html'],
   ['/changes/', 'changes/index.html'],
   ['/corrections/', 'corrections/index.html'],

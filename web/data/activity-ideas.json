@@ -1,0 +1,137 @@
+{
+  "version": 1,
+  "updated_at": "2026-09-16",
+  "feature_flags": {
+    "proposal_intake": false,
+    "activity_activation": false,
+    "payments": false,
+    "badges": false,
+    "vouchers": false
+  },
+  "ideas": [
+    {
+      "id": "public-information-verification",
+      "title": {
+        "fr": "Vérification d’informations publiques",
+        "en": "Public information verification",
+        "ar": "التحقق من المعلومات العامة"
+      },
+      "value": {
+        "fr": "Confirmer les horaires, l’accessibilité et les avis multilingues avec les prestataires.",
+        "en": "Confirm opening times, accessibility and multilingual notices with providers.",
+        "ar": "تأكيد المواعيد وإمكانية الوصول والإشعارات متعددة اللغات مع مقدمي الخدمات."
+      },
+      "classification": "civic_reporting",
+      "compensation": "expenses_only",
+      "public_status": "needs_partner",
+      "risks": ["public_information"],
+      "required_gates": [
+        "provider_confirmation",
+        "operator_review",
+        "privacy_review",
+        "non_replacement"
+      ],
+      "gate_evidence": [],
+      "decision": {
+        "review_owner": null,
+        "conflicts": [],
+        "next_review_at": null
+      },
+      "activation_allowed": false
+    },
+    {
+      "id": "bicycle-repair-safety",
+      "title": {
+        "fr": "Réparation et contrôle de vélos",
+        "en": "Bicycle repair and safety checks",
+        "ar": "إصلاح الدراجات وفحص السلامة"
+      },
+      "value": {
+        "fr": "Réparer des vélos réutilisables dans un atelier partenaire équipé.",
+        "en": "Repair reusable bicycles in an equipped partner workshop.",
+        "ar": "إصلاح الدراجات القابلة لإعادة الاستخدام في ورشة شريكة مجهزة."
+      },
+      "classification": "peer_service",
+      "compensation": "eur_only",
+      "public_status": "needs_partner",
+      "risks": ["tools", "physical_safety"],
+      "required_gates": [
+        "workshop_partner",
+        "operator_review",
+        "individual_work_rights",
+        "contract_or_invoice",
+        "transparent_eur_price",
+        "insurance",
+        "ppe"
+      ],
+      "gate_evidence": [],
+      "decision": {
+        "review_owner": null,
+        "conflicts": [],
+        "next_review_at": null
+      },
+      "activation_allowed": false
+    },
+    {
+      "id": "litter-hazard-mapping",
+      "title": {
+        "fr": "Cartographie des déchets et dangers",
+        "en": "Litter and hazard mapping",
+        "ar": "رسم خرائط النفايات والمخاطر"
+      },
+      "value": {
+        "fr": "Transmettre des observations publiques à la ville sans organiser de collecte informelle.",
+        "en": "Send public observations to the city without organizing informal collection work.",
+        "ar": "إرسال الملاحظات العامة إلى البلدية دون تنظيم أعمال جمع غير رسمية."
+      },
+      "classification": "civic_reporting",
+      "compensation": "none",
+      "public_status": "needs_partner",
+      "risks": ["public_space", "sensitive_location"],
+      "required_gates": [
+        "city_reporting_route",
+        "operator_review",
+        "privacy_review",
+        "non_replacement"
+      ],
+      "gate_evidence": [],
+      "decision": {
+        "review_owner": null,
+        "conflicts": [],
+        "next_review_at": null
+      },
+      "activation_allowed": false
+    },
+    {
+      "id": "community-language-session",
+      "title": {
+        "fr": "Atelier de conversation communautaire",
+        "en": "Community language session",
+        "ar": "جلسة محادثة مجتمعية"
+      },
+      "value": {
+        "fr": "Créer un espace de conversation encadré sans conseil juridique ou médical.",
+        "en": "Create a supervised conversation space without legal or medical advice.",
+        "ar": "إنشاء مساحة محادثة بإشراف دون تقديم مشورة قانونية أو طبية."
+      },
+      "classification": "community_participation",
+      "compensation": "none",
+      "public_status": "needs_partner",
+      "risks": ["minors", "coercion"],
+      "required_gates": [
+        "partner_organizer",
+        "operator_review",
+        "safeguarding",
+        "informed_consent",
+        "no_work_conditioned_reward"
+      ],
+      "gate_evidence": [],
+      "decision": {
+        "review_owner": null,
+        "conflicts": [],
+        "next_review_at": null
+      },
+      "activation_allowed": false
+    }
+  ]
+}

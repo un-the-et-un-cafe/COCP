@@ -16,7 +16,7 @@ The project may earn revenue from sponsors and institutional services. After ref
 4. Publish the first signed listing release after human verification. Signed releases, expiry enforcement, JSON/CSV exports, and the public change log are implemented.
 5. Finish the separate sponsor journey, evidence pack, and consent operations. The aggregate public ledger, reconciliation rules, recognition-expiry gate, and zero-activity state are implemented; real records require reviewed evidence.
 6. Build card and SEPA sandboxes and the tested Base sponsorship router.
-7. Add the deny-by-default Activity Idea Lab and its legal and safety gates.
+7. Complete the deny-by-default Activity Idea Lab. The public planning register, multilingual concepts, risk-to-gate validator, and disabled activation/payment/badge/voucher flags are implemented; anonymous proposal intake, accountable triage, complaints, evidence review, and lawful pilot activation remain blocked.
 8. Complete accessibility, privacy, security, performance, and mobile testing. Language continuity, document-language updates, right-to-left page direction, keyboard focus and skip navigation, reduced-motion support, multilingual accessibility and privacy status pages, and deployment-blocking static security, privacy, mobile-metadata, and asset-budget checks are implemented; independent review and device testing remain required and no conformity claim is made.
 9. Obtain the legal, accounting, safeguarding, wallet, content, and payment approvals required before launch.
 
