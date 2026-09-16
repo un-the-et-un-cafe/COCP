@@ -17,7 +17,7 @@ The project may earn revenue from sponsors and institutional services. After ref
 5. Finish the separate sponsor journey, evidence pack, and consent operations. The aggregate public ledger, reconciliation rules, recognition-expiry gate, and zero-activity state are implemented; real records require reviewed evidence.
 6. Build card and SEPA sandboxes and the tested Base sponsorship router.
 7. Add the deny-by-default Activity Idea Lab and its legal and safety gates.
-8. Complete accessibility, privacy, security, performance, and mobile testing. Language continuity, document-language updates, right-to-left page direction, keyboard focus and skip navigation, reduced-motion support, and a multilingual accessibility status page are implemented; independent review remains required and no conformity claim is made.
+8. Complete accessibility, privacy, security, performance, and mobile testing. Language continuity, document-language updates, right-to-left page direction, keyboard focus and skip navigation, reduced-motion support, and multilingual accessibility and privacy status pages are implemented; independent review remains required and no conformity claim is made.
 9. Obtain the legal, accounting, safeguarding, wallet, content, and payment approvals required before launch.
 
 The first production deployment is complete. ChatGPT Sites/Convex development and Netlify/Convex production are separated, the 21 source listings are synchronized with count and source-hash validation, and the directory displays a live environment-labelled database indicator.

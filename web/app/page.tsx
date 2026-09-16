@@ -43,6 +43,11 @@ const accessibilityLabels: Record<Locale, string> = {
   en: 'Accessibility',
   ar: 'إمكانية الوصول',
 };
+const privacyLabels: Record<Locale, string> = {
+  fr: 'Confidentialité',
+  en: 'Privacy',
+  ar: 'الخصوصية',
+};
 const categories = [
   'all',
   'emergency',
@@ -409,6 +414,7 @@ export default function Home() {
       <footer>
         <ShieldCheck size={20} aria-hidden="true" />
         <p>{copy.footer_privacy}</p>
+        <Link href="/privacy">{privacyLabels[locale]}</Link>
         <Link href="/accessibility">{accessibilityLabels[locale]}</Link>
       </footer>
     </main>
