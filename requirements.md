@@ -12,7 +12,7 @@ The project may earn revenue from sponsors and institutional services. After ref
 
 1. Verify the imported service listings with providers and independent reviewers.
 2. Complete reviewed French, English, and Arabic content.
-3. Complete operational review of correction moderation. Protected review, one-way resolution, anonymous intake, and automated 30-day deletion are implemented.
+3. Complete operational review of correction moderation. Protected review, one-way resolution, anonymous intake, automated 30-day deletion, and an aggregate message-free queue/retention health check are implemented; the human moderation and incident procedures still require approval.
 4. Publish the first signed listing release after human verification. Signed releases, expiry enforcement, JSON/CSV exports, and the public change log are implemented.
 5. Finish the separate sponsor journey, evidence pack, and consent operations. The aggregate public ledger, reconciliation rules, recognition-expiry gate, and zero-activity state are implemented; real records require reviewed evidence.
 6. Build card and SEPA sandboxes and the tested Base sponsorship router.

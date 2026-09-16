@@ -9,9 +9,12 @@ Correction reports are stored in the `correctionReports` table in Convex. Review
 The guarded operator command uses those same internal functions. It targets development by default and hides report messages unless they are deliberately requested:
 
 ```sh
+npm run corrections:review -- health
 npm run corrections:review -- list
 npm run corrections:review -- list --show-messages
 ```
+
+`health` returns aggregate pending, resolved, dismissed, and expired counts, the oldest pending timestamp, the next expiry timestamp, and a retention status. It never returns report IDs, listing IDs, categories, languages, or message text. The command exits with status 2 when an expired row is still present, so it can be used as a deployment or daily operational check without exposing correction content. Production health checks require `--prod --confirm-production` like every other production moderation command.
 
 Resolve or dismiss one pending report only after checking the public fact and the privacy boundary:
 

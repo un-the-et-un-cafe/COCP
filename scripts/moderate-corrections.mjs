@@ -18,6 +18,7 @@ function usage() {
   console.log(`Correction moderation
 
 Usage:
+  npm run corrections:review -- health
   npm run corrections:review -- list [--show-messages]
   npm run corrections:review -- resolve <report-id> --confirm-reviewed
   npm run corrections:review -- dismiss <report-id> --confirm-reviewed
@@ -56,6 +57,15 @@ function pendingReports() {
   }
 }
 
+function healthSummary() {
+  const output = convex(["run", "corrections:healthSummary", "{}", ...deploymentArgs()]);
+  try {
+    return JSON.parse(output);
+  } catch {
+    fail("Convex returned an unreadable correction-health response.");
+  }
+}
+
 function date(value) {
   return typeof value === "number" ? new Date(value).toISOString() : null;
 }
@@ -63,6 +73,35 @@ function date(value) {
 if (!command || flags.has("--help")) {
   usage();
   process.exit(flags.has("--help") ? 0 : 1);
+}
+
+if (command === "health") {
+  if (flags.has("--show-messages")) {
+    fail("Correction health never exposes report messages.");
+  }
+  const summary = healthSummary();
+  console.log(
+    JSON.stringify(
+      {
+        deployment: production ? "production" : "development",
+        generatedAt: date(summary.generatedAt),
+        retentionDays: summary.retentionDays,
+        counts: {
+          pending: summary.pendingCount,
+          resolved: summary.resolvedCount,
+          dismissed: summary.dismissedCount,
+          expired: summary.expiredCount,
+        },
+        oldestPendingAt: date(summary.oldestPendingAt),
+        nextExpiryAt: date(summary.nextExpiryAt),
+        retentionHealthy: summary.retentionHealthy,
+        messagesExposed: false,
+      },
+      null,
+      2,
+    ),
+  );
+  process.exit(summary.retentionHealthy ? 0 : 2);
 }
 
 if (command === "list") {

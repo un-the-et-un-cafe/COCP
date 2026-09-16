@@ -11,9 +11,68 @@ export const listPending = internalQuery({
   handler: async (ctx) => {
     return await ctx.db
       .query('correctionReports')
-      .withIndex('by_status_submittedAt', (query) => query.eq('status', 'pending'))
+      .withIndex('by_status_submittedAt', (query) =>
+        query.eq('status', 'pending'),
+      )
       .order('asc')
       .take(100);
+  },
+});
+
+export const healthSummary = internalQuery({
+  args: {},
+  handler: async (ctx) => {
+    const now = Date.now();
+    const [pending, resolved, dismissed, expired, oldestPending, nextExpiry] =
+      await Promise.all([
+        ctx.db
+          .query('correctionReports')
+          .withIndex('by_status_submittedAt', (query) =>
+            query.eq('status', 'pending'),
+          )
+          .collect(),
+        ctx.db
+          .query('correctionReports')
+          .withIndex('by_status_submittedAt', (query) =>
+            query.eq('status', 'resolved'),
+          )
+          .collect(),
+        ctx.db
+          .query('correctionReports')
+          .withIndex('by_status_submittedAt', (query) =>
+            query.eq('status', 'dismissed'),
+          )
+          .collect(),
+        ctx.db
+          .query('correctionReports')
+          .withIndex('by_expiresAt', (query) => query.lte('expiresAt', now))
+          .collect(),
+        ctx.db
+          .query('correctionReports')
+          .withIndex('by_status_submittedAt', (query) =>
+            query.eq('status', 'pending'),
+          )
+          .order('asc')
+          .first(),
+        ctx.db
+          .query('correctionReports')
+          .withIndex('by_expiresAt')
+          .order('asc')
+          .first(),
+      ]);
+
+    return {
+      generatedAt: now,
+      retentionDays: 30,
+      pendingCount: pending.length,
+      resolvedCount: resolved.length,
+      dismissedCount: dismissed.length,
+      expiredCount: expired.length,
+      oldestPendingAt: oldestPending?.submittedAt ?? null,
+      nextExpiryAt: nextExpiry?.expiresAt ?? null,
+      retentionHealthy: expired.length === 0,
+      messagesExposed: false,
+    };
   },
 });
 
@@ -82,6 +141,11 @@ export const purgeExpired = internalMutation({
       await ctx.scheduler.runAfter(0, internal.corrections.purgeExpired, {});
     }
 
-    console.log(JSON.stringify({ event: 'correction-retention', deleted: expired.length }));
+    console.log(
+      JSON.stringify({
+        event: 'correction-retention',
+        deleted: expired.length,
+      }),
+    );
   },
 });
