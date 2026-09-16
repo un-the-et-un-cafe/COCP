@@ -24,12 +24,25 @@ npm --prefix web run dev
 ## Validate
 
 ```sh
-npm run build
+npm ci
+npm ci --prefix web
+npm run ci
 ```
 
-The build validates listing provenance and publication gates, runs boundary tests, and builds the static frontend.
+This is the same gate used by GitHub Actions. It validates listing provenance and publication gates, runs boundary tests, lints and type-checks the frontend, builds every static route, and audits the generated site.
 
 Netlify additionally runs `npm run audit:web` after prerendering. The audit fails deployment if a public route is missing mobile metadata or basic document structure, if third-party executable or embedded content appears, if a client artifact contains a protected credential name or tracking signature, if new-tab links omit referrer protection, if required response-header configuration disappears, or if the static asset budgets are exceeded.
+
+## CI/CD
+
+Development follows a protected, trunk-based flow:
+
+1. Create a branch and open a pull request to `main`.
+2. GitHub Actions runs `npm run ci`; Netlify builds a Deploy Preview without access to production Convex credentials.
+3. Review the checks and preview, then approve and merge the pull request.
+4. Netlify automatically deploys the exact merged commit from `main`. Only this production context may deploy and synchronize production Convex.
+
+The owner-only ChatGPT Sites deployment is an optional development sandbox. It is not a production promotion mechanism or a substitute for the pull-request checks. Repository administrators must protect `main`, require the `Validate` check and an approving review, and disallow direct and force pushes. See `docs/OPERATIONS.md` for the one-time settings and recovery procedure.
 
 ## Human gates still required
 

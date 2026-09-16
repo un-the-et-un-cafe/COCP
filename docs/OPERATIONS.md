@@ -37,9 +37,22 @@ Before resolving a report, verify the public fact with the named provider or an 
 
 ## Environments and deployment
 
-The owner-only ChatGPT Sites deployment is the development/staging surface. Its build uses the personal development Convex deployment configured in ignored `web/.env.local` values. The directory badge must say “Development database synced”; it must never imply that this data is production.
+Local development and the owner-only ChatGPT Sites deployment are development sandboxes. Their builds use the personal development Convex deployment configured in ignored `web/.env.local` values. The directory badge must say “Development database synced”; it must never imply that this data is production. A successful sandbox deployment does not promote code to production.
 
-Netlify is the production surface. Only `[context.production]` runs `npm run deploy:netlify`, which deploys the Convex schema and functions, atomically replaces the production `serviceListings` table, records the sync receipt, and then builds the site. Deploy Previews and branch deploys build the frontend without touching production Convex.
+Pull requests are the staging and promotion boundary. GitHub Actions runs the repository CI gate, while Netlify creates a Deploy Preview from the same commit. After approval, merging into protected `main` is the sole normal production trigger.
+
+Netlify is the production surface. Only `[context.production]` runs `npm run deploy:netlify`, which deploys the Convex schema and functions, atomically replaces the production `serviceListings` table, records the sync receipt, and then builds the site. Deploy Previews and branch deploys run `npm run build:netlify` without touching production Convex.
+
+### One-time repository and Netlify settings
+
+Configure a GitHub branch protection rule or repository ruleset for `main`:
+
+- require a pull request and at least one approval before merging;
+- require the `Validate` status check from `.github/workflows/ci.yml` and require the branch to be up to date;
+- block direct pushes, force pushes, and deletion of `main`;
+- retain administrator bypass only for documented incident recovery.
+
+Configure the linked Netlify site with `main` as its production branch, automatic production deploys enabled, and Deploy Previews enabled for pull requests. Netlify must not treat any other branch as production. Keep GitHub Actions free of Netlify and Convex production credentials: CI proves that the artifact is releasable, while the existing Netlify integration owns deployment after merge.
 
 Configure these values in Netlify for the **Production** deploy context only:
 
@@ -48,7 +61,17 @@ Configure these values in Netlify for the **Production** deploy context only:
 - `VITE_CONVEX_SITE_URL`: the same production site URL, exposed to the browser only for the read-only sync-status endpoint.
 - `CORRECTION_API_TOKEN`: production-only secret, with the same value configured in production Convex.
 
-Do not commit any of those values. Netlify’s production context must target the repository’s production branch. A normal production push then deploys both Convex and the frontend; manual production sync remains available through `npm run sync:listings:prod` for recovery.
+Do not commit any of those values. A merge to protected `main` deploys both Convex and the frontend; manual production sync remains available through `npm run sync:listings:prod` for incident recovery only.
+
+### Normal release flow
+
+1. Develop on a short-lived branch and optionally publish it to the private ChatGPT Sites sandbox.
+2. Open a pull request to `main`.
+3. Wait for GitHub `Validate` and the Netlify Deploy Preview, then review both.
+4. Obtain the required approval and merge without bypassing protection.
+5. Confirm Netlify reports `Published`, the deployed commit matches the merge commit, `/directory-status` reports the expected production sync receipt, and the public site shows “Production database synced”.
+
+If production verification fails, stop promotion of further changes and use Netlify’s previous successful deploy to restore the frontend. Treat a Convex schema or data rollback separately; do not assume restoring a static deploy reverses a database change. Use the guarded manual sync only after confirming the intended source revision and production target.
 
 ## Listing database sync
 

@@ -15,6 +15,7 @@
     "convex:deploy": "convex deploy",
     "start": "wrangler dev --config dist/server/wrangler.json",
     "lint": "oxlint app",
+    "typecheck": "tsc --noEmit --incremental false",
     "format": "oxfmt"
   },
   "dependencies": {

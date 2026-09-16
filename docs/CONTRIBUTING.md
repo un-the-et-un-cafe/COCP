@@ -12,7 +12,15 @@ Sponsor work must remain structurally separate from service ranking, verificatio
 
 ## Required checks
 
-Run `npm run build`. A change is not ready if data validation, prohibited-feature tests, sponsor-boundary tests, or the frontend build fails.
+Install both locked dependency trees and run the same command as CI:
+
+```sh
+npm ci
+npm ci --prefix web
+npm run ci
+```
+
+A change is not ready if validation, tests, lint, type checking, the static build, or the deployment audit fails. Work on a branch, open a pull request to `main`, and review its Netlify Deploy Preview. Do not push directly to `main` or deploy a branch as production.
 
 ## Review priority
 
