@@ -29,6 +29,8 @@ npm run build
 
 The build validates listing provenance and publication gates, runs boundary tests, and builds the static frontend.
 
+Netlify additionally runs `npm run audit:web` after prerendering. The audit fails deployment if a public route is missing mobile metadata or basic document structure, if third-party executable or embedded content appears, if a client artifact contains a protected credential name or tracking signature, if new-tab links omit referrer protection, if required response-header configuration disappears, or if the static asset budgets are exceeded.
+
 ## Human gates still required
 
 Public launch and payments remain blocked until the owners and evidence for gates G1 through G9 in the requirements document are recorded. Never commit private keys, identity documents, payment credentials, personal bank details, or beneficiary case data.

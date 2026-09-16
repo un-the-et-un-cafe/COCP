@@ -11,6 +11,7 @@
     "corrections:review": "node scripts/moderate-corrections.mjs",
     "release:listings": "node scripts/publish-release.mjs",
     "verify:release": "node scripts/verify-release.mjs",
+    "audit:web": "node web/scripts/audit-static-site.mjs",
     "test": "node --test tests/*.test.mjs",
     "build": "npm run validate:data && npm test && npm --prefix web run build",
     "dev:vinext": "vinext dev --port 3001",

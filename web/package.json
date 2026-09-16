@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "vinext dev",
     "build": "vinext build",
-    "build:netlify": "vinext build --prerender-all && node scripts/prepare-netlify.mjs",
+    "build:netlify": "vinext build --prerender-all && node scripts/prepare-netlify.mjs && node scripts/audit-static-site.mjs",
+    "audit:static": "node scripts/audit-static-site.mjs",
     "deploy:netlify": "node ../scripts/sync-convex-listings.mjs --netlify-production",
     "convex:dev": "convex dev",
     "convex:deploy": "convex deploy",
