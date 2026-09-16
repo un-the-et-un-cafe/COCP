@@ -23,6 +23,7 @@ const copy = {
     disabledTitle: 'Les paiements ne sont pas encore activés.',
     disabledNote:
       'L’entité responsable, la facturation, les comptes et les procédures de remboursement doivent d’abord être approuvés.',
+    ledger: 'Consulter le registre public',
     offersEyebrow: 'Offres fixes',
     offersTitle: 'Choisissez le résultat à financer',
     pending: 'Ouverture après validation',
@@ -49,11 +50,11 @@ const copy = {
     allocationEyebrow: 'Règle financière',
     allocationTitle: 'Chaque euro doit être traçable',
     allocationIntro:
-      'La politique cible affecte 90 % de chaque sponsoring au bénéficiaire associatif sélectionné et 10 % à l’administration du projet avant frais et taxes.',
+      'La politique cible affecte 90 % de chaque sponsoring à la destination solidaire sélectionnée et 10 % à l’administration du projet avant frais et taxes.',
     allocationRule:
-      'Après remboursements, taxes, frais de paiement et coûts de fonctionnement documentés, 100 % du bénéfice net est reversé chaque mois à des associations locales nommées.',
+      'Après remboursements, taxes, frais de paiement et coûts de fonctionnement documentés, 100 % du bénéfice net est reversé chaque mois à des associations locales nommées ou au soutien au logement du fondateur.',
     allocations: [
-      'Affectation associative cible',
+      'Affectation solidaire cible',
       'Administration avant coûts',
       'Bénéfice net reversé',
     ],
@@ -89,6 +90,7 @@ const copy = {
     disabledTitle: 'Payments are not enabled yet.',
     disabledNote:
       'The responsible entity, invoicing, accounts and refund procedures must be approved first.',
+    ledger: 'View the public ledger',
     offersEyebrow: 'Fixed offers',
     offersTitle: 'Choose the result to fund',
     pending: 'Opens after approval',
@@ -115,11 +117,11 @@ const copy = {
     allocationEyebrow: 'Financial rule',
     allocationTitle: 'Every euro must be traceable',
     allocationIntro:
-      'The target policy allocates 90% of each sponsorship to the selected charity beneficiary and 10% to project administration before fees and taxes.',
+      'The target policy allocates 90% of each sponsorship to the selected social-purpose destination and 10% to project administration before fees and taxes.',
     allocationRule:
-      'After refunds, taxes, payment fees and documented operating costs, 100% of net profit is transferred monthly to named local charities.',
+      'After refunds, taxes, payment fees and documented operating costs, 100% of net profit is transferred monthly to named local charities or founder housing support.',
     allocations: [
-      'Target charity allocation',
+      'Target social-purpose allocation',
       'Administration before costs',
       'Net profit transferred',
     ],
@@ -155,6 +157,7 @@ const copy = {
     disabledTitle: 'الدفع غير مفعّل بعد.',
     disabledNote:
       'يجب أولاً اعتماد الجهة المسؤولة والفواتير والحسابات وإجراءات الاسترداد.',
+    ledger: 'عرض السجل العام',
     offersEyebrow: 'عروض ثابتة',
     offersTitle: 'اختر النتيجة التي تريد تمويلها',
     pending: 'يتاح بعد الاعتماد',
@@ -181,11 +184,11 @@ const copy = {
     allocationEyebrow: 'القاعدة المالية',
     allocationTitle: 'يجب تتبع كل يورو',
     allocationIntro:
-      'تخصص السياسة المستهدفة 90٪ من كل رعاية للجهة الخيرية المستفيدة و10٪ لإدارة المشروع قبل الرسوم والضرائب.',
+      'تخصص السياسة المستهدفة 90٪ من كل رعاية للوجهة الاجتماعية المختارة و10٪ لإدارة المشروع قبل الرسوم والضرائب.',
     allocationRule:
-      'بعد الاستردادات والضرائب ورسوم الدفع وتكاليف التشغيل الموثقة، يُحوّل 100٪ من صافي الربح شهرياً إلى جمعيات محلية محددة بالاسم.',
+      'بعد الاستردادات والضرائب ورسوم الدفع وتكاليف التشغيل الموثقة، يُحوّل 100٪ من صافي الربح شهرياً إلى جمعيات محلية محددة بالاسم أو لدعم سكن مؤسس المشروع.',
     allocations: [
-      'التخصيص الخيري المستهدف',
+      'التخصيص الاجتماعي المستهدف',
       'الإدارة قبل التكاليف',
       'صافي الربح المحوّل',
     ],
@@ -260,6 +263,10 @@ export default function SponsorsPage() {
             <strong>{text.disabledTitle}</strong> {text.disabledNote}
           </span>
         </output>
+        <Link className="ledger-link" href="/sponsors/ledger">
+          <FileCheck2 size={18} aria-hidden="true" />
+          {text.ledger}
+        </Link>
       </section>
 
       <section className="sponsor-section" aria-labelledby="offers-title">

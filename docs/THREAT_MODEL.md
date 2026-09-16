@@ -30,6 +30,7 @@ The browser may display public source leads when they are prominently marked as 
 | Stale database copy | The interface implies Convex contains current source data | Sync records include the source hash, count, environment, and timestamp; the UI reports unavailable rather than guessing | Production monitoring and alerting |
 | Malicious correction content | Stored script, doxxing, or spam | Correction input strips control characters, rejects a honeypot field, is capped at 800 characters, is visible only in the authenticated dashboard, and the Netlify intake is rate-limited per IP and domain | Moderation procedure, abuse monitoring, and retention checks |
 | Payment replay or reversal error | Duplicate recognition or incorrect allocation | Payments are disabled | Signed timestamped webhooks, idempotency, settlement state and exact reversal ledger |
+| Public ledger leaks personal or tracking data | Sponsors or service users become identifiable | Aggregate-only schema rejects contact, address, wallet, referral, and user identifier fields | Review every evidence URL before publication and remove recognition when consent expires |
 | Wrong immutable wallet or token | Irrecoverable fund loss | No deployment manifest or live contract | Checksum, ownership proof, two-person review, testnet rehearsal and explicit mainnet confirmation |
 | Speculative token code enters repository | Legal, financial, and exploitation risk | Prohibited-feature test scans source and dependencies | Independent review and continuing CI enforcement |
 

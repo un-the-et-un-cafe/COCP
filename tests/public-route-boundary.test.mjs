@@ -6,6 +6,7 @@ const page = await readFile(new URL('../web/app/page.tsx', import.meta.url), 'ut
 const publicListings = await readFile(new URL('../web/data/published-listings.json', import.meta.url), 'utf8');
 const candidateListings = JSON.parse(await readFile(new URL('../web/data/listings.json', import.meta.url), 'utf8'));
 const sponsorPage = await readFile(new URL('../web/app/sponsors/page.tsx', import.meta.url), 'utf8');
+const sponsorLedgerPage = await readFile(new URL('../web/app/sponsors/ledger/page.tsx', import.meta.url), 'utf8');
 const requirements = await readFile(new URL('../requirements.md', import.meta.url), 'utf8');
 const manifest = JSON.parse(await readFile(new URL('../web/package.json', import.meta.url), 'utf8'));
 const dependencies = Object.keys({ ...manifest.dependencies, ...manifest.devDependencies }).join('\n');
@@ -38,9 +39,13 @@ test('directory does not rank by sponsorship', () => {
 test('sponsorship information remains separate and cannot collect payment', () => {
   assert.doesNotMatch(sponsorPage, /data\/listings|checkout|paymentToken|adminWallet|wallet SDK/i);
   assert.match(sponsorPage, /paiements ne sont pas encore activés/i);
+  assert.match(sponsorPage, /href="\/sponsors\/ledger"/);
+  assert.doesNotMatch(sponsorLedgerPage, /data\/listings|checkout|paymentToken|adminWallet|wallet SDK/i);
+  assert.match(sponsorLedgerPage, /Payments remain disabled/);
 });
 
 test('continuous-development plan preserves the full net-profit donation rule', () => {
   assert.match(requirements, /100% of net profit must be donated/i);
   assert.match(requirements, /never ranked or changed by payment/i);
+  assert.match(sponsorPage, /100% of net profit is transferred monthly to named local charities or founder housing support/i);
 });
