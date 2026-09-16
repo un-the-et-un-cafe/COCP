@@ -9,6 +9,7 @@ const pages = [
   ['corrections.html', 'corrections/index.html'],
   ['changes.html', 'changes/index.html'],
   ['sponsors.html', 'sponsors/index.html'],
+  ['sponsors/ledger.html', 'sponsors/ledger/index.html'],
   ['404.html', '404.html'],
 ];
 

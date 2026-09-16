@@ -7,6 +7,7 @@ const publicListings = await readFile(new URL('../web/data/published-listings.js
 const candidateListings = JSON.parse(await readFile(new URL('../web/data/listings.json', import.meta.url), 'utf8'));
 const sponsorPage = await readFile(new URL('../web/app/sponsors/page.tsx', import.meta.url), 'utf8');
 const sponsorLedgerPage = await readFile(new URL('../web/app/sponsors/ledger/page.tsx', import.meta.url), 'utf8');
+const netlifyPreparation = await readFile(new URL('../web/scripts/prepare-netlify.mjs', import.meta.url), 'utf8');
 const requirements = await readFile(new URL('../requirements.md', import.meta.url), 'utf8');
 const manifest = JSON.parse(await readFile(new URL('../web/package.json', import.meta.url), 'utf8'));
 const dependencies = Object.keys({ ...manifest.dependencies, ...manifest.devDependencies }).join('\n');
@@ -42,6 +43,7 @@ test('sponsorship information remains separate and cannot collect payment', () =
   assert.match(sponsorPage, /href="\/sponsors\/ledger"/);
   assert.doesNotMatch(sponsorLedgerPage, /data\/listings|checkout|paymentToken|adminWallet|wallet SDK/i);
   assert.match(sponsorLedgerPage, /Payments remain disabled/);
+  assert.match(netlifyPreparation, /'sponsors\/ledger\.html', 'sponsors\/ledger\/index\.html'/);
 });
 
 test('continuous-development plan preserves the full net-profit donation rule', () => {
