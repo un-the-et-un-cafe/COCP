@@ -152,7 +152,7 @@ async function main() {
   await mkdir(dirname(outPath), { recursive: true });
   // Strip full id lists that are redundant for the committed artefact? Keep aggregate + gap ids.
   const publicReport = {
-    generated_at: report.generated_at,
+    // no timestamp: keeps the committed artefact deterministic across builds
     total: report.total,
     unverified: report.unverified,
     publishable: report.publishable,
