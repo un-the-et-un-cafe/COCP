@@ -276,9 +276,6 @@ export default function SponsorsPage() {
         <Link className="ledger-link" href="/sponsors/sandbox">
           {text.sandbox}
         </Link>
-        <a className="ledger-link" href="/sponsors/evidence-pack.synthetic.fr.html">
-          {text.evidence}
-        </a>
       </section>
 
       <section className="sponsor-section" aria-labelledby="offers-title">

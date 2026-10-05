@@ -89,7 +89,7 @@ const copy: Record<
 };
 
 export default function SponsorSandboxPage() {
-  const { locale, setLocale } = useLocale();
+  const [locale, setLocale] = useLocale();
   const t = copy[locale];
   const testnetUi = Boolean((flags as { flags: { payments_base_testnet_ui: boolean } }).flags.payments_base_testnet_ui);
 
@@ -131,7 +131,7 @@ export default function SponsorSandboxPage() {
         <p>{t.mainnet}</p>
         <p>{t.casp}</p>
         <p>
-          <a href="/sponsors/evidence-pack.synthetic.fr.html">{t.evidence}</a>
+          <a href="/evidence/evidence-pack.synthetic.fr.html">{t.evidence}</a>
           {' · '}
           <Link href="/sponsors/ledger">{t.ledger}</Link>
         </p>
