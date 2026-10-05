@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "synthetic": true,
+  "package_id": "founding-sponsor-79",
+  "campaign_id": "sandbox-verification-2026-10",
+  "lane": "tradfi_then_base_usdc",
+  "fiat_payment_ref": "SYN-CARD-20261005-0001",
+  "eur_amount_cents": 7900,
+  "split": {
+    "charity_bps": 9000,
+    "admin_bps": 1000
+  },
+  "charity_eur_cents": 7110,
+  "admin_eur_cents": 790,
+  "usdc_amount_micro": 71100000,
+  "settlement_tx_hash": "0xsandboxdeadbeef000000000000000000000000000000000000000000000001",
+  "settlement_network": "base-sepolia",
+  "reconciliation_status": "sandbox_matched",
+  "recognition_expires_at": "2027-01-05",
+  "proof_url": "https://example.org/sponsors/sandbox#synthetic-proof",
+  "disclaimers": {
+    "fr": "Exemple synthétique. Aucune déduction fiscale n’est revendiquée. Aucune histoire personnelle de bénéficiaire. Aucune image de personnes en exil.",
+    "en": "Synthetic example. No tax-deduction claim. No beneficiary personal story. No imagery of people in exile.",
+    "ar_status": "pending_review"
+  }
+}
