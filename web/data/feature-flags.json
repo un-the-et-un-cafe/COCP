@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "updated_at": "2026-10-05",
+  "flags": {
+    "payments_card": false,
+    "payments_sepa": false,
+    "payments_base_mainnet": false,
+    "payments_base_testnet_ui": false,
+    "sponsor_evidence_pack": true,
+    "print_qr_generator": true,
+    "listing_qa_dashboard": true,
+    "voucher_pilot": false,
+    "activity_intake": false,
+    "activity_payments": false
+  }
+}
