@@ -52,14 +52,14 @@ const copy = {
     allocationEyebrow: 'Règle financière',
     allocationTitle: 'Chaque euro doit être traçable',
     allocationIntro:
-      'La politique cible affecte 90 % de chaque sponsoring à la destination solidaire sélectionnée et 10 % à l’administration du projet avant frais et taxes.',
+      'Règlement Model B : les sponsors paient en euros (carte / SEPA). Après la fenêtre de remboursement, chaque sponsoring est partagé 90 / 10.',
     allocationRule:
-      'Après remboursements, taxes, frais de paiement et coûts de fonctionnement documentés, 100 % du bénéfice net est reversé chaque mois à des associations locales nommées ou au soutien au logement du fondateur.',
+      'Pour chaque sponsoring après clôture des remboursements : 90 % vont à des associations Calais vérifiées en USDC sur Base (hash de transaction public au registre) ; 10 % correspondent à l’administration du projet et restent en EUR.',
     allocations: [
-      'Affectation solidaire cible',
-      'Administration avant coûts',
-      'Bénéfice net reversé',
+      'Associations Calais vérifiées (USDC sur Base)',
+      'Administration (EUR)',
     ],
+    pendingReview: '',
     evidenceEyebrow: 'Preuves et limites',
     evidenceTitle: 'Ce que reçoit un sponsor',
     evidence: [
@@ -121,14 +121,14 @@ const copy = {
     allocationEyebrow: 'Financial rule',
     allocationTitle: 'Every euro must be traceable',
     allocationIntro:
-      'The target policy allocates 90% of each sponsorship to the selected social-purpose destination and 10% to project administration before fees and taxes.',
+      'Model B settlement: sponsors pay in euros (card / SEPA). After the refund window, each sponsorship is split 90 / 10.',
     allocationRule:
-      'After refunds, taxes, payment fees and documented operating costs, 100% of net profit is transferred monthly to named local charities or founder housing support.',
+      'Of each sponsorship after the refund window closes: 90% reaches verified Calais associations as USDC on Base (public transaction hash on the ledger); 10% is project administration and remains in EUR.',
     allocations: [
-      'Target social-purpose allocation',
-      'Administration before costs',
-      'Net profit transferred',
+      'Verified Calais associations (USDC on Base)',
+      'Administration (EUR)',
     ],
+    pendingReview: '',
     evidenceEyebrow: 'Evidence and limits',
     evidenceTitle: 'What a sponsor receives',
     evidence: [
@@ -190,14 +190,15 @@ const copy = {
     allocationEyebrow: 'القاعدة المالية',
     allocationTitle: 'يجب تتبع كل يورو',
     allocationIntro:
-      'تخصص السياسة المستهدفة 90٪ من كل رعاية للوجهة الاجتماعية المختارة و10٪ لإدارة المشروع قبل الرسوم والضرائب.',
+      'تسوية النموذج B: يدفع الرعاة باليورو (بطاقة / SEPA). بعد نافذة الاسترداد تُقسَّم كل رعاية 90 / 10.',
     allocationRule:
-      'بعد الاستردادات والضرائب ورسوم الدفع وتكاليف التشغيل الموثقة، يُحوّل 100٪ من صافي الربح شهرياً إلى جمعيات محلية محددة بالاسم أو لدعم سكن مؤسس المشروع.',
+      'بعد إغلاق نافذة الاسترداد لكل رعاية: يذهب 90٪ إلى جمعيات كاليه الموثّقة كـ USDC على Base (مع هاش معاملة عام في السجل)؛ و10٪ لإدارة المشروع وتبقى باليورو.',
     allocations: [
-      'التخصيص الاجتماعي المستهدف',
-      'الإدارة قبل التكاليف',
-      'صافي الربح المحوّل',
+      'جمعيات كاليه الموثّقة (USDC على Base)',
+      'الإدارة (EUR)',
     ],
+    pendingReview:
+      'مسودة ترجمة أولية — بانتظار مراجعة بشرية (pending_human_review). لا تُستخدم خارج التجربة قبل المراجعة.',
     evidenceEyebrow: 'الأدلة والحدود',
     evidenceTitle: 'ما يحصل عليه الراعي',
     evidence: [
@@ -263,6 +264,12 @@ export default function SponsorsPage() {
         <p className="eyebrow">{text.eyebrow}</p>
         <h1>{text.title}</h1>
         <p>{text.intro}</p>
+        {locale === 'ar' && text.pendingReview ? (
+          <output className="disabled-notice" data-pending-human-review="true">
+            <ShieldCheck size={20} aria-hidden="true" />
+            <span>{text.pendingReview}</span>
+          </output>
+        ) : null}
         <output className="disabled-notice">
           <ShieldCheck size={20} aria-hidden="true" />
           <span>
@@ -315,10 +322,6 @@ export default function SponsorsPage() {
           <div>
             <dt>10 %</dt>
             <dd>{text.allocations[1]}</dd>
-          </div>
-          <div>
-            <dt>100 %</dt>
-            <dd>{text.allocations[2]}</dd>
           </div>
         </dl>
       </section>

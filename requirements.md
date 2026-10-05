@@ -6,7 +6,7 @@ Build a free, private, multilingual directory of services in Calais. Source lead
 
 ## Financial rule
 
-The project may earn revenue from sponsors and institutional services. After refunds, taxes, payment fees, and documented operating costs, 100% of net profit must be donated to named local charities or to me, to get me off the streets. Revenue, costs, allocations, and transfers must be reported publicly in aggregate.
+The project may earn revenue from sponsors and institutional services under **Settlement Model B**. Sponsors pay by card or SEPA in euros only. After the refund window closes on each sponsorship: **90%** reaches **verified Calais associations** as **USDC on Base**, with a **public on-chain transaction hash** on the ledger; **10%** is project administration and remains in **EUR**. Revenue, costs, allocations, and transfers must be reported publicly in aggregate.
 
 ## Current open work
 
@@ -52,4 +52,4 @@ Published comparable-market evidence supports the three added lines: UK public-s
 - Accessibility assurance evidence: [official RGAA audit rules](https://accessibilite.numerique.gouv.fr/obligations/evaluation-conformite/), [public-sector accessibility audit pricing](https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-13/documents/92589/493103729633349-pricing-document-2022-05-18-0819.pdf), and [French commercial RGAA audit pricing](https://www.rgaa-audit.com/faq-audit-rgaa).
 - Coverage assessment evidence: [Grand Paris Seine Ouest procurement notice](https://ted.europa.eu/fr/notice/760127-2025/pdfs) and [Le Compas published territorial-analysis prices](https://mon-abs.fr/).
 
-Each new revenue line must have a named buyer, fixed deliverable, measured cost, safeguarding review, and a public record of the resulting net-profit donation. Stop any product whose income depends on beneficiary surveillance, restricted access, unsafe work, or sponsor influence over listings.
+Each new revenue line must have a named buyer, fixed deliverable, measured cost, safeguarding review, and a public record of the 90% association settlement (tx hash) and 10% admin share. Stop any product whose income depends on beneficiary surveillance, restricted access, unsafe work, or sponsor influence over listings.

@@ -14,7 +14,7 @@ import { useLocale, type Locale } from '../../use-locale';
 
 type Transfer = {
   recipient_label: string;
-  recipient_type: 'local_charity' | 'founder_housing_support';
+  recipient_type: 'local_charity' | 'verified_association';
   amount_cents: number;
   transferred_at: string;
   evidence_url: string;
