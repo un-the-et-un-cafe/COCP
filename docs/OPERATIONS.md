@@ -114,6 +114,15 @@ PUBLIC_SITE_URL=https://your.production.origin npm run generate:qr-pack
 
 Outputs under `web/public/evidence/` and `web/public/print/`.
 
+Print QR details:
+
+- Real ISO/IEC 18004 QR (byte mode, ECC M, 4-module quiet zone) via the vendored MIT `scripts/vendor/qrcode-generator.mjs` (provenance + sha256 in `scripts/vendor/README.md`). No runtime dependency.
+- Payload is exactly `PUBLIC_SITE_URL` + `/#emergency`. The generator rejects non-https origins, paths, query strings and tracking parameters, so scans cannot be attributed to a card, venue or person.
+- Outputs: `calais-services.a6.html`, `calais-services.a5.html` (print cards with inline SVG), `calais-services.qr.svg` (standalone vector for designers), `*.url.txt` (decode target).
+- While the origin is a placeholder (`*.example.org`), cards carry a red **DRAFT** banner. Regenerate with the real production origin before printing.
+- Decode check (optional, independent reader): `npm i --no-save jsqr@1 @resvg/resvg-js@2 && npm run verify:qr`.
+- The Arabic line on the card is pending human G4 language review before any print run.
+
 ## Empty publishable set
 
 `npm run release:listings` refuses an empty signed release (`Refusing to create an empty signed release.`). `web/data/published-listings.json` is intentionally `[]` until a verified release exists; the directory UI continues to show unverified guide leads with confirmation warnings.
