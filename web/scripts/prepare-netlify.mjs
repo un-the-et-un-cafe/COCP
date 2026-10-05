@@ -10,10 +10,12 @@ const pages = [
   ['accessibility.html', 'accessibility/index.html'],
   ['privacy.html', 'privacy/index.html'],
   ['readiness.html', 'readiness/index.html'],
+  ['readiness/listings-qa.html', 'readiness/listings-qa/index.html'],
   ['corrections.html', 'corrections/index.html'],
   ['changes.html', 'changes/index.html'],
   ['sponsors.html', 'sponsors/index.html'],
   ['sponsors/ledger.html', 'sponsors/ledger/index.html'],
+  ['sponsors/sandbox.html', 'sponsors/sandbox/index.html'],
   ['404.html', '404.html'],
 ];
 

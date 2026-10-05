@@ -51,3 +51,12 @@ test('continuous-development plan preserves the full net-profit donation rule', 
   assert.match(requirements, /never ranked or changed by payment/i);
   assert.match(sponsorPage, /100% of net profit is transferred monthly to named local charities or founder housing support/i);
 });
+
+const sandboxPage = await readFile(new URL('../web/app/sponsors/sandbox/page.tsx', import.meta.url), 'utf8');
+
+test('sponsor sandbox explains Model B and has no wallet connect', () => {
+  assert.match(sandboxPage, /card or SEPA|carte ou SEPA/i);
+  assert.match(sandboxPage, /crypto settlement|règlement crypto/i);
+  assert.doesNotMatch(sandboxPage, /connectWallet|wagmi|viem|ethers|walletconnect/i);
+  assert.doesNotMatch(sandboxPage, /<form|checkout/i);
+});

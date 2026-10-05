@@ -24,6 +24,8 @@ const copy = {
     disabledNote:
       'L’entité responsable, la facturation, les comptes et les procédures de remboursement doivent d’abord être approuvés.',
     ledger: 'Consulter le registre public',
+    sandbox: 'Bac à sable Model B (testnet)',
+    evidence: 'Exemple de pack de preuves (synthétique)',
     offersEyebrow: 'Offres fixes',
     offersTitle: 'Choisissez le résultat à financer',
     pending: 'Ouverture après validation',
@@ -91,6 +93,8 @@ const copy = {
     disabledNote:
       'The responsible entity, invoicing, accounts and refund procedures must be approved first.',
     ledger: 'View the public ledger',
+    sandbox: 'Model B sandbox (testnet)',
+    evidence: 'Example evidence pack (synthetic)',
     offersEyebrow: 'Fixed offers',
     offersTitle: 'Choose the result to fund',
     pending: 'Opens after approval',
@@ -158,6 +162,8 @@ const copy = {
     disabledNote:
       'يجب أولاً اعتماد الجهة المسؤولة والفواتير والحسابات وإجراءات الاسترداد.',
     ledger: 'عرض السجل العام',
+    sandbox: 'بيئة Model B (اختبار)',
+    evidence: 'مثال حزمة الأدلة (اصطناعي)',
     offersEyebrow: 'عروض ثابتة',
     offersTitle: 'اختر النتيجة التي تريد تمويلها',
     pending: 'يتاح بعد الاعتماد',
@@ -267,6 +273,12 @@ export default function SponsorsPage() {
           <FileCheck2 size={18} aria-hidden="true" />
           {text.ledger}
         </Link>
+        <Link className="ledger-link" href="/sponsors/sandbox">
+          {text.sandbox}
+        </Link>
+        <a className="ledger-link" href="/sponsors/evidence-pack.synthetic.fr.html">
+          {text.evidence}
+        </a>
       </section>
 
       <section className="sponsor-section" aria-labelledby="offers-title">
