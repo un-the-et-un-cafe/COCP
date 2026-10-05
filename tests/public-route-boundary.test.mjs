@@ -46,10 +46,17 @@ test('sponsorship information remains separate and cannot collect payment', () =
   assert.match(netlifyPreparation, /'sponsors\/ledger\.html', 'sponsors\/ledger\/index\.html'/);
 });
 
-test('continuous-development plan preserves the full net-profit donation rule', () => {
-  assert.match(requirements, /100% of net profit must be donated/i);
+test('continuous-development plan preserves Model B 90/10 settlement rule', () => {
+  assert.match(requirements, /Settlement Model B/i);
+  assert.match(requirements, /90%.*verified Calais associations.*USDC on Base/i);
+  assert.match(requirements, /10%.*administration.*EUR/i);
+  assert.doesNotMatch(requirements, /100% of net profit must be donated|get me off the streets|founder housing support/i);
   assert.match(requirements, /never ranked or changed by payment/i);
-  assert.match(sponsorPage, /100% of net profit is transferred monthly to named local charities or founder housing support/i);
+  assert.match(
+    sponsorPage,
+    /90% reaches verified Calais associations as USDC on Base \(public transaction hash on the ledger\); 10% is project administration and remains in EUR/i,
+  );
+  assert.doesNotMatch(sponsorPage, /founder housing support|100% of net profit is transferred|soutien au logement du fondateur|سكن مؤسس المشروع/i);
 });
 
 const sandboxPage = await readFile(new URL('../web/app/sponsors/sandbox/page.tsx', import.meta.url), 'utf8');

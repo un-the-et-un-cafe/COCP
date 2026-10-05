@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
-const allowedRecipientTypes = new Set(["local_charity", "founder_housing_support"]);
+const allowedRecipientTypes = new Set(["local_charity", "verified_association"]);
 // Reject PII / wallet keys on public ledger. Allow settlement_tx_hash, association_label, recipient_label.
 const forbiddenKeys = /email|phone|wallet|address|ipAddress|referral|beneficiaryId|userId/i;
 
@@ -128,7 +128,7 @@ export function validateSponsorLedger(ledger, now = Date.now()) {
       return total + transfer.amount_cents;
     }, 0);
     if (transferred !== period.net_profit_cents)
-      throw new Error(`${period.id} must transfer 100% of net profit.`);
+      throw new Error(`${period.id} transfers must equal net_profit_cents.`);
     if (!Array.isArray(period.deliverables))
       throw new Error(`${period.id}.deliverables must be an array.`);
     for (const [index, deliverable] of period.deliverables.entries()) {

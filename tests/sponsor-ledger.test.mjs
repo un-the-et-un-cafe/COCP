@@ -39,17 +39,25 @@ test("empty public sponsor ledger is valid and does not invent activity", () => 
   assert.deepEqual(validateSponsorLedger(ledger), { periods: 0, recognition: 0, model_b_settlements: 0 });
 });
 
-test("sponsor ledger reconciles costs and transfers all net profit", () => {
+test("sponsor ledger reconciles costs and transfers equal net_profit_cents", () => {
   const sample = { ...ledger, periods: [validPeriod] };
   assert.deepEqual(validateSponsorLedger(sample), { periods: 1, recognition: 0, model_b_settlements: 0 });
 
   const missingTransfer = structuredClone(sample);
   missingTransfer.periods[0].transfers[0].amount_cents = 6999;
-  assert.throws(() => validateSponsorLedger(missingTransfer), /100% of net profit/);
+  assert.throws(() => validateSponsorLedger(missingTransfer), /transfers must equal net_profit_cents/);
 
   const wrongProfit = structuredClone(sample);
   wrongProfit.periods[0].net_profit_cents = 7001;
   assert.throws(() => validateSponsorLedger(wrongProfit), /does not reconcile/);
+
+  const legacyHousing = structuredClone(sample);
+  legacyHousing.periods[0].transfers[0].recipient_type = "founder_housing_support";
+  assert.throws(() => validateSponsorLedger(legacyHousing), /invalid recipient type/);
+
+  const verified = structuredClone(sample);
+  verified.periods[0].transfers[0].recipient_type = "verified_association";
+  assert.deepEqual(validateSponsorLedger(verified), { periods: 1, recognition: 0, model_b_settlements: 0 });
 });
 
 test("public sponsor ledger rejects personal fields and unconsented recognition", () => {

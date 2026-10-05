@@ -2,7 +2,7 @@
 
 **Branch:** `browney/v0.2-wp0-g-k`  
 **Payments:** production lanes **false**; launch gates **0/12 blocked**.  
-**Skipped for Jakob:** H-1 sponsor copy / founder_housing_support; Base Sepolia real deploy.
+**H-1 done:** Model B 90/10 sponsor copy (FR/EN/AR); legacy housing-support recipient type removed from ledger allow-list. **Still deferred for Jakob:** Base Sepolia real deploy.
 
 ## Demo path (sandbox)
 
