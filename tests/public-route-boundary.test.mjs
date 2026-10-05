@@ -60,3 +60,11 @@ test('sponsor sandbox explains Model B and has no wallet connect', () => {
   assert.doesNotMatch(sandboxPage, /connectWallet|wagmi|viem|ethers|walletconnect/i);
   assert.doesNotMatch(sandboxPage, /<form|checkout/i);
 });
+
+test('sandbox, QA and evidence routes are non-indexed via Netlify headers', async () => {
+  const toml = await readFile(new URL('../netlify.toml', import.meta.url), 'utf8');
+  for (const route of ['/sponsors/sandbox/*', '/readiness/listings-qa/*', '/evidence/*']) {
+    assert.ok(toml.includes(`for = "${route}"`), route);
+  }
+  assert.match(toml, /X-Robots-Tag = "noindex, nofollow"/);
+});

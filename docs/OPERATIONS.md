@@ -112,7 +112,7 @@ npm run generate:sponsor-evidence
 PUBLIC_SITE_URL=https://your.production.origin npm run generate:qr-pack
 ```
 
-Outputs under `web/public/sponsors/` and `web/public/print/`.
+Outputs under `web/public/evidence/` and `web/public/print/`.
 
 ## Empty publishable set
 

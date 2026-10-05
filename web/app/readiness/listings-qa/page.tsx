@@ -24,7 +24,7 @@ const copy: Record<Locale, { title: string; back: string; note: string }> = {
 };
 
 export default function ListingsQaPage() {
-  const { locale } = useLocale();
+  const [locale] = useLocale();
   const t = copy[locale];
   const r = report as {
     total: number;

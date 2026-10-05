@@ -72,7 +72,7 @@ export function renderEvidenceHtml(receipt = SYNTHETIC_RECEIPT, locale = "fr") {
 
 async function main() {
   const root = resolve(import.meta.dirname, "..");
-  const outDir = resolve(root, "web/public/sponsors");
+  const outDir = resolve(root, "web/public/evidence");
   await mkdir(outDir, { recursive: true });
   const fr = renderEvidenceHtml(SYNTHETIC_RECEIPT, "fr");
   const en = renderEvidenceHtml(SYNTHETIC_RECEIPT, "en");
