@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "refund_window_days_card": 14,
+  "refund_window_days_sepa": 14,
+  "payout_period": "calendar_month",
+  "sandbox_fx_note": "1:1 EUR→USDC stub only — not a rate oracle. Production uses authorised CASP.",
+  "late_chargeback_counsel_note": "Card chargebacks can arrive after the configured window; production must not auto-payout until counsel signs the risk policy. Sandbox may advance on timer for rehearsal with a visible warning."
+}

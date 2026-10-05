@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "validate:data": "node scripts/validate-data.mjs && node scripts/validate-sponsor-ledger.mjs && node scripts/validate-activity-ideas.mjs && node scripts/validate-launch-gates.mjs && node scripts/validate-feature-flags.mjs && node scripts/qa-listings.mjs && node scripts/check-locale-parity.mjs && node scripts/validate-settlement-rehearsal.mjs",
+    "validate:data": "node scripts/validate-data.mjs && node scripts/validate-sponsor-ledger.mjs && node scripts/validate-activity-ideas.mjs && node scripts/validate-launch-gates.mjs && node scripts/validate-feature-flags.mjs && node scripts/qa-listings.mjs && node scripts/check-locale-parity.mjs && node scripts/validate-settlement-rehearsal.mjs && node scripts/validate-association-wallet-registry.mjs",
     "validate:activities": "node scripts/validate-activity-ideas.mjs",
     "validate:launch": "node scripts/validate-launch-gates.mjs",
     "validate:sponsor-ledger": "node scripts/validate-sponsor-ledger.mjs",
@@ -28,7 +28,11 @@
     "verify:qr": "node scripts/verify-qr-decode.mjs",
     "test:contracts": "npm --prefix contracts ci && npm --prefix contracts test",
     "validate:settlement-rehearsal": "node scripts/validate-settlement-rehearsal.mjs",
-    "deploy:testnet:guard": "node contracts/scripts/deploy-testnet.mjs"
+    "deploy:testnet:guard": "node contracts/scripts/deploy-testnet.mjs",
+    "validate:association-wallets": "node scripts/validate-association-wallet-registry.mjs",
+    "generate:reconciliation": "node scripts/generate-reconciliation-report.mjs",
+    "payout:batch": "node scripts/run-payout-batch.mjs",
+    "payout:batch:execute": "node scripts/run-payout-batch.mjs --execute-sandbox"
   },
   "engines": {
     "node": ">=22.13.0"

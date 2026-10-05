@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "rows": [
+    {
+      "fiat_payment_ref": "SYN-CARD-20261005-0001",
+      "state": "settled",
+      "eur_amount_cents": 7900,
+      "usdc_amount_micro": 71100000,
+      "settlement_tx_hash": "0xadddb0d97534f40e71344bc1e01c1785d8dfb297b709141f5b81709ba654e4bd"
+    },
+    {
+      "fiat_payment_ref": "SYN-SEPA-20261005-0001",
+      "state": "holding",
+      "eur_amount_cents": 14900
+    },
+    {
+      "fiat_payment_ref": "SYN-CARD-20261005-0003",
+      "state": "refunded",
+      "eur_amount_cents": 24900
+    }
+  ]
+}

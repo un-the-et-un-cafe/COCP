@@ -1,11 +1,17 @@
 {
-  "version": 1,
+  "version": 2,
   "updated_at": "2026-10-05",
   "flags": {
     "payments_card": false,
     "payments_sepa": false,
     "payments_base_mainnet": false,
     "payments_base_testnet_ui": false,
+    "payments_card_testmode_ui": false,
+    "payments_sepa_testmode_ui": false,
+    "payout_queue_sandbox": false,
+    "association_wallet_registry_ui": false,
+    "reconciliation_report_sandbox": false,
+    "day_rhythm_categories": true,
     "sponsor_evidence_pack": true,
     "print_qr_generator": true,
     "listing_qa_dashboard": true,

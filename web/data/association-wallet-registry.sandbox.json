@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "association_id": "sandbox-asso-alpha",
+      "display_name": "FICTIONAL — Sandbox Association Alpha",
+      "fictional": true,
+      "chain": "base-sepolia",
+      "wallet_address": "0x00000000000000000000000000000000000000b2",
+      "mou_status": "sandbox_mou",
+      "mou_flag": true,
+      "verification_evidence_path": "docs/sandbox/asso-alpha-wallet-attestation.md",
+      "reviewer_a": "operator-sandbox-1",
+      "reviewer_b": "operator-sandbox-2",
+      "reviewed_at": "2026-10-05T12:00:00.000Z",
+      "active": true
+    },
+    {
+      "association_id": "sandbox-asso-beta",
+      "display_name": "FICTIONAL — Sandbox Association Beta",
+      "fictional": true,
+      "chain": "base-sepolia",
+      "wallet_address": "0x00000000000000000000000000000000000000b3",
+      "mou_status": "sandbox_mou",
+      "mou_flag": true,
+      "verification_evidence_path": "docs/sandbox/asso-beta-wallet-attestation.md",
+      "reviewer_a": "operator-sandbox-1",
+      "reviewer_b": "operator-sandbox-2",
+      "reviewed_at": "2026-10-05T12:00:00.000Z",
+      "active": true
+    }
+  ]
+}

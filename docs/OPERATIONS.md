@@ -128,3 +128,14 @@ Print QR details:
 ## Empty publishable set
 
 `npm run release:listings` refuses an empty signed release (`Refusing to create an empty signed release.`). `web/data/published-listings.json` is intentionally `[]` until a verified release exists; the directory UI continues to show unverified guide leads with confirmation warnings.
+
+## Model B sandbox (v0.2)
+
+- Feature flags live in `web/data/feature-flags.json` (version 2). Production `payments_card` / `payments_sepa` / `payments_base_mainnet` / `activity_payments` stay **false** while launch gates are blocked.
+- Sandbox UI flags (`payments_card_testmode_ui`, `payments_sepa_testmode_ui`, `payout_queue_sandbox`, …) may be enabled only on noindex sponsor/operator routes with **test** Stripe keys (`pk_test_` / `sk_test_`). Live keys fail validation.
+- Refund window defaults: 14 days card / 14 days SEPA (`web/data/settlement-config.json`). **Counsel note:** chargebacks can arrive after the window — production must not auto-payout until counsel signs the risk policy.
+- Association wallets: `web/data/association-wallet-registry.sandbox.json` (fictional only). Operator page `/readiness/association-wallets`. Never expose wallets on beneficiary routes.
+- Payout: `npm run payout:batch` (dry-run). `TestnetDirectProvider` for sandbox; `CaspProvider` throws `CASP_NOT_CONFIGURED` until a real authorised CASP adapter is registered. No DIY EUR→USDC.
+- Reconciliation: `npm run generate:reconciliation`. CI fails on mismatch fixture.
+- Base Sepolia deploy: `contracts/scripts/deploy-testnet.mjs` refuses without `--testnet --confirm` + `BASE_SEPOLIA_DEPLOY_KEY`. Needs Jakob OK.
+- Ethics review by Whitey before any PR that flips a **production** payment flag.

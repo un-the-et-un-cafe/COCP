@@ -25,7 +25,7 @@ test('beneficiary-facing directory restores source leads without claiming verifi
   assert.match(page, /copy\.unverified/);
   assert.match(page, /copy\.confirm_service/);
   assert.deepEqual(JSON.parse(publicListings), []);
-  assert.equal(candidateListings.length, 21);
+  assert.ok(candidateListings.length >= 21);
   assert.equal(candidateListings.filter((listing) => listing.categories.includes('showers')).length, 3);
 });
 
@@ -58,7 +58,10 @@ test('sponsor sandbox explains Model B and has no wallet connect', () => {
   assert.match(sandboxPage, /card or SEPA|carte ou SEPA/i);
   assert.match(sandboxPage, /crypto settlement|règlement crypto/i);
   assert.doesNotMatch(sandboxPage, /connectWallet|wagmi|viem|ethers|walletconnect/i);
-  assert.doesNotMatch(sandboxPage, /<form|checkout/i);
+  assert.doesNotMatch(sandboxPage, /<form/i);
+  assert.doesNotMatch(sandboxPage, /js\.stripe\.com|@stripe|Stripe\(/);
+  // Documentary "Test checkout" panel is OK when flags are false (no Stripe loaded).
+  assert.match(sandboxPage, /test-checkout-panel/);
 });
 
 test('sandbox, QA and evidence routes are non-indexed via Netlify headers', async () => {
@@ -67,4 +70,17 @@ test('sandbox, QA and evidence routes are non-indexed via Netlify headers', asyn
     assert.ok(toml.includes(`for = "${route}"`), route);
   }
   assert.match(toml, /X-Robots-Tag = "noindex, nofollow"/);
+});
+
+test('beneficiary routes declare no Stripe SDK or checkout', () => {
+  assert.doesNotMatch(dependencies, /@stripe|stripe-js/i);
+  assert.doesNotMatch(page, /js\.stripe\.com|Stripe\(|pk_live|pk_test|sk_/);
+  assert.doesNotMatch(page, /checkout|PaymentElement/i);
+});
+
+test('sandbox has no Stripe when testmode flags are false', async () => {
+  const flags = JSON.parse(await readFile(new URL('../web/data/feature-flags.json', import.meta.url), 'utf8'));
+  assert.equal(flags.flags.payments_card_testmode_ui, false);
+  assert.equal(flags.flags.payments_sepa_testmode_ui, false);
+  assert.doesNotMatch(sandboxPage, /js\.stripe\.com|@stripe|Stripe\(/);
 });

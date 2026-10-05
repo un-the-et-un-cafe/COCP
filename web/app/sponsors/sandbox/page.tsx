@@ -100,9 +100,11 @@ const evidenceHref: Record<Locale, string> = {
 export default function SponsorSandboxPage() {
   const [locale, setLocale] = useLocale();
   const t = copy[locale];
-  const testnetUi = Boolean(
-    (flags as { flags: { payments_base_testnet_ui: boolean } }).flags.payments_base_testnet_ui,
-  );
+  const f = (flags as { flags: { payments_base_testnet_ui: boolean; payments_card_testmode_ui: boolean; payments_sepa_testmode_ui: boolean } }).flags;
+  const testnetUi = Boolean(f.payments_base_testnet_ui);
+  const cardTest = Boolean(f.payments_card_testmode_ui);
+  const sepaTest = Boolean(f.payments_sepa_testmode_ui);
+  const testCheckout = cardTest || sepaTest;
   const dir = locale === 'ar' ? 'rtl' : 'ltr';
 
   return (
@@ -154,7 +156,28 @@ export default function SponsorSandboxPage() {
           <Link href="/sponsors/ledger">{t.ledger}</Link>
         </p>
       </section>
-      {/* Intentionally documentary only: no wallet SDK, no payment form. */}
+
+      <section data-testid="test-checkout-panel">
+        <h2>{locale === 'fr' ? 'Paiement test (Stripe test mode)' : locale === 'ar' ? 'دفع تجريبي (Stripe test mode)' : 'Test checkout (Stripe test mode)'}</h2>
+        {testCheckout ? (
+          <p>
+            Stripe test mode only. No real charges. Production sponsors will pay by card/SEPA after
+            human gates; 90% settles USDC via authorised CASP — not DIY.
+            {cardTest ? ' Card test UI flag on.' : ''}
+            {sepaTest ? ' SEPA test UI flag on.' : ''}
+          </p>
+        ) : (
+          <p>
+            Test checkout panel idle — payments_card_testmode_ui and payments_sepa_testmode_ui are
+            false. No Stripe script tags are loaded.
+          </p>
+        )}
+        <p className="warn-banner">
+          Counsel note: card chargebacks can arrive after the configured refund window; production
+          must not auto-payout until counsel signs the risk policy.
+        </p>
+      </section>
+      {/* Intentionally documentary only unless testmode flags: no wallet SDK; no Stripe when flags false. */}
     </main>
   );
 }
