@@ -73,3 +73,19 @@ test("public sponsor ledger rejects personal fields and unconsented recognition"
     /explicit consent/,
   );
 });
+
+test("settlement rehearsal draft accepts fiat_payment_ref + settlement_tx_hash without PII keys", async () => {
+  const { rehearseModelBSettlement } = await import("../scripts/rehearse-settlement-payout.mjs");
+  const row = rehearseModelBSettlement({
+    eur_amount_cents: 7900,
+    package_id: "founding-sponsor-79",
+    campaign_id: "sandbox-verification-2026-10",
+    fiat_payment_ref: "SYN-CARD-20261005-0001",
+    refund_window_closed: true,
+    settlement_tx_hash: "0xsandboxdeadbeef000000000000000000000000000000000000000000000001",
+  });
+  assert.ok(row.fiat_payment_ref);
+  assert.ok(row.settlement_tx_hash);
+  // Reuse ledger key inspector semantics: no email/phone/wallet keys
+  assert.doesNotMatch(JSON.stringify(row), /email|phone|wallet|ipAddress|beneficiaryId|userId/i);
+});
