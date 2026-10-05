@@ -34,3 +34,13 @@ Netlify additionally runs `npm run audit:web` after prerendering. The audit fail
 ## Human gates still required
 
 Public launch and payments remain blocked until the owners and evidence for gates G1 through G9 in the requirements document are recorded. Never commit private keys, identity documents, payment credentials, personal bank details, or beneficiary case data.
+
+## Settlement Model B (v0.1.1)
+
+Sponsors pay by **card/SEPA in EUR**. After settlement and the refund window, **90%** settles as **USDC on Base** to a verified association wallet (public tx hash on the ledger); **10% admin may stay EUR**. Help-seekers never see wallets or checkout.
+
+- Sandbox: `/sponsors/sandbox` (documentary until flags + gates allow testnet UI)
+- Mainnet requires **G9 + Jakob explicit confirm**
+- Production EUR→USDC conversion must use an **authorised CASP** — never DIY custody/exchange in this app
+- All payment lanes remain fail-closed in this slice
+

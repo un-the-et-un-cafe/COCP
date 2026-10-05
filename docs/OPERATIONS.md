@@ -82,3 +82,38 @@ npm run verify:release -- release.json signature.json public-key.pem
 ```
 
 Stop publication immediately when the current time reaches the earliest `expires_at` in a release. Verify and republish affected listings rather than extending dates without a fresh review.
+
+## Listing QA (v0.1.1)
+
+Generate an aggregate QA report (no personal data) from Appendix A candidates:
+
+```sh
+npm run qa:listings
+```
+
+The report is written to `web/data/qa-report.json`. The command exits non-zero if any `publishable: true` row lacks `verified` + `checked_at` + `expires_at` + review owner. Root `npm run validate:data` and `npm run build` include this check.
+
+## Feature flags (fail-closed)
+
+`web/data/feature-flags.json` controls experimental surfaces. Any `payments_*` or `activity_payments` flag set to `true` while launch gates are incomplete **fails the build**. Keep `payments_base_mainnet` false. Model B production conversion (EUR→USDC) requires an authorised CASP and human gates — never enable payment flags in this slice without Jakob + ethics review.
+
+## Model B settlement rehearsal (testnet / synthetic only)
+
+```sh
+npm run rehearse:settlement
+```
+
+Writes `web/data/settlement-rehearsal.draft.json` with synthetic TradFi ref + USDC 90% leg fields. Does not deploy contracts or open payment lanes. Mainnet requires G9 + Jakob explicit confirm.
+
+## Sponsor evidence + print QR
+
+```sh
+npm run generate:sponsor-evidence
+PUBLIC_SITE_URL=https://your.production.origin npm run generate:qr-pack
+```
+
+Outputs under `web/public/sponsors/` and `web/public/print/`.
+
+## Empty publishable set
+
+`npm run release:listings` refuses an empty signed release (`Refusing to create an empty signed release.`). `web/data/published-listings.json` is intentionally `[]` until a verified release exists; the directory UI continues to show unverified guide leads with confirmation warnings.
