@@ -41,3 +41,9 @@
   for = "/evidence/*"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/readiness/association-wallets/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+

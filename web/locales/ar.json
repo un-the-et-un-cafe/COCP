@@ -29,7 +29,16 @@
     "water": "ماء",
     "healthcare": "صحة",
     "community": "مجتمع",
-    "legal": "حقوق"
+    "legal": "حقوق",
+    "orientation": "توجيه",
+    "language_tandem": "تبادل لغوي",
+    "phone_clinic": "مساعدة الهاتف",
+    "bike_commons": "ورشة دراجات",
+    "day_laundry": "غسيل ملابس",
+    "quiet_space": "مساحة هادئة",
+    "clothing_swap": "تبادل ملابس",
+    "asso_cooking": "مطبخ جمعية",
+    "day_centre": "مركز نهاري"
   },
   "results": "نتيجة",
   "verified": "متحقق منه",
@@ -51,5 +60,7 @@
   "glossary_ledger": "السجل العام",
   "empty_published": "لا توجد سجلات متحقق منها منشورة بعد. يعرض هذا الدليل مسارات غير متحقق منها من الدليل.",
   "model_b_sandbox_note": "في الإنتاج يدفع الرعاة بالبطاقة أو SEPA باليورو. تعرض هذه البيئة التجريبية فقط مرحلة التسوية بالعملات المشفرة (90٪ USDC على شبكة الاختبار) بعد رعاية تقليدية محاكية.",
-  "model_b_sandbox_pending_human_review": true
+  "model_b_sandbox_pending_human_review": true,
+  "day_rhythm_note": "خدمات مساعدة متبادلة ومعلومات — مجانية، بلا حجز، بلا عمل مدفوع.",
+  "day_rhythm_pending_human_review": true
 }

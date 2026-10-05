@@ -29,7 +29,16 @@
     "water": "Eau",
     "healthcare": "Santé",
     "community": "Accueil",
-    "legal": "Droits"
+    "legal": "Droits",
+    "orientation": "Orientation",
+    "language_tandem": "Tandem linguistique",
+    "phone_clinic": "Aide téléphone",
+    "bike_commons": "Atelier vélo",
+    "day_laundry": "Buanderie / lessive",
+    "quiet_space": "Espace calme",
+    "clothing_swap": "Échange de vêtements",
+    "asso_cooking": "Cuisine associative",
+    "day_centre": "Centre de jour"
   },
   "results": "résultats",
   "verified": "Vérifié",
@@ -51,5 +60,7 @@
   "glossary_ledger": "registre public",
   "empty_published": "Aucune fiche vérifiée n’est encore publiée. Ce répertoire montre des pistes non vérifiées du guide.",
   "model_b_sandbox_note": "En production, les sponsors paient par carte ou SEPA en euros. Ce bac à sable montre uniquement la jambe de règlement crypto (90 % en USDC testnet) après un sponsoring TradFi simulé.",
-  "model_b_sandbox_pending_human_review": false
+  "model_b_sandbox_pending_human_review": false,
+  "day_rhythm_note": "Services d’entraide et d’information — gratuit, sans réservation, sans emploi rémunéré.",
+  "day_rhythm_pending_human_review": false
 }

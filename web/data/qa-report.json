@@ -1,10 +1,10 @@
 {
-  "total": 21,
-  "unverified": 21,
+  "total": 24,
+  "unverified": 24,
   "publishable": 0,
   "expired": 0,
-  "missing_phone_count": 21,
-  "missing_hours_count": 21,
+  "missing_phone_count": 24,
+  "missing_hours_count": 24,
   "missing_phone": [
     "roundabout-1",
     "english-toilet",
@@ -26,7 +26,10 @@
     "rue-des-huttes-toilet",
     "pass-calais",
     "coallia-spada",
-    "la-ressourcerie"
+    "la-ressourcerie",
+    "sandbox-orientation-desk",
+    "sandbox-language-tandem",
+    "sandbox-bike-commons"
   ],
   "missing_hours": [
     "roundabout-1",
@@ -49,7 +52,10 @@
     "rue-des-huttes-toilet",
     "pass-calais",
     "coallia-spada",
-    "la-ressourcerie"
+    "la-ressourcerie",
+    "sandbox-orientation-desk",
+    "sandbox-language-tandem",
+    "sandbox-bike-commons"
   ],
   "missing_locale_fields": [],
   "coordinates_without_map_url": [],

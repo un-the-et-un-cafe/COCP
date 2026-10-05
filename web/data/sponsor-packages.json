@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "currency": "EUR",
+  "packages": [
+    { "package_id": "founding-sponsor-79", "display_en": "Founding sponsor", "display_fr": "Sponsor fondateur", "eur_cents": 7900 },
+    { "package_id": "language-underwriter-149", "display_en": "Additional language", "display_fr": "Langue supplémentaire", "eur_cents": 14900 },
+    { "package_id": "verification-pack-249", "display_en": "Verification pack", "display_fr": "Pack de vérification", "eur_cents": 24900 }
+  ]
+}

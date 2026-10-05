@@ -29,7 +29,16 @@
     "water": "Water",
     "healthcare": "Health",
     "community": "Community",
-    "legal": "Rights"
+    "legal": "Rights",
+    "orientation": "Orientation",
+    "language_tandem": "Language tandem",
+    "phone_clinic": "Phone clinic",
+    "bike_commons": "Bike commons",
+    "day_laundry": "Laundry",
+    "quiet_space": "Quiet space",
+    "clothing_swap": "Clothing swap",
+    "asso_cooking": "Association cooking",
+    "day_centre": "Day centre"
   },
   "results": "results",
   "verified": "Verified",
@@ -51,5 +60,7 @@
   "glossary_ledger": "public ledger",
   "empty_published": "No verified listings are published yet. This directory shows unverified leads from the guide.",
   "model_b_sandbox_note": "In production, sponsors pay by card or SEPA in euros. This sandbox only shows the crypto settlement leg (90% testnet USDC) after a simulated TradFi sponsorship.",
-  "model_b_sandbox_pending_human_review": false
+  "model_b_sandbox_pending_human_review": false,
+  "day_rhythm_note": "Free mutual-aid and information listings — not jobs, not bookings, not paid work.",
+  "day_rhythm_pending_human_review": false
 }

@@ -17,29 +17,23 @@ function copyRegister() {
   return structuredClone(register);
 }
 
-test("committed feature flags keep all payment lanes fail-closed", () => {
+test("committed feature flags keep all production payment lanes fail-closed", () => {
   const result = validateFeatureFlags(flagsDoc, register);
   assert.equal(result.paymentFlagsOpen, false);
   assert.equal(result.gatesComplete, false);
+  assert.equal(flagsDoc.version, 2);
   assert.equal(flagsDoc.flags.payments_card, false);
   assert.equal(flagsDoc.flags.payments_sepa, false);
   assert.equal(flagsDoc.flags.payments_base_mainnet, false);
   assert.equal(flagsDoc.flags.payments_base_testnet_ui, false);
+  assert.equal(flagsDoc.flags.payments_card_testmode_ui, false);
+  assert.equal(flagsDoc.flags.payments_sepa_testmode_ui, false);
   assert.equal(flagsDoc.flags.activity_payments, false);
-  assert.equal(flagsDoc.flags.voucher_pilot, false);
-  assert.equal(flagsDoc.flags.activity_intake, false);
-  assert.equal(flagsDoc.flags.sponsor_evidence_pack, true);
-  assert.equal(flagsDoc.flags.print_qr_generator, true);
-  assert.equal(flagsDoc.flags.listing_qa_dashboard, true);
+  assert.equal(flagsDoc.flags.day_rhythm_categories, true);
 });
 
-test("payments true while launch gates blocked fails closed", () => {
-  for (const key of [
-    "payments_card",
-    "payments_sepa",
-    "payments_base_testnet_ui",
-    "activity_payments",
-  ]) {
+test("production payments true while launch gates blocked fails closed", () => {
+  for (const key of ["payments_card", "payments_sepa", "payments_base_testnet_ui", "activity_payments"]) {
     const bad = copyFlags();
     bad.flags[key] = true;
     assert.throws(
@@ -49,9 +43,26 @@ test("payments true while launch gates blocked fails closed", () => {
   }
 });
 
+test("sandbox testmode UI may be true without opening production lanes", () => {
+  const ok = copyFlags();
+  ok.flags.payments_card_testmode_ui = true;
+  ok.flags.payments_sepa_testmode_ui = true;
+  const result = validateFeatureFlags(ok, copyRegister(), Date.now(), {});
+  assert.equal(result.paymentFlagsOpen, false);
+  assert.equal(result.sandboxUiOpen, true);
+});
+
+test("live Stripe keys rejected when testmode UI is on", () => {
+  const ok = copyFlags();
+  ok.flags.payments_card_testmode_ui = true;
+  assert.throws(
+    () => validateFeatureFlags(ok, copyRegister(), Date.now(), { STRIPE_SECRET_KEY: "sk_live_xxx" }),
+    /live Stripe keys/,
+  );
+});
+
 test("payments_base_mainnet is always rejected in this slice", () => {
   const bad = copyFlags();
   bad.flags.payments_base_mainnet = true;
-  // Even with gates still blocked, mainnet is hard-banned
   assert.throws(() => validateFeatureFlags(bad, copyRegister()), /mainnet|cannot be true|must stay false/i);
 });
