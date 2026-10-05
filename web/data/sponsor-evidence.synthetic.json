@@ -21,6 +21,12 @@
   "disclaimers": {
     "fr": "Exemple synthétique. Aucune déduction fiscale n’est revendiquée. Aucune histoire personnelle de bénéficiaire. Aucune image de personnes en exil.",
     "en": "Synthetic example. No tax-deduction claim. No beneficiary personal story. No imagery of people in exile.",
-    "ar_status": "pending_review"
+    "ar": "مثال اصطناعي. لا يُدَّعى أي خصم ضريبي. لا توجد قصة شخصية لأي مستفيد. لا توجد صور لأشخاص في المنفى.",
+    "ar_status": "pending_human_review"
+  },
+  "pending_human_review": {
+    "fr": false,
+    "en": false,
+    "ar": true
   }
 }
