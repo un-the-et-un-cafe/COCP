@@ -24,7 +24,8 @@
     "generate:sponsor-evidence": "node scripts/generate-sponsor-evidence.mjs",
     "generate:qr-pack": "node scripts/generate-qr-pack.mjs",
     "rehearse:settlement": "node scripts/rehearse-settlement-payout.mjs",
-    "validate:locales": "node scripts/check-locale-parity.mjs"
+    "validate:locales": "node scripts/check-locale-parity.mjs",
+    "verify:qr": "node scripts/verify-qr-decode.mjs"
   },
   "engines": {
     "node": ">=22.13.0"
