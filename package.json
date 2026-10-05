@@ -25,7 +25,8 @@
     "generate:qr-pack": "node scripts/generate-qr-pack.mjs",
     "rehearse:settlement": "node scripts/rehearse-settlement-payout.mjs",
     "validate:locales": "node scripts/check-locale-parity.mjs",
-    "verify:qr": "node scripts/verify-qr-decode.mjs"
+    "verify:qr": "node scripts/verify-qr-decode.mjs",
+    "test:contracts": "npm --prefix contracts ci && npm --prefix contracts test"
   },
   "engines": {
     "node": ">=22.13.0"

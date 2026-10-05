@@ -1,0 +1,24 @@
+{
+  "name": "cocp-contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Model B SponsorshipRouter (testnet rehearsal only). Local compile + in-process EVM tests; no network, no keys, no deploy.",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "build": "node scripts/compile.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "devDependencies": {
+    "@ethereumjs/common": "10.1.3",
+    "@ethereumjs/evm": "10.1.3",
+    "@ethereumjs/util": "10.1.3",
+    "@noble/hashes": "2.4.0",
+    "solc": "0.8.37"
+  },
+  "overrides": {
+    "tmp": "0.2.7"
+  }
+}

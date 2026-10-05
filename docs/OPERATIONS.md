@@ -105,6 +105,8 @@ npm run rehearse:settlement
 
 Writes `web/data/settlement-rehearsal.draft.json` with synthetic TradFi ref + USDC 90% leg fields. Does not deploy contracts or open payment lanes. Mainnet requires G9 + Jakob explicit confirm.
 
+Contract compile + tests (local solcjs + in-process EVM; no RPC, no keys): `npm run test:contracts`. See `contracts/README.md`. No Base Sepolia deploy without Jakob's explicit OK and a dedicated testnet-only key.
+
 ## Sponsor evidence + print QR
 
 ```sh
