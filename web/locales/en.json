@@ -44,5 +44,12 @@
   "call": "Call",
   "map": "External map",
   "no_results": "No services match this search.",
-  "footer_privacy": "This page loads no account, advertising cookie, geolocation or wallet software."
+  "footer_privacy": "This page loads no account, advertising cookie, geolocation or wallet software.",
+  "glossary_service": "service",
+  "glossary_listing": "listing",
+  "glossary_sponsor": "sponsor",
+  "glossary_ledger": "public ledger",
+  "empty_published": "No verified listings are published yet. This directory shows unverified leads from the guide.",
+  "model_b_sandbox_note": "In production, sponsors pay by card or SEPA in euros. This sandbox only shows the crypto settlement leg (90% testnet USDC) after a simulated TradFi sponsorship.",
+  "model_b_sandbox_pending_human_review": false
 }
