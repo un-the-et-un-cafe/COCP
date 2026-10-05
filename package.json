@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "validate:data": "node scripts/validate-data.mjs && node scripts/validate-sponsor-ledger.mjs && node scripts/validate-activity-ideas.mjs && node scripts/validate-launch-gates.mjs",
+    "validate:data": "node scripts/validate-data.mjs && node scripts/validate-sponsor-ledger.mjs && node scripts/validate-activity-ideas.mjs && node scripts/validate-launch-gates.mjs && node scripts/validate-feature-flags.mjs && node scripts/qa-listings.mjs && node scripts/check-locale-parity.mjs",
     "validate:activities": "node scripts/validate-activity-ideas.mjs",
     "validate:launch": "node scripts/validate-launch-gates.mjs",
     "validate:sponsor-ledger": "node scripts/validate-sponsor-ledger.mjs",
@@ -18,7 +18,13 @@
     "build": "npm run validate:data && npm test && npm --prefix web run build",
     "dev:vinext": "vinext dev --port 3001",
     "build:vinext": "vinext build",
-    "start:vinext": "vinext start"
+    "start:vinext": "vinext start",
+    "validate:flags": "node scripts/validate-feature-flags.mjs",
+    "qa:listings": "node scripts/qa-listings.mjs",
+    "generate:sponsor-evidence": "node scripts/generate-sponsor-evidence.mjs",
+    "generate:qr-pack": "node scripts/generate-qr-pack.mjs",
+    "rehearse:settlement": "node scripts/rehearse-settlement-payout.mjs",
+    "validate:locales": "node scripts/check-locale-parity.mjs"
   },
   "engines": {
     "node": ">=22.13.0"
