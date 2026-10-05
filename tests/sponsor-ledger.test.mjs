@@ -36,12 +36,12 @@ const validPeriod = {
 };
 
 test("empty public sponsor ledger is valid and does not invent activity", () => {
-  assert.deepEqual(validateSponsorLedger(ledger), { periods: 0, recognition: 0 });
+  assert.deepEqual(validateSponsorLedger(ledger), { periods: 0, recognition: 0, model_b_settlements: 0 });
 });
 
 test("sponsor ledger reconciles costs and transfers all net profit", () => {
   const sample = { ...ledger, periods: [validPeriod] };
-  assert.deepEqual(validateSponsorLedger(sample), { periods: 1, recognition: 0 });
+  assert.deepEqual(validateSponsorLedger(sample), { periods: 1, recognition: 0, model_b_settlements: 0 });
 
   const missingTransfer = structuredClone(sample);
   missingTransfer.periods[0].transfers[0].amount_cents = 6999;
@@ -74,18 +74,33 @@ test("public sponsor ledger rejects personal fields and unconsented recognition"
   );
 });
 
-test("settlement rehearsal draft accepts fiat_payment_ref + settlement_tx_hash without PII keys", async () => {
+test("model_b_settlements section accepts fiat_payment_ref + settlement_tx_hash via validateSponsorLedger", async () => {
   const { rehearseModelBSettlement } = await import("../scripts/rehearse-settlement-payout.mjs");
+  const { validateSettlementRehearsalDraft } = await import("../scripts/validate-sponsor-ledger.mjs");
   const row = rehearseModelBSettlement({
     eur_amount_cents: 7900,
     package_id: "founding-sponsor-79",
     campaign_id: "sandbox-verification-2026-10",
     fiat_payment_ref: "SYN-CARD-20261005-0001",
     refund_window_closed: true,
-    settlement_tx_hash: "0xsandboxdeadbeef000000000000000000000000000000000000000000000001",
   });
-  assert.ok(row.fiat_payment_ref);
-  assert.ok(row.settlement_tx_hash);
-  // Reuse ledger key inspector semantics: no email/phone/wallet keys
-  assert.doesNotMatch(JSON.stringify(row), /email|phone|wallet|ipAddress|beneficiaryId|userId/i);
+  assert.match(row.settlement_tx_hash, /^0x[0-9a-fA-F]{64}$/);
+  const withSettlements = {
+    ...ledger,
+    model_b_settlements: [row],
+  };
+  assert.deepEqual(validateSponsorLedger(withSettlements), {
+    periods: 0,
+    recognition: 0,
+    model_b_settlements: 1,
+  });
+
+  const withWalletKey = structuredClone(withSettlements);
+  withWalletKey.model_b_settlements[0].association_wallet = "0x00000000000000000000000000000000000000b2";
+  assert.throws(() => validateSponsorLedger(withWalletKey), /not allowed/);
+
+  const draft = JSON.parse(
+    await readFile(new URL("../web/data/settlement-rehearsal.draft.json", import.meta.url), "utf8"),
+  );
+  assert.equal(validateSettlementRehearsalDraft(draft).rows, draft.rows.length);
 });

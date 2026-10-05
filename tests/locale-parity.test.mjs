@@ -18,9 +18,13 @@ test("Model B sandbox note is present in all locales and AR is flagged for human
   assert.ok(ar.model_b_sandbox_note?.length > 20);
   assert.equal(ar.model_b_sandbox_pending_human_review, true);
   assert.doesNotMatch(en.model_b_sandbox_note, /connect wallet|pay (with )?USDC as primary/i);
-  // RTL marker still present in app shell
-  const sandboxWouldBeRtl = true;
-  assert.equal(sandboxWouldBeRtl, true);
+  // Real RTL regression: sandbox page derives dir from locale and flags AR for human review
+  const sandbox = await readFile(new URL("../web/app/sponsors/sandbox/page.tsx", import.meta.url), "utf8");
+  assert.match(sandbox, /locale === 'ar' \? 'rtl' : 'ltr'/);
+  assert.match(sandbox, /dir=\{dir\}/);
+  assert.match(sandbox, /data-dir=\{dir\}/);
+  assert.match(sandbox, /data-pending-human-review="true"/);
+  assert.match(sandbox, /pendingReview/);
 });
 
 test("glossary keys cover service/listing/sponsor/ledger", async () => {

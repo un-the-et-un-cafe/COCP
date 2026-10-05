@@ -1,35 +1,39 @@
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, writeFile, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
+import { rehearseModelBSettlement } from "./rehearse-settlement-payout.mjs";
 
-export const SYNTHETIC_RECEIPT = {
-  version: 1,
-  synthetic: true,
-  package_id: "founding-sponsor-79",
-  campaign_id: "sandbox-verification-2026-10",
-  lane: "tradfi_then_base_usdc",
-  fiat_payment_ref: "SYN-CARD-20261005-0001",
-  eur_amount_cents: 7900,
-  split: { charity_bps: 9000, admin_bps: 1000 },
-  charity_eur_cents: 7110,
-  admin_eur_cents: 790,
-  usdc_amount_micro: 71_100_000, // 71.10 USDC (1:1 sandbox stub)
-  settlement_tx_hash: "0xsandboxdeadbeef000000000000000000000000000000000000000000000001",
-  settlement_network: "base-sepolia",
-  reconciliation_status: "sandbox_matched",
-  recognition_expires_at: "2027-01-05",
-  proof_url: "https://example.org/sponsors/sandbox#synthetic-proof",
-  disclaimers: {
-    fr: "Exemple synthétique. Aucune déduction fiscale n’est revendiquée. Aucune histoire personnelle de bénéficiaire. Aucune image de personnes en exil.",
-    en: "Synthetic example. No tax-deduction claim. No beneficiary personal story. No imagery of people in exile.",
-    ar: "مثال اصطناعي. لا يُدَّعى أي خصم ضريبي. لا توجد قصة شخصية لأي مستفيد. لا توجد صور لأشخاص في المنفى.",
-    ar_status: "pending_human_review",
+const LABELS = {
+  fr: {
+    title: "Pack de preuves sponsor (synthétique — modèle B)",
+    warn: "BAC À SABLE / DONNÉES SYNTHÉTIQUES — les paiements ne sont pas actifs. En production, les sponsors paient par carte ou SEPA ; la crypto n’est que la jambe de règlement.",
+    receipt: "Reçu TradFi",
+    eur: "Montant EUR",
+    pkg: "Offre / campagne",
+    alloc: "Répartition",
+    usdc: "Règlement USDC",
+    proof: "Preuve on-chain",
+    proofUrl: "URL de preuve",
+    recon: "Rapprochement",
+    expires: "Fin de la reconnaissance",
+    lane: "Voie",
   },
-  pending_human_review: { fr: false, en: false, ar: true },
+  en: {
+    title: "Sponsor evidence pack (synthetic — Model B)",
+    warn: "SANDBOX / SYNTHETIC DATA — payments are not live. Production sponsors pay by card or SEPA; crypto is the settlement leg only.",
+    receipt: "TradFi receipt",
+    eur: "EUR amount",
+    pkg: "Package / campaign",
+    alloc: "Allocation",
+    usdc: "USDC settlement",
+    proof: "On-chain proof",
+    proofUrl: "Proof URL",
+    recon: "Reconciliation",
+    expires: "Recognition expires",
+    lane: "Lane",
+  },
 };
 
-// AR copy is a first-pass draft (not reviewed by a human translator). Per Spec-Build WP-E it
-// stays flagged pending_human_review and carries a visible banner until G4 language review.
 const AR = {
   title: "حزمة إثبات الراعي (بيانات اصطناعية — النموذج ب)",
   review:
@@ -50,6 +54,45 @@ const AR = {
 };
 
 const ltr = (v) => `<span dir="ltr">${v}</span>`;
+
+/** Build synthetic receipt from the canonical rehearsal row (keeps tx hashes consistent). */
+export function buildSyntheticReceiptFromRehearsal(row) {
+  return {
+    version: 1,
+    synthetic: true,
+    package_id: row.package_id,
+    campaign_id: row.campaign_id,
+    lane: row.lane,
+    fiat_payment_ref: row.fiat_payment_ref,
+    eur_amount_cents: row.eur_amount_cents,
+    split: { charity_bps: row.split_90_10.charity_bps, admin_bps: row.split_90_10.admin_bps },
+    charity_eur_cents: row.split_90_10.charity_eur_cents,
+    admin_eur_cents: row.split_90_10.admin_eur_cents,
+    usdc_amount_micro: row.usdc_amount_micro,
+    settlement_tx_hash: row.settlement_tx_hash,
+    settlement_network: row.settlement_network,
+    reconciliation_status: "sandbox_matched",
+    recognition_expires_at: "2027-01-05",
+    proof_url: "https://example.org/sponsors/sandbox#synthetic-proof",
+    disclaimers: {
+      fr: "Exemple synthétique. Aucune déduction fiscale n’est revendiquée. Aucune histoire personnelle de bénéficiaire. Aucune image de personnes en exil.",
+      en: "Synthetic example. No tax-deduction claim. No beneficiary personal story. No imagery of people in exile.",
+      ar: "مثال اصطناعي. لا يُدَّعى أي خصم ضريبي. لا توجد قصة شخصية لأي مستفيد. لا توجد صور لأشخاص في المنفى.",
+      ar_status: "pending_human_review",
+    },
+    pending_human_review: { fr: false, en: false, ar: true },
+  };
+}
+
+export const SYNTHETIC_RECEIPT = buildSyntheticReceiptFromRehearsal(
+  rehearseModelBSettlement({
+    eur_amount_cents: 7900,
+    package_id: "founding-sponsor-79",
+    campaign_id: "sandbox-verification-2026-10",
+    fiat_payment_ref: "SYN-CARD-20261005-0001",
+    refund_window_closed: true,
+  }),
+);
 
 function renderArabicEvidenceHtml(receipt) {
   const L = AR.labels;
@@ -95,15 +138,12 @@ export function renderEvidenceHtml(receipt = SYNTHETIC_RECEIPT, locale = "fr") {
   if (locale === "ar") return renderArabicEvidenceHtml(receipt);
   const d = receipt.disclaimers;
   const disclaimer = locale === "en" ? d.en : d.fr;
-  const title =
-    locale === "en"
-      ? "Sponsor evidence pack (synthetic — Model B)"
-      : "Pack de preuves sponsor (synthétique — modèle B)";
+  const L = LABELS[locale] ?? LABELS.fr;
   return `<!DOCTYPE html>
 <html lang="${locale}">
 <head>
   <meta charset="utf-8" />
-  <title>${title}</title>
+  <title>${L.title}</title>
   <meta name="robots" content="noindex,nofollow" />
   <style>
     body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; color: #111; }
@@ -115,19 +155,19 @@ export function renderEvidenceHtml(receipt = SYNTHETIC_RECEIPT, locale = "fr") {
   </style>
 </head>
 <body>
-  <p class="warn">SANDBOX / SYNTHETIC DATA — payments are not live. Production sponsors pay by card or SEPA; crypto is the settlement leg only.</p>
-  <h1>${title}</h1>
+  <p class="warn">${L.warn}</p>
+  <h1>${L.title}</h1>
   <dl>
-    <dt>TradFi receipt</dt><dd>${receipt.fiat_payment_ref}</dd>
-    <dt>EUR amount</dt><dd>${(receipt.eur_amount_cents / 100).toFixed(2)} EUR</dd>
-    <dt>Package / campaign</dt><dd>${receipt.package_id} / ${receipt.campaign_id}</dd>
-    <dt>Allocation</dt><dd>90% charity / 10% admin (${receipt.charity_eur_cents / 100} / ${receipt.admin_eur_cents / 100} EUR)</dd>
-    <dt>USDC settlement</dt><dd>${(receipt.usdc_amount_micro / 1_000_000).toFixed(2)} USDC on ${receipt.settlement_network}</dd>
-    <dt>On-chain proof</dt><dd><code>${receipt.settlement_tx_hash}</code></dd>
-    <dt>Proof URL</dt><dd><a href="${receipt.proof_url}">${receipt.proof_url}</a></dd>
-    <dt>Reconciliation</dt><dd>${receipt.reconciliation_status}</dd>
-    <dt>Recognition expires</dt><dd>${receipt.recognition_expires_at}</dd>
-    <dt>Lane</dt><dd>${receipt.lane}</dd>
+    <dt>${L.receipt}</dt><dd>${receipt.fiat_payment_ref}</dd>
+    <dt>${L.eur}</dt><dd>${(receipt.eur_amount_cents / 100).toFixed(2)} EUR</dd>
+    <dt>${L.pkg}</dt><dd>${receipt.package_id} / ${receipt.campaign_id}</dd>
+    <dt>${L.alloc}</dt><dd>90% charity / 10% admin (${receipt.charity_eur_cents / 100} / ${receipt.admin_eur_cents / 100} EUR)</dd>
+    <dt>${L.usdc}</dt><dd>${(receipt.usdc_amount_micro / 1_000_000).toFixed(2)} USDC on ${receipt.settlement_network}</dd>
+    <dt>${L.proof}</dt><dd><code>${receipt.settlement_tx_hash}</code></dd>
+    <dt>${L.proofUrl}</dt><dd><a href="${receipt.proof_url}">${receipt.proof_url}</a></dd>
+    <dt>${L.recon}</dt><dd>${receipt.reconciliation_status}</dd>
+    <dt>${L.expires}</dt><dd>${receipt.recognition_expires_at}</dd>
+    <dt>${L.lane}</dt><dd>${receipt.lane}</dd>
   </dl>
   <p class="disclaimer">${disclaimer}</p>
 </body>
@@ -137,18 +177,28 @@ export function renderEvidenceHtml(receipt = SYNTHETIC_RECEIPT, locale = "fr") {
 
 async function main() {
   const root = resolve(import.meta.dirname, "..");
+  // Prefer committed rehearsal row so evidence tx hash matches draft (L-1).
+  let receipt = SYNTHETIC_RECEIPT;
+  try {
+    const draft = JSON.parse(
+      await readFile(resolve(root, "web/data/settlement-rehearsal.draft.json"), "utf8"),
+    );
+    const row = (draft.rows ?? []).find((r) => r.fiat_payment_ref === "SYN-CARD-20261005-0001");
+    if (row) receipt = buildSyntheticReceiptFromRehearsal(row);
+  } catch {
+    /* use SYNTHETIC_RECEIPT */
+  }
+
   const outDir = resolve(root, "web/public/evidence");
   await mkdir(outDir, { recursive: true });
-  const fr = renderEvidenceHtml(SYNTHETIC_RECEIPT, "fr");
-  const en = renderEvidenceHtml(SYNTHETIC_RECEIPT, "en");
-  await writeFile(resolve(outDir, "evidence-pack.synthetic.fr.html"), fr);
-  await writeFile(resolve(outDir, "evidence-pack.synthetic.en.html"), en);
-  await writeFile(resolve(outDir, "evidence-pack.synthetic.ar.html"), renderEvidenceHtml(SYNTHETIC_RECEIPT, "ar"));
+  await writeFile(resolve(outDir, "evidence-pack.synthetic.fr.html"), renderEvidenceHtml(receipt, "fr"));
+  await writeFile(resolve(outDir, "evidence-pack.synthetic.en.html"), renderEvidenceHtml(receipt, "en"));
+  await writeFile(resolve(outDir, "evidence-pack.synthetic.ar.html"), renderEvidenceHtml(receipt, "ar"));
   await writeFile(
     resolve(root, "web/data/sponsor-evidence.synthetic.json"),
-    `${JSON.stringify(SYNTHETIC_RECEIPT, null, 2)}\n`,
+    `${JSON.stringify(receipt, null, 2)}\n`,
   );
-  console.log("Wrote synthetic sponsor evidence pack (FR+EN HTML, AR draft pending_human_review, JSON).");
+  console.log("Wrote synthetic sponsor evidence pack (FR labels localised, EN, AR pending_human_review, JSON).");
 }
 
 if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) await main();

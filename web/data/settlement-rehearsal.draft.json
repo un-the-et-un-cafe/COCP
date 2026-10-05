@@ -19,12 +19,13 @@
       },
       "usdc_amount_micro": 71100000,
       "settlement_network": "base-sepolia",
-      "settlement_tx_hash": "0xsandbox53594e2d434152442d32303236313030352d30303031000000000000",
+      "settlement_tx_hash": "0xadddb0d97534f40e71344bc1e01c1785d8dfb297b709141f5b81709ba654e4bd",
       "association_label": "test-association",
       "admin_remains_eur": true,
+      "via_router": true,
       "casp_note": "Sandbox stub conversion 1:1. Production EUR→USDC must use an authorised CASP partner — not DIY custody/exchange.",
-      "recorded_at": "2026-10-05T15:37:06.574Z"
+      "recorded_at": "2026-10-05T03:41:42.000Z"
     }
   ],
-  "updated_at": "2026-10-05T15:37:06.574Z"
+  "updated_at": "2026-10-05T03:41:42.000Z"
 }

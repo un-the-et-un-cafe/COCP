@@ -20,6 +20,7 @@ const copy: Record<
     evidence: string;
     ledger: string;
     disabled: string;
+    pendingReview?: string;
   }
 > = {
   fr: {
@@ -85,16 +86,28 @@ const copy: Record<
     evidence: 'مثال حزمة الأدلة (اصطناعي)',
     ledger: 'السجل العام',
     disabled: 'علم payments_base_testnet_ui = false: عرض توثيقي فقط.',
+    pendingReview:
+      'مسودة ترجمة أولية — بانتظار مراجعة بشرية (pending_human_review). لا تُستخدم خارج التجربة قبل المراجعة.',
   },
+};
+
+const evidenceHref: Record<Locale, string> = {
+  fr: '/evidence/evidence-pack.synthetic.fr.html',
+  en: '/evidence/evidence-pack.synthetic.en.html',
+  ar: '/evidence/evidence-pack.synthetic.ar.html',
 };
 
 export default function SponsorSandboxPage() {
   const [locale, setLocale] = useLocale();
   const t = copy[locale];
-  const testnetUi = Boolean((flags as { flags: { payments_base_testnet_ui: boolean } }).flags.payments_base_testnet_ui);
+  const testnetUi = Boolean(
+    (flags as { flags: { payments_base_testnet_ui: boolean } }).flags.payments_base_testnet_ui,
+  );
+  const dir = locale === 'ar' ? 'rtl' : 'ltr';
 
   return (
-    <main className="sponsor-page" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+    <main className="sponsor-page" dir={dir} data-locale={locale} data-dir={dir}>
+      {/* Defence-in-depth noindex (Netlify headers also set X-Robots-Tag). */}
       <header className="page-header">
         <p className="brand-note">{t.brandNote}</p>
         <div className="header-actions">
@@ -115,6 +128,11 @@ export default function SponsorSandboxPage() {
 
       <section className="hero">
         <h1>{t.title}</h1>
+        {locale === 'ar' && t.pendingReview ? (
+          <p className="review-banner" data-pending-human-review="true" role="status">
+            {t.pendingReview}
+          </p>
+        ) : null}
         <p>{t.modelB}</p>
         <p className="warn-banner">
           <ShieldAlert aria-hidden size={18} /> {t.warning}
@@ -131,7 +149,7 @@ export default function SponsorSandboxPage() {
         <p>{t.mainnet}</p>
         <p>{t.casp}</p>
         <p>
-          <a href="/evidence/evidence-pack.synthetic.fr.html">{t.evidence}</a>
+          <a href={evidenceHref[locale]}>{t.evidence}</a>
           {' · '}
           <Link href="/sponsors/ledger">{t.ledger}</Link>
         </p>

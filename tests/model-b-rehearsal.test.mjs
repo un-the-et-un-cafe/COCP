@@ -36,3 +36,17 @@ test("refuses settlement before refund window closes", () => {
     /refund window/,
   );
 });
+
+test("via-router rehearsal records a real EVM-derived tx hash (0x+64 hex)", async () => {
+  const { rehearseModelBSettlementViaRouter } = await import("../scripts/rehearse-settlement-payout.mjs");
+  const row = await rehearseModelBSettlementViaRouter({
+    eur_amount_cents: 7900,
+    package_id: "founding-sponsor-79",
+    campaign_id: "sandbox-verification-2026-10",
+    fiat_payment_ref: "SYN-CARD-20261005-0001",
+    refund_window_closed: true,
+  });
+  assert.equal(row.via_router, true);
+  assert.match(row.settlement_tx_hash, /^0x[0-9a-fA-F]{64}$/);
+  assert.doesNotMatch(row.settlement_tx_hash, /^0xsandbox/i);
+});
