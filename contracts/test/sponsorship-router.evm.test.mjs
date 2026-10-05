@@ -56,7 +56,13 @@ async function setup({ feeBps = 0 } = {}) {
   const routerRes = await deploy(routerArt, word(usdc) + word(ADMIN) + word(BigInt(feeBps)));
   const router = routerRes.created;
   const balanceOf = async (who) => BigInt((await call(STRANGER, usdc, encode("balanceOf(address)", who))).ret);
-  return { evm, call, deploy, usdc, router, routerRes, routerArt, balanceOf };
+  const allow = async (association = ASSOCIATION) => {
+    const res = await call(OPERATOR, router, encode("setAssociationAllowed(address,bool)", association, true));
+    if (!res.ok) throw new Error(`setAssociationAllowed failed: ${res.ret}`);
+    return res;
+  };
+  await allow(ASSOCIATION);
+  return { evm, call, deploy, usdc, router, routerRes, routerArt, balanceOf, allow };
 }
 
 const FORBIDDEN_OPCODES = { 0xf0: "CREATE", 0xf2: "CALLCODE", 0xf4: "DELEGATECALL", 0xf5: "CREATE2", 0xff: "SELFDESTRUCT" };
@@ -85,9 +91,12 @@ test("compiles with zero warnings and runtime has no DELEGATECALL/SELFDESTRUCT/C
   const fns = Object.keys(art.evm.methodIdentifiers).sort();
   assert.deepEqual(fns, [
     "adminWallet()",
+    "allowedAssociation(address)",
     "feeBps()",
+    "operator()",
     "paymentToken()",
     "payoutCharityLeg(address,uint256,bytes32)",
+    "setAssociationAllowed(address,bool)",
     "settleWithOnChainFee(address,uint256)",
   ]);
 });
@@ -206,4 +215,25 @@ test("router rejects native ETH (no payable, no receive/fallback)", async () => 
   const { call, router } = await setup();
   const res = await call(OPERATOR, router, "0x", 1n);
   assert.equal(res.ok, false);
+});
+
+test("operator() is the deployer; strangers cannot manage allow-list", async () => {
+  const { call, router } = await setup();
+  assert.equal(BigInt((await call(STRANGER, router, encode("operator()"))).ret), BigInt(OPERATOR));
+  const denied = await call(STRANGER, router, encode("setAssociationAllowed(address,bool)", STRANGER, true));
+  assert.equal(denied.ok, false);
+  assert.equal(revertSelector(denied), selector("NotOperator()"));
+});
+
+test("payoutCharityLeg rejects association not on allow-list", async () => {
+  const { call, usdc, router, balanceOf } = await setup();
+  // ASSOCIATION is allow-listed by setup; remove it
+  await call(OPERATOR, router, encode("setAssociationAllowed(address,bool)", ASSOCIATION, false));
+  const amount = USDC(10);
+  await call(STRANGER, usdc, encode("setBalance(address,uint256)", OPERATOR, amount));
+  await call(OPERATOR, usdc, encode("approve(address,uint256)", router, amount));
+  const res = await call(OPERATOR, router, encode("payoutCharityLeg(address,uint256,bytes32)", ASSOCIATION, amount, FIAT_REF_HASH));
+  assert.equal(res.ok, false);
+  assert.equal(revertSelector(res), selector("AssociationNotAllowed()"));
+  assert.equal(await balanceOf(ASSOCIATION), 0n);
 });

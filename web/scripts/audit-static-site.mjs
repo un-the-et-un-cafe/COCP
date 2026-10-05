@@ -18,8 +18,16 @@ const routes = [
   ['/corrections/', 'corrections/index.html'],
   ['/privacy/', 'privacy/index.html'],
   ['/readiness/', 'readiness/index.html'],
+  ['/readiness/listings-qa/', 'readiness/listings-qa/index.html'],
   ['/sponsors/', 'sponsors/index.html'],
   ['/sponsors/ledger/', 'sponsors/ledger/index.html'],
+  ['/sponsors/sandbox/', 'sponsors/sandbox/index.html'],
+];
+
+/** Static artefacts copied as-is (evidence/print) — tracker + secret scan only. */
+const artefactGlobs = [
+  'evidence/',
+  'print/',
 ];
 
 const trackingSignatures = [
@@ -158,6 +166,20 @@ export async function auditStaticSite(
       `${route}: HTML exceeds ${budgets.routeHtmlBytes} bytes.`,
     );
     auditHtml(html, route);
+    if (route === '/sponsors/sandbox/' || route === '/readiness/listings-qa/') {
+      assert(
+        /name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(html) ||
+          /content=["'][^"']*noindex[^"']*["'][^>]*name=["']robots["']/i.test(html) ||
+          html.includes('noindex'),
+        `${route}: sandbox/QA pages must carry a noindex robots signal.`,
+      );
+    }
+  }
+
+  // Evidence + print artefacts must exist and stay tracker-free (covered by textFiles loop).
+  for (const prefix of artefactGlobs) {
+    const hits = files.filter((f) => fileURLToPath(f).includes(`/${prefix}`) || fileURLToPath(f).includes(`\\${prefix}`));
+    assert(hits.length > 0, `Expected static artefacts under ${prefix}`);
   }
 
   const textFiles = files.filter(({ pathname }) =>

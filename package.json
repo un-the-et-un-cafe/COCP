@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "validate:data": "node scripts/validate-data.mjs && node scripts/validate-sponsor-ledger.mjs && node scripts/validate-activity-ideas.mjs && node scripts/validate-launch-gates.mjs && node scripts/validate-feature-flags.mjs && node scripts/qa-listings.mjs && node scripts/check-locale-parity.mjs",
+    "validate:data": "node scripts/validate-data.mjs && node scripts/validate-sponsor-ledger.mjs && node scripts/validate-activity-ideas.mjs && node scripts/validate-launch-gates.mjs && node scripts/validate-feature-flags.mjs && node scripts/qa-listings.mjs && node scripts/check-locale-parity.mjs && node scripts/validate-settlement-rehearsal.mjs",
     "validate:activities": "node scripts/validate-activity-ideas.mjs",
     "validate:launch": "node scripts/validate-launch-gates.mjs",
     "validate:sponsor-ledger": "node scripts/validate-sponsor-ledger.mjs",
@@ -26,7 +26,9 @@
     "rehearse:settlement": "node scripts/rehearse-settlement-payout.mjs",
     "validate:locales": "node scripts/check-locale-parity.mjs",
     "verify:qr": "node scripts/verify-qr-decode.mjs",
-    "test:contracts": "npm --prefix contracts ci && npm --prefix contracts test"
+    "test:contracts": "npm --prefix contracts ci && npm --prefix contracts test",
+    "validate:settlement-rehearsal": "node scripts/validate-settlement-rehearsal.mjs",
+    "deploy:testnet:guard": "node contracts/scripts/deploy-testnet.mjs"
   },
   "engines": {
     "node": ">=22.13.0"

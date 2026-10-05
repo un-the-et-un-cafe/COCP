@@ -2,7 +2,11 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
 const allowedRecipientTypes = new Set(["local_charity", "founder_housing_support"]);
+// Reject PII / wallet keys on public ledger. Allow settlement_tx_hash, association_label, recipient_label.
 const forbiddenKeys = /email|phone|wallet|address|ipAddress|referral|beneficiaryId|userId/i;
+
+const MODEL_B_LANE = "tradfi_then_base_usdc";
+const TX_HASH_RE = /^0x[0-9a-fA-F]{64}$/;
 
 function requireText(value, label) {
   if (typeof value !== "string" || value.trim() === "") throw new Error(`${label} is required.`);
@@ -26,6 +30,49 @@ function inspectKeys(value, path = "ledger") {
     if (forbiddenKeys.test(key))
       throw new Error(`${path}.${key} is not allowed in the public ledger.`);
     inspectKeys(item, `${path}.${key}`);
+  }
+}
+
+function validateModelBSettlement(row, path) {
+  requireText(row.fiat_payment_ref, `${path}.fiat_payment_ref`);
+  requireCents(row.eur_amount_cents, `${path}.eur_amount_cents`);
+  if (row.eur_amount_cents <= 0) throw new Error(`${path}.eur_amount_cents must be positive.`);
+  requireText(row.campaign_id, `${path}.campaign_id`);
+  if (row.lane !== MODEL_B_LANE) throw new Error(`${path}.lane must be ${MODEL_B_LANE}.`);
+  if (!row.split_90_10 || typeof row.split_90_10 !== "object") {
+    throw new Error(`${path}.split_90_10 is required.`);
+  }
+  requireCents(row.split_90_10.charity_eur_cents, `${path}.split_90_10.charity_eur_cents`);
+  requireCents(row.split_90_10.admin_eur_cents, `${path}.split_90_10.admin_eur_cents`);
+  if (
+    row.split_90_10.charity_eur_cents + row.split_90_10.admin_eur_cents !==
+    row.eur_amount_cents
+  ) {
+    throw new Error(`${path}.split_90_10 must sum to eur_amount_cents.`);
+  }
+  if (!Number.isSafeInteger(row.usdc_amount_micro) || row.usdc_amount_micro < 0) {
+    throw new Error(`${path}.usdc_amount_micro must be a non-negative integer.`);
+  }
+  requireText(row.settlement_tx_hash, `${path}.settlement_tx_hash`);
+  if (!TX_HASH_RE.test(row.settlement_tx_hash)) {
+    throw new Error(`${path}.settlement_tx_hash must be 0x + 64 hex.`);
+  }
+  if (row.synthetic === true) {
+    // ok — sandbox / rehearsal
+  } else if (row.synthetic !== false && row.synthetic !== undefined) {
+    throw new Error(`${path}.synthetic must be boolean when set.`);
+  }
+  if (row.state !== undefined) {
+    const allowed = new Set([
+      "paid",
+      "holding",
+      "cleared",
+      "payout_queued",
+      "settled",
+      "refunded",
+      "disputed",
+    ]);
+    if (!allowed.has(row.state)) throw new Error(`${path}.state is invalid.`);
   }
 }
 
@@ -103,7 +150,29 @@ export function validateSponsorLedger(ledger, now = Date.now()) {
       throw new Error(`recognition[${index}] has expired and must be removed.`);
   }
 
-  return { periods: ledger.periods.length, recognition: ledger.recognition.length };
+  const settlements = ledger.model_b_settlements ?? [];
+  if (!Array.isArray(settlements)) throw new Error("model_b_settlements must be an array.");
+  for (const [index, row] of settlements.entries()) {
+    validateModelBSettlement(row, `model_b_settlements[${index}]`);
+  }
+
+  return {
+    periods: ledger.periods.length,
+    recognition: ledger.recognition.length,
+    model_b_settlements: settlements.length,
+  };
+}
+
+/** Validate a settlement-rehearsal.draft.json document. */
+export function validateSettlementRehearsalDraft(draft) {
+  if (!draft || typeof draft !== "object") throw new Error("rehearsal draft must be an object.");
+  inspectKeys(draft);
+  if (draft.version !== 1) throw new Error("rehearsal draft version must be 1.");
+  if (!Array.isArray(draft.rows)) throw new Error("rehearsal draft rows must be an array.");
+  for (const [index, row] of draft.rows.entries()) {
+    validateModelBSettlement(row, `rows[${index}]`);
+  }
+  return { rows: draft.rows.length };
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
@@ -112,6 +181,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   );
   const result = validateSponsorLedger(ledger);
   console.log(
-    `Validated ${result.periods} sponsor ledger periods and ${result.recognition} consented recognition records.`,
+    `Validated ${result.periods} sponsor ledger periods, ${result.recognition} recognition, ${result.model_b_settlements} Model B settlements.`,
   );
+  const draft = JSON.parse(
+    await readFile(new URL("../web/data/settlement-rehearsal.draft.json", import.meta.url), "utf8"),
+  );
+  const draftResult = validateSettlementRehearsalDraft(draft);
+  console.log(`Validated settlement rehearsal draft: ${draftResult.rows} rows.`);
 }

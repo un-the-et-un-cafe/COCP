@@ -5,7 +5,7 @@ import { SYNTHETIC_RECEIPT, renderEvidenceHtml } from "../scripts/generate-spons
 test("evidence pack includes Model B fiat ref and settlement proof", () => {
   const html = renderEvidenceHtml(SYNTHETIC_RECEIPT, "en");
   assert.match(html, /SYN-CARD-20261005-0001/);
-  assert.match(html, /settlement_tx_hash|0xsandboxdeadbeef/i);
+  assert.match(html, /0x[0-9a-fA-F]{64}/);
   assert.match(html, /90% charity/i);
   assert.match(html, /card or SEPA/i);
   assert.doesNotMatch(html, /we track users|connect wallet to sponsor|pay with crypto to sponsor/i);
@@ -21,7 +21,7 @@ test("AR evidence template is RTL, carries the same proof fields and stays flagg
   assert.match(html, /data-pending-human-review="true"/);
   assert.match(html, /pending_human_review/);
   assert.match(html, /SYN-CARD-20261005-0001/);
-  assert.match(html, /0xsandboxdeadbeef/);
+  assert.match(html, /0x[0-9a-fA-F]{64}/);
   assert.match(html, /SEPA/);
   assert.match(html, /لا يُدَّعى أي خصم ضريبي/);
   assert.doesNotMatch(html, /لاجئ|<img|<script/i);
@@ -34,4 +34,12 @@ test("FR/EN evidence packs do not depend on the AR draft", () => {
     const html = renderEvidenceHtml(SYNTHETIC_RECEIPT, locale);
     assert.doesNotMatch(html, /pending_human_review|dir="rtl"/);
   }
+});
+
+test("FR evidence pack uses French field labels", () => {
+  const html = renderEvidenceHtml(SYNTHETIC_RECEIPT, "fr");
+  assert.match(html, /Reçu TradFi/);
+  assert.match(html, /Montant EUR/);
+  assert.match(html, /BAC À SABLE|DONNÉES SYNTHÉTIQUES/);
+  assert.doesNotMatch(html, />TradFi receipt</);
 });

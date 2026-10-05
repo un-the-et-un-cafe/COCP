@@ -45,3 +45,12 @@ test("SponsorshipRouter.sol encodes Model B payout helper invariants", async () 
   assert.doesNotMatch(src, /delegatecall|upgradeTo|mint\s*\(/i);
   assert.match(src, /NOT a sponsor checkout/i);
 });
+
+test("SponsorshipRouter requires verified association allow-list", async () => {
+  const src = await readFile(new URL("../contracts/src/SponsorshipRouter.sol", import.meta.url), "utf8");
+  assert.match(src, /allowedAssociation/);
+  assert.match(src, /setAssociationAllowed/);
+  assert.match(src, /AssociationNotAllowed/);
+  assert.match(src, /operator/);
+  assert.match(src, /OnChainFeeSettlement/);
+});

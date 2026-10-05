@@ -13,7 +13,7 @@
   "charity_eur_cents": 7110,
   "admin_eur_cents": 790,
   "usdc_amount_micro": 71100000,
-  "settlement_tx_hash": "0xsandboxdeadbeef000000000000000000000000000000000000000000000001",
+  "settlement_tx_hash": "0xadddb0d97534f40e71344bc1e01c1785d8dfb297b709141f5b81709ba654e4bd",
   "settlement_network": "base-sepolia",
   "reconciliation_status": "sandbox_matched",
   "recognition_expires_at": "2027-01-05",
