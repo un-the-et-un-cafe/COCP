@@ -1,12 +1,14 @@
-# Calais Open Commons Requirements
+# Calais Open Commons Protocol Requirements
 
 ## Purpose
 
-Build a free, private, multilingual directory of services in Calais. Source leads must be clearly distinguished from verified services, and the directory must remain useful without an account, wallet, payment, or tracking.
+Build a free, privacy focused, multilingual directory of services in Calais at first and turn it into a whole protocol that provides all tools needed for a moderated "economy within the economy". People in exile, shall have the ability doing voluntary work in exchange for compensation for expenses in the form of cryptocurrency. Sponsors have the opportunity to donate and receive packages with that, thereby supporting such an economy in addition to the productivity made by the people workforce there on a voluntary basis.
+
+Source leads must be clearly distinguished from verified services, and the directory must remain useful without an account, wallet, payment, or tracking.
 
 ## Financial rule
 
-The project may earn revenue from sponsors and institutional services. After refunds, taxes, payment fees, and documented operating costs, 100% of net profit must be donated to named local charities or to me, to get me off the streets. Revenue, costs, allocations, and transfers must be reported publicly in aggregate.
+The project may earn revenue from sponsors and institutional services. After refunds, taxes, payment fees, and documented operating costs, 100% of net profit must be donated to named local charities. Revenue, costs, allocations, and transfers must be reported publicly in aggregate.
 
 ## Current open work
 
