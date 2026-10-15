@@ -24,14 +24,14 @@ export function EmergencyStrip({ locale, headingLevel = 2 }: { locale: Locale; h
         <PhoneIcon /> {t.heading}
       </H>
       <div className="emergency-grid">
+        <a className="call-btn" href="tel:115">
+          <PhoneIcon /> <bdi dir="ltr">115</bdi> <span>{t.b115}</span>
+        </a>
         <a className="call-btn" href="tel:112">
           <PhoneIcon /> <bdi dir="ltr">112</bdi> <span>{t.b112}</span>
         </a>
         <a className="call-btn" href="tel:15">
           <CrossIcon /> <bdi dir="ltr">15</bdi> <span>{t.b15}</span>
-        </a>
-        <a className="call-btn" href="tel:115">
-          <PhoneIcon /> <bdi dir="ltr">115</bdi> <span>{t.b115}</span>
         </a>
         <Link className="call-btn" href="/shelter-tonight">
           <MoonIcon /> <span>{t.tonight}</span>
