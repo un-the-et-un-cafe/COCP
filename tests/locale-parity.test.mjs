@@ -40,3 +40,11 @@ test("RTL set prepares ar/ps/ckb but only fr/en/ar locales are enabled", async (
   assert.match(src, /new Set<string>\(\['ar', 'ps', 'fa', 'ckb'\]\)/);
   assert.match(src, /export type Locale = 'fr' \| 'en' \| 'ar';/);
 });
+
+test("language registry lists 8 languages, only fr/en/ar enabled, RTL for ar/ps/fa/ckb", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const src = await readFile(new URL("../web/app/languages.ts", import.meta.url), "utf8");
+  for (const c of ["fr", "en", "ar", "ps", "fa", "ti", "ckb", "kmr"]) assert.match(src, new RegExp(`code: '${c}'`));
+  const enabled = [...src.matchAll(/code: '(\w+)'[^}]*enabled: true/g)].map((m) => m[1]);
+  assert.deepEqual(enabled, ["fr", "en", "ar"]);
+});
