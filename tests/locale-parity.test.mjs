@@ -37,6 +37,6 @@ test("glossary keys cover service/listing/sponsor/ledger", async () => {
 test("RTL set prepares ar/ps/ckb but only fr/en/ar locales are enabled", async () => {
   const { readFile } = await import("node:fs/promises");
   const src = await readFile(new URL("../web/app/use-locale.ts", import.meta.url), "utf8");
-  assert.match(src, /new Set<string>\(\['ar', 'ps', 'ckb'\]\)/);
+  assert.match(src, /new Set<string>\(\['ar', 'ps', 'fa', 'ckb'\]\)/);
   assert.match(src, /export type Locale = 'fr' \| 'en' \| 'ar';/);
 });

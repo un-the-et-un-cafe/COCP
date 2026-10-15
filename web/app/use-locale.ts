@@ -4,9 +4,9 @@ import { useEffect, useSyncExternalStore } from 'react';
 
 export type Locale = 'fr' | 'en' | 'ar';
 
-/** Right-to-left scripts. ps (Pashto) and ckb (Sorani Kurdish) are prepared for future
+/** Right-to-left scripts. ps (Pashto), fa (Persian) and ckb (Sorani Kurdish) are prepared for future
  *  locales; they are NOT enabled until translations pass human review. */
-export const RTL = new Set<string>(['ar', 'ps', 'ckb']);
+export const RTL = new Set<string>(['ar', 'ps', 'fa', 'ckb']);
 export const isRtl = (locale: string) => RTL.has(locale);
 
 const localeEvent = 'cocp-locale-change';

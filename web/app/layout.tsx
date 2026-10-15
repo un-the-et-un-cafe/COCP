@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: 'Répertoire gratuit de services publics et associatifs à Calais.',
 };
 
-const localeBootstrap = `try{var l=localStorage.getItem('cocp-locale');if(l==='fr'||l==='en'||l==='ar'){var d=document.documentElement;d.lang=l;d.dir=['ar','ps','ckb'].indexOf(l)>-1?'rtl':'ltr'}}catch(e){}`;
+const localeBootstrap = `try{var l=localStorage.getItem('cocp-locale');if(l==='fr'||l==='en'||l==='ar'){var d=document.documentElement;d.lang=l;d.dir=['ar','ps','fa','ckb'].indexOf(l)>-1?'rtl':'ltr'}}catch(e){}`;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
