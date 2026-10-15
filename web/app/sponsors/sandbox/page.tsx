@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import { ArrowLeft, Languages, ShieldAlert } from 'lucide-react';
+import { SplitPreview } from '../../split-preview';
+import { TestnetBanner } from '../../testnet-banner';
 import { isRtl, useLocale, type Locale } from '../../use-locale';
 import flags from '@/data/feature-flags.json';
 
@@ -162,6 +164,7 @@ export default function SponsorSandboxPage() {
           </label>
         </div>
       </header>
+      <TestnetBanner locale={locale} />
 
       <section className="sponsor-hero">
         <h1>{t.title}</h1>
@@ -178,6 +181,7 @@ export default function SponsorSandboxPage() {
       </section>
 
       <section className="sponsor-section sandbox-card">
+        <SplitPreview locale={locale} amountCents={7900} />
         <ol className="sandbox-steps">
           {t.flow.map((step) => (
             <li key={step}>{step}</li>

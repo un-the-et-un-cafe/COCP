@@ -811,7 +811,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:2px so
 }
 /* USDC-on-Base chip (sponsor + transparency pages only) */
 .usdc-proof { display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-2) var(--space-3); margin:var(--space-4) 0; font-size:.875rem; }
-.chain-chip {
+.usdc-chip {
   display:inline-flex;
   align-items:center;
   gap:var(--space-1);
@@ -825,7 +825,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:2px so
   font-size:.8125rem;
 }
 .usdc-proof a { color:var(--brand-dark); font-weight:700; text-decoration:underline; text-underline-offset:.2em; }
-@media (prefers-color-scheme: dark) { .chain-chip { background:#0f2b40; color:#a6dcf5; }
+@media (prefers-color-scheme: dark) { .usdc-chip { background:#0f2b40; color:#a6dcf5; }
 }
 /* RTL: mirror directional icons */
 [dir='rtl'] .lucide-arrow-left,[dir='rtl'] .lucide-arrow-right,[dir='rtl'] .lucide-chevron-left,[dir='rtl'] .lucide-chevron-right { transform:scaleX(-1); }
@@ -893,3 +893,6 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:2px so
   .header-actions .directory-link { padding-inline:var(--space-2); font-size:var(--fs-sm); }
   .language-control { padding:0 var(--space-2); }
 }
+.testnet-banner { margin:0; }
+.split-bar span { display:block; }
+.sandbox-card .split { margin-bottom:var(--space-4); }

@@ -14,7 +14,7 @@ export function UsdcProof({ locale, proofHref }: { locale: Locale; proofHref: st
   const t = labels[locale];
   return (
     <p className="usdc-proof">
-      <span className="chain-chip">
+      <span className="usdc-chip">
         <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
           <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" strokeWidth="1.5" />
           <path d="M8 4v8M5.5 6.5c0-1 1.1-1.6 2.5-1.6s2.5.6 2.5 1.6S9.4 8 8 8s-2.5.6-2.5 1.6 1.1 1.6 2.5 1.6 2.5-.6 2.5-1.6" fill="none" stroke="currentColor" strokeWidth="1.2" />

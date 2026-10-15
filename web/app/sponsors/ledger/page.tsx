@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import ledgerData from '@/data/sponsor-ledger.json';
 import { UsdcProof } from '../../usdc-proof';
+import { TestnetBanner } from '../../testnet-banner';
 import { isRtl, useLocale, type Locale } from '../../use-locale';
 
 type Transfer = {
@@ -204,6 +205,7 @@ export default function SponsorLedgerPage() {
           </label>
         </div>
       </header>
+      <TestnetBanner locale={locale} />
 
       <section className="ledger-shell">
         <div className="ledger-intro">

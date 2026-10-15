@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { UsdcProof } from '../usdc-proof';
+import { TestnetBanner } from '../testnet-banner';
 import { isRtl, useLocale, type Locale } from '../use-locale';
 
 const copy = {
@@ -260,6 +261,7 @@ export default function SponsorsPage() {
           </label>
         </div>
       </header>
+      <TestnetBanner locale={locale} />
 
       <section className="sponsor-hero">
         <p className="eyebrow">{text.eyebrow}</p>
