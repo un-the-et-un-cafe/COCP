@@ -176,7 +176,7 @@ export default function SponsorLedgerPage() {
   return (
     <main className="ledger-page" dir={isRtl(locale) ? 'rtl' : 'ltr'}>
       <header className="site-header">
-        <Link className="brand-block brand-home" href="/">
+        <Link className="brand-block brand-home" href="/" aria-label="Calais">
           <span className="brand-mark" aria-hidden="true">
             C
           </span>

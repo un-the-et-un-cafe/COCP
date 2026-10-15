@@ -138,7 +138,7 @@ export default function SponsorSandboxPage() {
     <main className="sponsor-page" dir={dir} data-locale={locale} data-dir={dir}>
       {/* Defence-in-depth noindex (Netlify headers also set X-Robots-Tag). */}
       <header className="site-header">
-        <Link className="brand-block brand-home" href="/">
+        <Link className="brand-block brand-home" href="/" aria-label="Calais">
           <span className="brand-mark" aria-hidden="true">
             C
           </span>

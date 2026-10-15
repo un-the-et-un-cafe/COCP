@@ -214,7 +214,7 @@ export default function Home() {
         {copy.skip}
       </a>
       <header className="site-header">
-        <div className="brand-block">
+        <Link className="brand-block brand-home" href="/" aria-label="Calais">
           <span className="brand-mark" aria-hidden="true">
             C
           </span>
@@ -222,7 +222,7 @@ export default function Home() {
             <p className="brand-name">Calais Open Commons</p>
             <p className="brand-note">{copy.private_access}</p>
           </div>
-        </div>
+        </Link>
         <div className="header-actions">
           <Link className="changes-link" href="/changes">
             {changeLabels[locale]}
@@ -334,16 +334,6 @@ export default function Home() {
           </div>
         </div>
         <search className="controls">
-          <label className="search-box">
-            <Search size={20} aria-hidden="true" />
-            <span className="sr-only">{copy.search_label}</span>
-            <input
-              type="search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder={copy.search_placeholder}
-            />
-          </label>
           <div className="category-list" aria-label={copy.category_label}>
             {categories.map((item) => (
               <button
@@ -356,6 +346,16 @@ export default function Home() {
               </button>
             ))}
           </div>
+          <label className="search-box">
+            <Search size={20} aria-hidden="true" />
+            <span className="sr-only">{copy.search_label}</span>
+            <input
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder={copy.search_placeholder}
+            />
+          </label>
         </search>
         <p className="result-count" aria-live="polite">
           {visibleListings.length} {copy.results}
