@@ -896,3 +896,4 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:2px so
 .testnet-banner { margin:0; }
 .split-bar span { display:block; }
 .sandbox-card .split { margin-bottom:var(--space-4); }
+@media (min-width:1024px) { .need-grid { grid-template-columns:repeat(auto-fill,minmax(7.5rem,1fr)); } .need-tile { aspect-ratio:auto; min-height:5rem; } }
