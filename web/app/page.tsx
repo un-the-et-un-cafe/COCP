@@ -20,6 +20,10 @@ import fr from '../locales/fr.json';
 import en from '../locales/en.json';
 import ar from '../locales/ar.json';
 import { EmergencyStrip } from './emergency-strip';
+import { NeedIcon, OfflineBanner } from './listing-ui';
+import { LANGUAGES } from './languages';
+import { p1Copy } from './p1-copy';
+import { dataDate } from './p1-shell';
 import { isRtl, useLocale, type Locale } from './use-locale';
 
 type Copy = typeof fr;
@@ -121,6 +125,11 @@ async function sourceHash() {
 
 export default function Home() {
   const [locale, changeLocale] = useLocale();
+  const [firstVisit, setFirstVisit] = useState(false);
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setFirstVisit(localStorage.getItem('cocp-locale') === null));
+    return () => cancelAnimationFrame(frame);
+  }, []);
   const [category, setCategory] = useState<(typeof categories)[number]>('all');
   const [query, setQuery] = useState('');
   const [currentTime, setCurrentTime] = useState(0);
@@ -248,6 +257,21 @@ export default function Home() {
       </header>
 
       <EmergencyStrip locale={locale} headingLevel={1} />
+      <OfflineBanner t={p1Copy[locale]} date={dataDate[locale]} />
+      {firstVisit ? (
+        <section className="directory-shell" aria-labelledby="pick-language">
+          <h2 id="pick-language">{p1Copy[locale].pickLanguage}</h2>
+          <ul className="language-pick">
+            {LANGUAGES.filter((l) => l.enabled).map((l) => (
+              <li key={l.code}>
+                <button type="button" lang={l.code} onClick={() => { changeLocale(l.code as Locale); setFirstVisit(false); }}>
+                  {l.native}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <section
         className="directory-shell"
@@ -314,10 +338,16 @@ export default function Home() {
                 aria-pressed={category === item}
                 onClick={() => setCategory(item)}
               >
+                <NeedIcon id={item} />
                 {copy.categories[item]}
               </button>
             ))}
           </div>
+          <p className="need-open">
+            <Link className="btn-2" href={`/need/?id=${category}`}>
+              <NeedIcon id={category} /> {copy.categories[category]} ›
+            </Link>
+          </p>
           <label className="search-box">
             <Search size={20} aria-hidden="true" />
             <span className="sr-only">{copy.search_label}</span>
@@ -393,6 +423,7 @@ export default function Home() {
                     {copy.map}
                   </a>
                 ) : null}
+                <Link href={`/listing/?id=${listing.id}`}>{p1Copy[locale].details}</Link>
                 <Link href={`/corrections?listing=${listing.id}`}>
                   {correctionLabels[locale]}
                 </Link>
