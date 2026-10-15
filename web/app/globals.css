@@ -928,3 +928,4 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:2px so
 .language-pick button { inline-size:100%; min-height:var(--tap); padding:0 var(--space-4); border:1px solid var(--control-border); border-radius:var(--radius); background:var(--surface); color:var(--foreground); font-size:var(--fs-md); text-align:start; cursor:pointer; }
 .language-pick button:hover { background:var(--muted); }
 .need-open { margin:0 0 var(--space-4); } .need-open svg { inline-size:20px; block-size:20px; }
+.first-visit-pick { display: none; } html.first-visit .first-visit-pick { display: block; }

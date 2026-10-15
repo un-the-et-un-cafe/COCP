@@ -125,11 +125,6 @@ async function sourceHash() {
 
 export default function Home() {
   const [locale, changeLocale] = useLocale();
-  const [firstVisit, setFirstVisit] = useState(false);
-  useEffect(() => {
-    const frame = requestAnimationFrame(() => setFirstVisit(localStorage.getItem('cocp-locale') === null));
-    return () => cancelAnimationFrame(frame);
-  }, []);
   const [category, setCategory] = useState<(typeof categories)[number]>('all');
   const [query, setQuery] = useState('');
   const [currentTime, setCurrentTime] = useState(0);
@@ -258,20 +253,18 @@ export default function Home() {
 
       <EmergencyStrip locale={locale} headingLevel={1} />
       <OfflineBanner t={p1Copy[locale]} date={dataDate[locale]} />
-      {firstVisit ? (
-        <section className="directory-shell" aria-labelledby="pick-language">
+      <section className="directory-shell first-visit-pick" aria-labelledby="pick-language">
           <h2 id="pick-language">{p1Copy[locale].pickLanguage}</h2>
           <ul className="language-pick">
             {LANGUAGES.filter((l) => l.enabled).map((l) => (
               <li key={l.code}>
-                <button type="button" lang={l.code} onClick={() => { changeLocale(l.code as Locale); setFirstVisit(false); }}>
+                <button type="button" lang={l.code} onClick={() => { changeLocale(l.code as Locale); document.documentElement.classList.remove('first-visit'); }}>
                   {l.native}
                 </button>
               </li>
             ))}
           </ul>
         </section>
-      ) : null}
 
       <section
         className="directory-shell"
