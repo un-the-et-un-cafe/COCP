@@ -282,3 +282,80 @@ footer a { color:var(--brand-dark); font-weight:800; }
 @media (max-width:560px) { .site-header{align-items:flex-start}.brand-note{display:none}.header-actions{align-items:stretch;flex-direction:column}.support-link,.changes-link{font-size:.85rem}.language-control{padding:0 .4rem}.listing-card dl{grid-template-columns:1fr}.sponsor-hero{padding-top:3rem}.sponsor-hero h1{font-size:2.5rem}.ledger-shell{padding-top:2.5rem}.ledger-summary,.ledger-breakdown{grid-template-columns:1fr}.directory-link{font-size:.9rem}.changes-shell{padding-top:2.5rem} }
 @media print { .site-header,.controls,.card-actions,footer{display:none!important}.emergency-band{grid-template-columns:1fr 2fr;padding:.5cm}.emergency-actions{grid-template-columns:repeat(3,1fr)}.directory-shell{width:100%;padding:.5cm}.listing-grid{grid-template-columns:repeat(2,1fr);gap:.3cm}.listing-card{break-inside:avoid;box-shadow:none;padding:.35cm} }
 @media (prefers-reduced-motion:reduce) { html{scroll-behavior:auto} *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important} }
+
+/* ==========================================================================
+   v0.3 design system layer (redesign). Calais flag: azure field + white
+   Scandinavian cross. #12a4df is the flag azure (decorative only, 2.9:1 on
+   white); text/actions use deep harbour blues that pass WCAG AA.
+   ========================================================================== */
+:root {
+  color-scheme: light;
+  --flag-azure:#12a4df; --flag-white:#ffffff;
+  --ink-900:#0b1f2c; --ink-700:#334a58; --ink-500:#5b7281; --ink-200:#d9e2e8; --ink-100:#eef2f5; --ink-50:#f7f9fb;
+  --blue-800:#06476b; --blue-700:#075986; --blue-50:#eaf6fc;
+  --background:var(--ink-50); --surface:#fff; --foreground:var(--ink-900); --muted-text:var(--ink-700);
+  --line:var(--ink-200); --brand:var(--flag-azure); --brand-dark:var(--blue-700); --focus:var(--blue-700);
+  --primary:var(--blue-700); --secondary:var(--blue-50); --muted:var(--ink-100); --border:var(--ink-200); --input:#a9b9c4; --ring:var(--flag-azure);
+  --radius-sm:.375rem; --radius:.625rem; --radius-lg:.875rem;
+  --shadow-1:0 1px 2px rgb(11 31 44 / .06),0 1px 1px rgb(11 31 44 / .04);
+  --shadow-2:0 4px 16px -4px rgb(11 31 44 / .12),0 2px 4px rgb(11 31 44 / .05);
+  --space-1:.25rem; --space-2:.5rem; --space-3:.75rem; --space-4:1rem; --space-6:1.5rem; --space-8:2rem; --space-12:3rem;
+  --font-sans:"Inter var",Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+/* Dark theme deferred: page CSS still hardcodes light surfaces (see report). */
+body { font-family:var(--font-sans); font-size:1rem; line-height:1.6; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; font-feature-settings:"cv11","ss01"; }
+h1,h2,h3 { letter-spacing:-.015em; line-height:1.2; text-wrap:balance; color:var(--foreground); }
+h1 { font-weight:700; } h2,h3 { font-weight:650; }
+p { text-wrap:pretty; }
+.eyebrow { text-transform:uppercase; letter-spacing:.08em; font-size:.75rem; font-weight:600; color:var(--brand-dark); }
+
+/* Header: quiet, white, flag stripe on top */
+.site-header { position:sticky; top:0; z-index:40; min-height:68px; background:color-mix(in srgb,var(--surface) 92%,transparent); backdrop-filter:saturate(1.4) blur(8px); border-bottom:1px solid var(--line); box-shadow:inset 0 3px 0 var(--flag-azure); }
+.brand-name { font-weight:700; letter-spacing:-.01em; }
+.brand-note { font-size:.8125rem; }
+/* Custom cross mark: azure field, white Scandinavian cross (own drawing) */
+.brand-mark { width:40px; height:40px; border-radius:var(--radius-sm); font-size:0; color:transparent; box-shadow:var(--shadow-1);
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'%3E%3Crect width='30' height='20' fill='%2312a4df'/%3E%3Cpath d='M8 0h4v20H8zM0 8h30v4H0z' fill='%23fff'/%3E%3C/svg%3E") center/cover; }
+
+/* Buttons & links */
+.support-link,.directory-link,.changes-link,.ledger-link,.submit-correction,.database-retry { border-radius:var(--radius); font-weight:600; transition:background-color .15s var(--ease),border-color .15s var(--ease),color .15s var(--ease),transform .15s var(--ease); }
+.support-link { background:var(--primary); border-color:var(--primary); color:var(--primary-foreground); }
+.support-link:hover { background:var(--blue-800); }
+.directory-link { border-color:var(--line); color:var(--foreground); background:var(--surface); }
+.directory-link:hover,.changes-link:hover { border-color:var(--brand-dark); color:var(--brand-dark); }
+.support-link:active,.directory-link:active,.submit-correction:active { transform:translateY(1px); }
+.language-control { border-radius:var(--radius); border-color:var(--line); }
+input,select,textarea { border-radius:var(--radius-sm); transition:border-color .15s,box-shadow .15s; }
+input:focus-visible,select:focus-visible,textarea:focus-visible { outline:none; border-color:var(--brand-dark); box-shadow:0 0 0 3px color-mix(in srgb,var(--flag-azure) 35%,transparent); }
+:focus-visible { outline:2px solid var(--focus); outline-offset:2px; border-radius:2px; }
+
+/* Emergency band: calm but unmistakable */
+.emergency-band { border-bottom:1px solid #f0cfd2; }
+.emergency-actions a { border-radius:var(--radius); box-shadow:var(--shadow-1); transition:box-shadow .15s var(--ease),transform .15s var(--ease); }
+.emergency-actions a:hover { box-shadow:var(--shadow-2); transform:translateY(-1px); }
+.emergency-actions strong { font-variant-numeric:tabular-nums; font-weight:700; }
+
+/* Cards: one consistent surface */
+.listing-card,.offer-card,.empty-state,.privacy-summary,.readiness-summary,.ledger-summary,.correction-form,.sponsor-section,.allocation-section,.retention-section,.accessibility-review,.export-grid > *,.evidence-grid > *,.privacy-grid > *,.accessibility-grid > *,.activity-grid > *,.ledger-period { background:var(--surface); border:1px solid var(--line) !important; border-radius:var(--radius-lg) !important; box-shadow:var(--shadow-1); }
+.listing-card,.offer-card,.activity-grid > * { transition:box-shadow .2s var(--ease),border-color .2s var(--ease),transform .2s var(--ease); container-type:inline-size; }
+.listing-card:hover,.offer-card:hover,.activity-grid > *:hover { box-shadow:var(--shadow-2); border-color:color-mix(in srgb,var(--flag-azure) 45%,var(--line)) !important; }
+.listing-card:has(a:focus-visible) { border-color:var(--brand-dark) !important; }
+.listing-card h3,.offer-card h3 { font-size:1.0625rem; }
+.status,.pending-label,.gate-status,.activity-card-status,.audit-status { border-radius:999px; font-size:.75rem; font-weight:600; letter-spacing:.01em; }
+.section-heading,.directory-heading { gap:var(--space-2); }
+.search-box input { min-height:48px; }
+@container (max-width: 340px) { .card-actions { flex-direction:column; align-items:stretch; } }
+
+/* Mobile-first header */
+@media (max-width: 720px) {
+  .site-header { flex-wrap:wrap; padding:.75rem 1rem; }
+  .header-actions { width:100%; overflow-x:auto; gap:.5rem; }
+  .emergency-band { grid-template-columns:1fr; }
+  .emergency-actions { grid-template-columns:1fr; }
+}
+@view-transition { navigation:auto; }
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after { transition-duration:.01ms !important; animation-duration:.01ms !important; scroll-behavior:auto !important; }
+  @view-transition { navigation:none; }
+}
