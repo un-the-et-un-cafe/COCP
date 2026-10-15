@@ -49,6 +49,7 @@ test('sponsorship information remains separate and cannot collect payment', () =
 test('Model B copy follows the 100% net-profit financial rule', () => {
   assert.match(requirements, /100% of net profit must be donated to named local charities/i);
   assert.doesNotMatch(requirements, /or to me|get me off the streets|founder housing support/i);
+  assert.match(requirements, /never ranked or changed by payment/i);
   assert.match(
     sponsorPage,
     /90% reaches verified Calais associations as USDC on Base \(public transaction hash on the ledger\); up to 10% covers documented project costs only.*100% of net profit is donated/i,
