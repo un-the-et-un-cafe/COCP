@@ -37,7 +37,11 @@ const REQUIRED_FLAGS = [
   "voucher_pilot",
   "activity_intake",
   "activity_payments",
+  "voluntary_work_expense_compensation",
 ];
+
+/** Flags that stay false until their named launch gates (and all gates) pass. Deny by default. */
+const GATE_LINKED_FLAGS = { voluntary_work_expense_compensation: ["G1", "G2"] };
 
 function fail(message) {
   throw new Error(`Feature flag validation failed: ${message}`);
@@ -62,6 +66,20 @@ export function validateFeatureFlags(flagsDoc, launchRegister, now = Date.now(),
 
   if (anyGatedPaymentTrue && !gatesComplete) {
     fail("payments_* / activity_payments cannot be true while launch gates are incomplete.");
+  }
+
+  for (const [key, required] of Object.entries(GATE_LINKED_FLAGS)) {
+    const linked = flagsDoc.flag_gates?.[key];
+    if (!Array.isArray(linked) || !required.every((id) => linked.includes(id))) {
+      fail(`${key} must be linked to launch gates ${required.join(", ")} in flag_gates.`);
+    }
+    for (const id of linked) {
+      if (!launchRegister.gates.some((g) => g.id === id)) fail(`${key} links unknown launch gate ${id}.`);
+    }
+    if (flagsDoc.flags[key] === true) {
+      const open = linked.every((id) => launchRegister.gates.find((g) => g.id === id)?.status === "passed");
+      if (!open || !gatesComplete) fail(`${key} cannot be true until launch gates ${linked.join(", ")} (and all gates) have passed.`);
+    }
   }
 
   if (flagsDoc.flags.payments_base_mainnet === true) {

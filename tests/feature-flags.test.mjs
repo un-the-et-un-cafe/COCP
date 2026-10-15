@@ -66,3 +66,17 @@ test("payments_base_mainnet is always rejected in this slice", () => {
   bad.flags.payments_base_mainnet = true;
   assert.throws(() => validateFeatureFlags(bad, copyRegister()), /mainnet|cannot be true|must stay false/i);
 });
+
+test("voluntary_work_expense_compensation is fail-closed and gate-linked", () => {
+  assert.equal(flagsDoc.flags.voluntary_work_expense_compensation, false);
+  assert.deepEqual(flagsDoc.flag_gates.voluntary_work_expense_compensation, ["G1", "G2"]);
+  const on = copyFlags();
+  on.flags.voluntary_work_expense_compensation = true;
+  assert.throws(() => validateFeatureFlags(on, register), /voluntary_work_expense_compensation cannot be true/);
+  const unlinked = copyFlags();
+  delete unlinked.flag_gates;
+  assert.throws(() => validateFeatureFlags(unlinked, register), /must be linked to launch gates/);
+  const unknown = copyFlags();
+  unknown.flag_gates.voluntary_work_expense_compensation = ["G1", "G2", "G99"];
+  assert.throws(() => validateFeatureFlags(unknown, register), /unknown launch gate G99/);
+});
