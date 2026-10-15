@@ -9,7 +9,8 @@ import {
   ShieldCheck,
   TriangleAlert,
 } from 'lucide-react';
-import { useLocale, type Locale } from '../use-locale';
+import { EmergencyStrip } from '../emergency-strip';
+import { isRtl, useLocale, type Locale } from '../use-locale';
 
 const copy = {
   fr: {
@@ -115,7 +116,7 @@ export default function AccessibilityPage() {
   const text = copy[locale];
 
   return (
-    <main className="accessibility-page" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+    <main className="accessibility-page" dir={isRtl(locale) ? 'rtl' : 'ltr'}>
       <a className="skip-link" href="#accessibility-content">
         {locale === 'fr'
           ? 'Aller au contenu'
@@ -124,7 +125,7 @@ export default function AccessibilityPage() {
             : 'الانتقال إلى المحتوى'}
       </a>
       <header className="site-header">
-        <Link className="brand-block brand-home" href="/">
+        <Link className="brand-block brand-home" href="/" aria-label="Calais">
           <span className="brand-mark" aria-hidden="true">
             C
           </span>
@@ -152,6 +153,7 @@ export default function AccessibilityPage() {
           </label>
         </div>
       </header>
+      <EmergencyStrip locale={locale} />
 
       <section className="accessibility-shell" id="accessibility-content">
         <div className="accessibility-intro">

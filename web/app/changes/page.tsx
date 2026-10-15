@@ -9,7 +9,8 @@ import {
   Languages,
 } from 'lucide-react';
 import history from '@/data/release-history.json';
-import { useLocale, type Locale } from '../use-locale';
+import { EmergencyStrip } from '../emergency-strip';
+import { isRtl, useLocale, type Locale } from '../use-locale';
 
 type ReleaseSummary = {
   release_id: string;
@@ -124,9 +125,9 @@ export default function ChangesPage() {
   const text = copy[locale];
 
   return (
-    <main className="changes-page" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+    <main className="changes-page" dir={isRtl(locale) ? 'rtl' : 'ltr'}>
       <header className="site-header">
-        <Link className="brand-block brand-home" href="/">
+        <Link className="brand-block brand-home" href="/" aria-label="Calais">
           <span className="brand-mark" aria-hidden="true">
             C
           </span>
@@ -154,6 +155,7 @@ export default function ChangesPage() {
           </label>
         </div>
       </header>
+      <EmergencyStrip locale={locale} />
 
       <section className="changes-shell">
         <div className="changes-intro">

@@ -2,7 +2,9 @@
 
 import Link from 'next/link';
 import { ArrowLeft, Languages, ShieldAlert } from 'lucide-react';
-import { useLocale, type Locale } from '../../use-locale';
+import { SplitPreview } from '../../split-preview';
+import { TestnetBanner } from '../../testnet-banner';
+import { isRtl, useLocale, type Locale } from '../../use-locale';
 import flags from '@/data/feature-flags.json';
 
 const panel: Record<Locale, { title: string; active: string; card: string; sepa: string; idle: string; counsel: string }> = {
@@ -132,13 +134,13 @@ export default function SponsorSandboxPage() {
   const cardTest = Boolean(f.payments_card_testmode_ui);
   const sepaTest = Boolean(f.payments_sepa_testmode_ui);
   const testCheckout = cardTest || sepaTest;
-  const dir = locale === 'ar' ? 'rtl' : 'ltr';
+  const dir = isRtl(locale) ? 'rtl' : 'ltr';
 
   return (
     <main className="sponsor-page" dir={dir} data-locale={locale} data-dir={dir}>
       {/* Defence-in-depth noindex (Netlify headers also set X-Robots-Tag). */}
       <header className="site-header">
-        <Link className="brand-block brand-home" href="/">
+        <Link className="brand-block brand-home" href="/" aria-label="Calais">
           <span className="brand-mark" aria-hidden="true">
             C
           </span>
@@ -162,6 +164,7 @@ export default function SponsorSandboxPage() {
           </label>
         </div>
       </header>
+      <TestnetBanner locale={locale} />
 
       <section className="sponsor-hero">
         <h1>{t.title}</h1>
@@ -178,6 +181,7 @@ export default function SponsorSandboxPage() {
       </section>
 
       <section className="sponsor-section sandbox-card">
+        <SplitPreview locale={locale} amountCents={7900} />
         <ol className="sandbox-steps">
           {t.flow.map((step) => (
             <li key={step}>{step}</li>

@@ -10,7 +10,8 @@ import {
   MapPinned,
   MessageSquareWarning,
 } from 'lucide-react';
-import { useLocale, type Locale } from '../use-locale';
+import { EmergencyStrip } from '../emergency-strip';
+import { isRtl, useLocale, type Locale } from '../use-locale';
 
 const copy = {
   fr: {
@@ -174,12 +175,18 @@ const sectionIcons = [
   LockKeyhole,
 ];
 
+const privacyLead: Record<Locale, string> = {
+  fr: 'Nous ne vous suivons pas. Pas de compte. Pas de cookies.',
+  en: 'We do not track you. No account. No cookies.',
+  ar: 'We do not track you. No account. No cookies.',
+};
+
 export default function PrivacyPage() {
   const [locale, setLocale] = useLocale();
   const text = copy[locale];
 
   return (
-    <main className="privacy-page" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+    <main className="privacy-page" dir={isRtl(locale) ? 'rtl' : 'ltr'}>
       <a className="skip-link" href="#privacy-content">
         {locale === 'fr'
           ? 'Aller au contenu'
@@ -188,7 +195,7 @@ export default function PrivacyPage() {
             : 'الانتقال إلى المحتوى'}
       </a>
       <header className="site-header">
-        <Link className="brand-block brand-home" href="/">
+        <Link className="brand-block brand-home" href="/" aria-label="Calais">
           <span className="brand-mark" aria-hidden="true">
             C
           </span>
@@ -216,11 +223,13 @@ export default function PrivacyPage() {
           </label>
         </div>
       </header>
+      <EmergencyStrip locale={locale} />
 
       <section className="privacy-shell" id="privacy-content">
         <div className="privacy-intro">
           <p className="eyebrow">{text.eyebrow}</p>
           <h1>{text.title}</h1>
+          <p className="privacy-lead">{privacyLead[locale]}</p>
           <p>{text.intro}</p>
         </div>
 

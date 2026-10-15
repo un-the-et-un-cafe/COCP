@@ -15,14 +15,14 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   NativeSelect,
   NativeSelectOption,
 } from '@/components/ui/native-select';
 import { Textarea } from '@/components/ui/textarea';
 import directoryListings from '@/data/listings.json';
-import { useLocale, type Locale } from '../use-locale';
+import { EmergencyStrip } from '../emergency-strip';
+import { isRtl, useLocale, type Locale } from '../use-locale';
 
 type Language = Locale;
 type ReportType =
@@ -277,9 +277,9 @@ export default function CorrectionsPage() {
   }
 
   return (
-    <main dir={language === 'ar' ? 'rtl' : 'ltr'} className="correction-page">
+    <main dir={isRtl(language) ? 'rtl' : 'ltr'} className="correction-page">
       <header className="site-header">
-        <Link className="brand-block brand-home" href="/">
+        <Link className="brand-block brand-home" href="/" aria-label="Calais">
           <span className="brand-mark" aria-hidden="true">
             C
           </span>
@@ -293,6 +293,7 @@ export default function CorrectionsPage() {
           {text.back}
         </Link>
       </header>
+      <EmergencyStrip locale={language} />
       <section className="correction-shell">
         <div className="correction-intro">
           <p className="eyebrow">{text.eyebrow}</p>
@@ -372,11 +373,11 @@ export default function CorrectionsPage() {
             />
           </label>
           <label className="privacy-confirm">
-            <Checkbox
+            <input
+              type="checkbox"
+              className="checkbox"
               checked={privacyConfirmed}
-              onCheckedChange={(checked) =>
-                setPrivacyConfirmed(checked === true)
-              }
+              onChange={(event) => setPrivacyConfirmed(event.target.checked)}
             />
             <span>{text.confirm}</span>
           </label>

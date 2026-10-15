@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import report from '@/data/qa-report.json';
-import { useLocale, type Locale } from '../../use-locale';
+import { isRtl, useLocale, type Locale } from '../../use-locale';
 
 const copy: Record<Locale, { title: string; back: string; note: string }> = {
   fr: {
@@ -37,7 +37,7 @@ export default function ListingsQaPage() {
   };
 
   return (
-    <main className="readiness-page" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+    <main className="readiness-page" dir={isRtl(locale) ? 'rtl' : 'ltr'}>
       <Link href="/readiness">
         <ArrowLeft size={16} aria-hidden /> {t.back}
       </Link>

@@ -10,7 +10,9 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import ledgerData from '@/data/sponsor-ledger.json';
-import { useLocale, type Locale } from '../../use-locale';
+import { UsdcProof } from '../../usdc-proof';
+import { TestnetBanner } from '../../testnet-banner';
+import { isRtl, useLocale, type Locale } from '../../use-locale';
 
 type Transfer = {
   recipient_label: string;
@@ -173,9 +175,9 @@ export default function SponsorLedgerPage() {
   );
 
   return (
-    <main className="ledger-page" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+    <main className="ledger-page" dir={isRtl(locale) ? 'rtl' : 'ltr'}>
       <header className="site-header">
-        <Link className="brand-block brand-home" href="/">
+        <Link className="brand-block brand-home" href="/" aria-label="Calais">
           <span className="brand-mark" aria-hidden="true">
             C
           </span>
@@ -203,12 +205,14 @@ export default function SponsorLedgerPage() {
           </label>
         </div>
       </header>
+      <TestnetBanner locale={locale} />
 
       <section className="ledger-shell">
         <div className="ledger-intro">
           <p className="eyebrow">{text.eyebrow}</p>
           <h1>{text.title}</h1>
           <p>{text.intro}</p>
+          <UsdcProof locale={locale} proofHref={`/evidence/evidence-pack.synthetic.${locale}.html`} />
           <div className="disabled-notice">
             <ShieldCheck size={20} aria-hidden="true" />
             <span>{text.disabled}</span>

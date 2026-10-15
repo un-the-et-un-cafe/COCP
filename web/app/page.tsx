@@ -19,10 +19,20 @@ import candidateListings from '../data/listings.json';
 import fr from '../locales/fr.json';
 import en from '../locales/en.json';
 import ar from '../locales/ar.json';
-import { useLocale, type Locale } from './use-locale';
+import { EmergencyStrip } from './emergency-strip';
+import { NeedIcon, OfflineBanner } from './listing-ui';
+import { LANGUAGES } from './languages';
+import { p1Copy } from './p1-copy';
+import { dataDate } from './p1-shell';
+import { isRtl, useLocale, type Locale } from './use-locale';
 
 type Copy = typeof fr;
 const copies: Record<Locale, Copy> = { fr, en, ar };
+const needsTitle: Record<Locale, string> = {
+  fr: 'De quoi avez-vous besoin ?',
+  en: 'What do you need?',
+  ar: 'What do you need?',
+};
 const supportLabels: Record<Locale, string> = {
   fr: 'Financer la vérification',
   en: 'Fund verification',
@@ -208,12 +218,12 @@ export default function Home() {
   }, [category, currentTime, locale, query]);
 
   return (
-    <main dir={locale === 'ar' ? 'rtl' : 'ltr'} className="page">
+    <main dir={isRtl(locale) ? 'rtl' : 'ltr'} className="page">
       <a className="skip-link" href="#services">
         {copy.skip}
       </a>
       <header className="site-header">
-        <div className="brand-block">
+        <Link className="brand-block brand-home" href="/" aria-label="Calais">
           <span className="brand-mark" aria-hidden="true">
             C
           </span>
@@ -221,13 +231,10 @@ export default function Home() {
             <p className="brand-name">Calais Open Commons</p>
             <p className="brand-note">{copy.private_access}</p>
           </div>
-        </div>
+        </Link>
         <div className="header-actions">
           <Link className="changes-link" href="/changes">
             {changeLabels[locale]}
-          </Link>
-          <Link className="support-link" href="/sponsors">
-            {supportLabels[locale]}
           </Link>
           <label className="language-control">
             <Languages size={19} aria-hidden="true" />
@@ -244,29 +251,20 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="emergency-band" aria-labelledby="emergency-title">
-        <div className="emergency-intro">
-          <AlertTriangle size={24} aria-hidden="true" />
-          <div>
-            <h1 id="emergency-title">{copy.emergency_title}</h1>
-            <p>{copy.emergency_note}</p>
-          </div>
-        </div>
-        <div className="emergency-actions">
-          <a href="tel:112">
-            <strong>112</strong>
-            <span>{copy.emergency_general}</span>
-          </a>
-          <a href="tel:115">
-            <strong>115</strong>
-            <span>{copy.emergency_shelter}</span>
-          </a>
-          <a href="tel:15">
-            <strong>15</strong>
-            <span>{copy.emergency_medical}</span>
-          </a>
-        </div>
-      </section>
+      <EmergencyStrip locale={locale} headingLevel={1} />
+      <OfflineBanner t={p1Copy[locale]} date={dataDate[locale]} />
+      <section className="directory-shell first-visit-pick" aria-labelledby="pick-language">
+          <h2 id="pick-language">{p1Copy[locale].pickLanguage}</h2>
+          <ul className="language-pick">
+            {LANGUAGES.filter((l) => l.enabled).map((l) => (
+              <li key={l.code}>
+                <button type="button" lang={l.code} onClick={() => { changeLocale(l.code as Locale); document.documentElement.classList.remove('first-visit'); }}>
+                  {l.native}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
 
       <section
         className="directory-shell"
@@ -323,6 +321,26 @@ export default function Home() {
           </div>
         </div>
         <search className="controls">
+          <h2 className="needs-title">{needsTitle[locale]}</h2>
+          <div className="need-grid" aria-label={copy.category_label}>
+            {categories.map((item) => (
+              <button
+                key={item}
+                type="button"
+                className="need-tile"
+                aria-pressed={category === item}
+                onClick={() => setCategory(item)}
+              >
+                <NeedIcon id={item} />
+                {copy.categories[item]}
+              </button>
+            ))}
+          </div>
+          <p className="need-open">
+            <Link className="btn-2" href={`/need/?id=${category}`}>
+              <NeedIcon id={category} /> {copy.categories[category]} ›
+            </Link>
+          </p>
           <label className="search-box">
             <Search size={20} aria-hidden="true" />
             <span className="sr-only">{copy.search_label}</span>
@@ -333,18 +351,6 @@ export default function Home() {
               placeholder={copy.search_placeholder}
             />
           </label>
-          <div className="category-list" aria-label={copy.category_label}>
-            {categories.map((item) => (
-              <button
-                key={item}
-                type="button"
-                aria-pressed={category === item}
-                onClick={() => setCategory(item)}
-              >
-                {copy.categories[item]}
-              </button>
-            ))}
-          </div>
         </search>
         <p className="result-count" aria-live="polite">
           {visibleListings.length} {copy.results}
@@ -410,6 +416,7 @@ export default function Home() {
                     {copy.map}
                   </a>
                 ) : null}
+                <Link href={`/listing/?id=${listing.id}`}>{p1Copy[locale].details}</Link>
                 <Link href={`/corrections?listing=${listing.id}`}>
                   {correctionLabels[locale]}
                 </Link>
@@ -424,6 +431,8 @@ export default function Home() {
       <footer>
         <ShieldCheck size={20} aria-hidden="true" />
         <p>{copy.footer_privacy}</p>
+        <Link href="/changes">{changeLabels[locale]}</Link>
+        <Link href="/sponsors">{supportLabels[locale]}</Link>
         <Link href="/readiness">{readinessLabels[locale]}</Link>
         <Link href="/activities">{activityLabels[locale]}</Link>
         <Link href="/privacy">{privacyLabels[locale]}</Link>

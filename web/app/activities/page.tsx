@@ -10,7 +10,8 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import registerData from '@/data/activity-ideas.json';
-import { useLocale, type Locale } from '../use-locale';
+import { EmergencyStrip } from '../emergency-strip';
+import { isRtl, useLocale, type Locale } from '../use-locale';
 
 type ActivityIdea = {
   id: string;
@@ -250,7 +251,7 @@ export default function ActivitiesPage() {
   const text = copy[locale];
 
   return (
-    <main className="activities-page" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+    <main className="activities-page" dir={isRtl(locale) ? 'rtl' : 'ltr'}>
       <a className="skip-link" href="#activity-content">
         {locale === 'fr'
           ? 'Aller au contenu'
@@ -259,7 +260,7 @@ export default function ActivitiesPage() {
             : 'الانتقال إلى المحتوى'}
       </a>
       <header className="site-header">
-        <Link className="brand-block brand-home" href="/">
+        <Link className="brand-block brand-home" href="/" aria-label="Calais">
           <span className="brand-mark" aria-hidden="true">
             C
           </span>
@@ -287,6 +288,7 @@ export default function ActivitiesPage() {
           </label>
         </div>
       </header>
+      <EmergencyStrip locale={locale} />
 
       <section className="activities-shell" id="activity-content">
         <div className="activities-intro">

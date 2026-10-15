@@ -9,7 +9,9 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import Link from 'next/link';
-import { useLocale, type Locale } from '../use-locale';
+import { UsdcProof } from '../usdc-proof';
+import { TestnetBanner } from '../testnet-banner';
+import { isRtl, useLocale, type Locale } from '../use-locale';
 
 const copy = {
   fr: {
@@ -57,7 +59,7 @@ const copy = {
       'Pour chaque sponsoring après clôture des remboursements : 90 % vont à des associations Calais vérifiées en USDC sur Base (hash de transaction public au registre) ; jusqu’à 10 % couvrent uniquement les coûts documentés du projet, en EUR. Tout reliquat non utilisé va à des associations locales nommées : 100 % du bénéfice net leur est reversé et publié.',
     allocations: [
       'Associations Calais vérifiées (USDC sur Base)',
-      'Administration (EUR)',
+      'Jusqu’à 10 % pour les coûts documentés (EUR) ; le reste va à des associations locales nommées',
     ],
     pendingReview: '',
     evidenceEyebrow: 'Preuves et limites',
@@ -126,7 +128,7 @@ const copy = {
       'Of each sponsorship after the refund window closes: 90% reaches verified Calais associations as USDC on Base (public transaction hash on the ledger); up to 10% covers documented project costs only, in EUR. Any unused remainder goes to named local charities: 100% of net profit is donated and reported publicly.',
     allocations: [
       'Verified Calais associations (USDC on Base)',
-      'Administration (EUR)',
+      'Up to 10% for documented costs (EUR), the rest goes to named charities',
     ],
     pendingReview: '',
     evidenceEyebrow: 'Evidence and limits',
@@ -195,7 +197,7 @@ const copy = {
       'بعد إغلاق نافذة الاسترداد لكل رعاية: يذهب 90٪ إلى جمعيات كاليه الموثّقة كـ USDC على Base (مع هاش معاملة عام في السجل)؛ وحتى 10٪ تغطي فقط تكاليف المشروع الموثّقة باليورو. أي فائض غير مستخدم يذهب إلى جمعيات محلية مسمّاة: يُتبرَّع بـ100٪ من صافي الربح ويُنشر علنًا.',
     allocations: [
       'جمعيات كاليه الموثّقة (USDC على Base)',
-      'الإدارة (EUR)',
+      'Up to 10% for documented costs (EUR), the rest goes to named charities',
     ],
     pendingReview:
       'مسودة ترجمة أولية — بانتظار مراجعة بشرية (pending_human_review). لا تُستخدم خارج التجربة قبل المراجعة.',
@@ -229,9 +231,9 @@ export default function SponsorsPage() {
   const text = copy[locale];
 
   return (
-    <main className="sponsor-page" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+    <main className="sponsor-page" dir={isRtl(locale) ? 'rtl' : 'ltr'}>
       <header className="site-header">
-        <Link className="brand-block brand-home" href="/">
+        <Link className="brand-block brand-home" href="/" aria-label="Calais">
           <span className="brand-mark" aria-hidden="true">
             C
           </span>
@@ -259,6 +261,7 @@ export default function SponsorsPage() {
           </label>
         </div>
       </header>
+      <TestnetBanner locale={locale} />
 
       <section className="sponsor-hero">
         <p className="eyebrow">{text.eyebrow}</p>
@@ -324,6 +327,7 @@ export default function SponsorsPage() {
             <dd>{text.allocations[1]}</dd>
           </div>
         </dl>
+        <UsdcProof locale={locale} proofHref="/sponsors/ledger" />
       </section>
 
       <section className="sponsor-section" aria-labelledby="evidence-title">

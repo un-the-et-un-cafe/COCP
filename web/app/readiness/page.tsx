@@ -10,7 +10,7 @@ import {
   ShieldAlert,
 } from 'lucide-react';
 import gateData from '@/data/launch-gates.json';
-import { useLocale, type Locale } from '../use-locale';
+import { isRtl, useLocale, type Locale } from '../use-locale';
 
 type LaunchGate = {
   id: string;
@@ -169,7 +169,7 @@ export default function ReadinessPage() {
   ).length;
 
   return (
-    <main className="readiness-page" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+    <main className="readiness-page" dir={isRtl(locale) ? 'rtl' : 'ltr'}>
       <a className="skip-link" href="#readiness-content">
         {locale === 'fr'
           ? 'Aller au contenu'
@@ -178,7 +178,7 @@ export default function ReadinessPage() {
             : 'الانتقال إلى المحتوى'}
       </a>
       <header className="site-header">
-        <Link className="brand-block brand-home" href="/">
+        <Link className="brand-block brand-home" href="/" aria-label="Calais">
           <span className="brand-mark" aria-hidden="true">
             C
           </span>
