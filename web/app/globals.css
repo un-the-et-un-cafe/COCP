@@ -349,7 +349,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:none; 
 
 /* Mobile-first header */
 @media (max-width: 720px) {
-  .site-header { flex-wrap:wrap; padding:.75rem 1rem; }
+  .site-header { position:static; flex-wrap:wrap; padding:.75rem 1rem; }
   .header-actions { width:100%; overflow-x:auto; gap:.5rem; }
   .emergency-band { grid-template-columns:1fr; }
   .emergency-actions { grid-template-columns:1fr; }
