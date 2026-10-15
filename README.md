@@ -2,7 +2,7 @@
 
 Privacy-first, multilingual service information for Calais, with sponsorship and activity features isolated behind legal, safeguarding, payment, and verification gates.
 
-The active requirements and backlog are in `requirements.md`. `Calais_Open_Commons_Protocol_Master_Requirements.docx` is superseded (see `docs/SUPERSEDED-Master-Requirements.md`): Model B is EUR sponsor pay → 90% USDC on Base via authorised CASP / 10% admin EUR; Base testnet only, no mainnet router. This repository currently implements an emergency-first directory, persistent French/English/Arabic navigation across every public route, an unverified Appendix A transcription, a separate disabled-by-default sponsorship surface with an aggregate public ledger, a privacy-limited anonymous correction queue, a deny-by-default Activity Idea Lab planning register, a public fail-closed launch-readiness register, multilingual accessibility and privacy status pages, data validation, and prohibited-feature tests.
+The active requirements and backlog are in `requirements.md`. `Calais_Open_Commons_Protocol_Master_Requirements.docx` is superseded (see `docs/SUPERSEDED-Master-Requirements.md`): Model B is EUR sponsor pay → 90% USDC on Base via authorised CASP / admin ≤10% EUR capped at documented costs, remainder to named charities (100% of net profit); Base testnet only, no mainnet router. This repository currently implements an emergency-first directory, persistent French/English/Arabic navigation across every public route, an unverified Appendix A transcription, a separate disabled-by-default sponsorship surface with an aggregate public ledger, a privacy-limited anonymous correction queue, a deny-by-default Activity Idea Lab planning register, a public fail-closed launch-readiness register, multilingual accessibility and privacy status pages, data validation, and prohibited-feature tests.
 
 ## Current safety posture
 
@@ -37,7 +37,7 @@ Public launch and payments remain blocked until the owners and evidence for gate
 
 ## Settlement Model B (v0.1.1)
 
-Sponsors pay by **card/SEPA in EUR**. After settlement and the refund window, **90%** settles as **USDC on Base** to a verified association wallet (public tx hash on the ledger); **10% admin may stay EUR**. Help-seekers never see wallets or checkout.
+Sponsors pay by **card/SEPA in EUR**. After settlement and the refund window, **90%** settles as **USDC on Base** to a verified association wallet (public tx hash on the ledger); **up to 10% may stay EUR for documented costs only**; any unused remainder goes to named local charities (100% of net profit, reported publicly). Voluntary-work expense compensation is gated and deny-by-default (docs only, nothing live). Help-seekers never see wallets or checkout.
 
 - Sandbox: `/sponsors/sandbox` (documentary until flags + gates allow testnet UI)
 - Mainnet requires **G9 + Jakob explicit confirm**

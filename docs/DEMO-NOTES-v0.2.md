@@ -2,7 +2,7 @@
 
 **Branch:** `browney/v0.2-wp0-g-k`  
 **Payments:** production lanes **false**; launch gates **0/12 blocked**.  
-**H-1 done:** Model B 90/10 sponsor copy (FR/EN/AR); legacy housing-support recipient type removed from ledger allow-list. **Still deferred for Jakob:** Base Sepolia real deploy.
+**H-1 done:** Model B sponsor copy (≥90% associations, admin ≤10% capped at documented costs) (FR/EN/AR); legacy housing-support recipient type removed from ledger allow-list. **Still deferred for Jakob:** Base Sepolia real deploy.
 
 ## Demo path (sandbox)
 
@@ -14,4 +14,4 @@
 
 ## Hard bans unchanged
 
-No project token, no beneficiary wallets on public routes, no crypto wages without work rights, no profiling, no association outreach, no mainnet.
+No project token, no beneficiary wallets on public routes, no profiling, no association outreach, no mainnet. Voluntary-work **expense compensation** (not wages) is a gated, deny-by-default model: documentation and copy only, nothing live, disabled until legal review, safeguarding and launch gates pass.

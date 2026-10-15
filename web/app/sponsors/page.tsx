@@ -25,7 +25,7 @@ const copy = {
       'L’entité responsable, la facturation, les comptes et les procédures de remboursement doivent d’abord être approuvés.',
     ledger: 'Consulter le registre public',
     sandbox: 'Bac à sable Model B (testnet)',
-    evidence: 'Exemple de pack de preuves (synthétique)',
+    evidenceLink: 'Exemple de pack de preuves (synthétique)',
     offersEyebrow: 'Offres fixes',
     offersTitle: 'Choisissez le résultat à financer',
     pending: 'Ouverture après validation',
@@ -52,9 +52,9 @@ const copy = {
     allocationEyebrow: 'Règle financière',
     allocationTitle: 'Chaque euro doit être traçable',
     allocationIntro:
-      'Règlement Model B : les sponsors paient en euros (carte / SEPA). Après la fenêtre de remboursement, chaque sponsoring est partagé 90 / 10.',
+      'Règlement Model B : les sponsors paient en euros (carte / SEPA). Après la fenêtre de remboursement, au moins 90 % vont aux associations ; la part d’administration est plafonnée à 10 % et aux coûts documentés.',
     allocationRule:
-      'Pour chaque sponsoring après clôture des remboursements : 90 % vont à des associations Calais vérifiées en USDC sur Base (hash de transaction public au registre) ; 10 % correspondent à l’administration du projet et restent en EUR.',
+      'Pour chaque sponsoring après clôture des remboursements : 90 % vont à des associations Calais vérifiées en USDC sur Base (hash de transaction public au registre) ; jusqu’à 10 % couvrent uniquement les coûts documentés du projet, en EUR. Tout reliquat non utilisé va à des associations locales nommées : 100 % du bénéfice net leur est reversé et publié.',
     allocations: [
       'Associations Calais vérifiées (USDC sur Base)',
       'Administration (EUR)',
@@ -94,7 +94,7 @@ const copy = {
       'The responsible entity, invoicing, accounts and refund procedures must be approved first.',
     ledger: 'View the public ledger',
     sandbox: 'Model B sandbox (testnet)',
-    evidence: 'Example evidence pack (synthetic)',
+    evidenceLink: 'Example evidence pack (synthetic)',
     offersEyebrow: 'Fixed offers',
     offersTitle: 'Choose the result to fund',
     pending: 'Opens after approval',
@@ -121,9 +121,9 @@ const copy = {
     allocationEyebrow: 'Financial rule',
     allocationTitle: 'Every euro must be traceable',
     allocationIntro:
-      'Model B settlement: sponsors pay in euros (card / SEPA). After the refund window, each sponsorship is split 90 / 10.',
+      'Model B settlement: sponsors pay in euros (card / SEPA). After the refund window, at least 90% goes to associations; the admin share is capped at 10% and at documented costs.',
     allocationRule:
-      'Of each sponsorship after the refund window closes: 90% reaches verified Calais associations as USDC on Base (public transaction hash on the ledger); 10% is project administration and remains in EUR.',
+      'Of each sponsorship after the refund window closes: 90% reaches verified Calais associations as USDC on Base (public transaction hash on the ledger); up to 10% covers documented project costs only, in EUR. Any unused remainder goes to named local charities: 100% of net profit is donated and reported publicly.',
     allocations: [
       'Verified Calais associations (USDC on Base)',
       'Administration (EUR)',
@@ -163,7 +163,7 @@ const copy = {
       'يجب أولاً اعتماد الجهة المسؤولة والفواتير والحسابات وإجراءات الاسترداد.',
     ledger: 'عرض السجل العام',
     sandbox: 'بيئة Model B (اختبار)',
-    evidence: 'مثال حزمة الأدلة (اصطناعي)',
+    evidenceLink: 'مثال حزمة الأدلة (اصطناعي)',
     offersEyebrow: 'عروض ثابتة',
     offersTitle: 'اختر النتيجة التي تريد تمويلها',
     pending: 'يتاح بعد الاعتماد',
@@ -192,7 +192,7 @@ const copy = {
     allocationIntro:
       'تسوية النموذج B: يدفع الرعاة باليورو (بطاقة / SEPA). بعد نافذة الاسترداد تُقسَّم كل رعاية 90 / 10.',
     allocationRule:
-      'بعد إغلاق نافذة الاسترداد لكل رعاية: يذهب 90٪ إلى جمعيات كاليه الموثّقة كـ USDC على Base (مع هاش معاملة عام في السجل)؛ و10٪ لإدارة المشروع وتبقى باليورو.',
+      'بعد إغلاق نافذة الاسترداد لكل رعاية: يذهب 90٪ إلى جمعيات كاليه الموثّقة كـ USDC على Base (مع هاش معاملة عام في السجل)؛ وحتى 10٪ تغطي فقط تكاليف المشروع الموثّقة باليورو. أي فائض غير مستخدم يذهب إلى جمعيات محلية مسمّاة: يُتبرَّع بـ100٪ من صافي الربح ويُنشر علنًا.',
     allocations: [
       'جمعيات كاليه الموثّقة (USDC على Base)',
       'الإدارة (EUR)',
@@ -320,7 +320,7 @@ export default function SponsorsPage() {
             <dd>{text.allocations[0]}</dd>
           </div>
           <div>
-            <dt>10 %</dt>
+            <dt>≤ 10 %</dt>
             <dd>{text.allocations[1]}</dd>
           </div>
         </dl>
@@ -343,6 +343,11 @@ export default function SponsorsPage() {
             );
           })}
         </div>
+        <p>
+          <a className="ledger-link" href={`/evidence/evidence-pack.synthetic.${locale}.html`}>
+            {text.evidenceLink}
+          </a>
+        </p>
       </section>
     </main>
   );

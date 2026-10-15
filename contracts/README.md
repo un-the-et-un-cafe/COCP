@@ -1,13 +1,16 @@
 # contracts/ — Model B SponsorshipRouter (testnet rehearsal only)
 
 `src/SponsorshipRouter.sol` is an operator-side helper: after a sponsor's **card/SEPA EUR** payment
-clears (and the refund window closes), the operator sends the USDC equivalent of the **90% charity leg**
+clears (and the refund window closes), the operator sends the USDC equivalent of the **charity leg (at least 90%)**
 to the verified association wallet and the contract emits `CharityPayout` with a hash of the fiat
 payment reference. It is **not** a sponsor checkout, holds no funds on the Model B path, has no mint,
 no pause, no upgrade, no `delegatecall`, and rejects native ETH.
 
-Hard limits (Vision v1.1 §2): no project token, no beneficiary/refugee wallets, no payments to people,
-no mainnet. `payment_lanes` and `payments_*` flags stay `false`; launch gates stay 0/12.
+Hard limits (Vision v1.1 §2): no project token, no beneficiary/refugee wallets on public routes, no mainnet.
+Voluntary-work expense compensation (requirements.md Purpose) is a **gated, deny-by-default** model: documented
+expenses only, never wages, and disabled until legal review, safeguarding and launch gates pass. This contract
+has no such path. The admin share is a **cap** (≤10%, `feeBps ≤ 1000`) limited to documented costs; any unused
+remainder goes to named local charities (100% of net profit, reported publicly). `payment_lanes` and `payments_*` flags stay `false`; launch gates stay 0/12.
 
 ## Compile + test (CI-friendly, no network RPC, no keys)
 

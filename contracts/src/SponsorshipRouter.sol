@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 /// @title SponsorshipRouter — Model B charity settlement helper (testnet)
 /// @notice NOT a sponsor checkout. After TradFi clears, an operator sends the
 ///         USDC amount corresponding to the 90% charity leg to a verified
-///         association wallet on the allow-list. Admin 10% may remain EUR off-chain.
+///         association wallet on the allow-list. Admin share (cap 10%, documented costs only) may remain EUR off-chain.
 /// @dev Non-upgradeable. No pause that traps funds. No mint. feeBps ≤ 1000
 ///      applies only if an on-chain admin fee path is used; Model B default
 ///      uses payoutCharityLeg with feeBps = 0 on-chain.

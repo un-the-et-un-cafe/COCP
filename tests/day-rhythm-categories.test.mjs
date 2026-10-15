@@ -34,6 +34,7 @@ test("locale keys exist and AR day-rhythm note is flagged", () => {
   }
   assert.match(en.day_rhythm_note, /not jobs|not bookings|mutual-aid/i);
   assert.doesNotMatch(en.day_rhythm_note, /\bearn\b|volunteer pay|wage/i);
+  assert.match(en.day_rhythm_note, /deny by default/i);
   assert.equal(ar.day_rhythm_pending_human_review, true);
   assert.equal(flags.flags.day_rhythm_categories, true);
 });

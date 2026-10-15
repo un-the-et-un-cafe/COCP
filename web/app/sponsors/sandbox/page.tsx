@@ -5,6 +5,33 @@ import { ArrowLeft, Languages, ShieldAlert } from 'lucide-react';
 import { useLocale, type Locale } from '../../use-locale';
 import flags from '@/data/feature-flags.json';
 
+const panel: Record<Locale, { title: string; active: string; card: string; sepa: string; idle: string; counsel: string }> = {
+  en: {
+    title: 'Test checkout (Stripe test mode)',
+    active: 'Stripe test mode only. No real charges. Production sponsors will pay by card/SEPA after human gates; 90% settles USDC via authorised CASP — not DIY.',
+    card: ' Card test UI flag on.',
+    sepa: ' SEPA test UI flag on.',
+    idle: 'Test checkout panel idle — payments_card_testmode_ui and payments_sepa_testmode_ui are false. No Stripe script tags are loaded.',
+    counsel: 'Counsel note: card chargebacks can arrive after the configured refund window; production must not auto-payout until counsel signs the risk policy.',
+  },
+  fr: {
+    title: 'Paiement test (Stripe test mode)',
+    active: 'Mode test Stripe uniquement. Aucun débit réel. En production, les sponsors paieront par carte/SEPA après validation humaine ; 90 % sont réglés en USDC via un PSCA agréé — jamais en interne.',
+    card: ' Indicateur d’interface test carte activé.',
+    sepa: ' Indicateur d’interface test SEPA activé.',
+    idle: 'Panneau de paiement test inactif — payments_card_testmode_ui et payments_sepa_testmode_ui sont à false. Aucun script Stripe n’est chargé.',
+    counsel: 'Note juridique : des rétrofacturations par carte peuvent arriver après la fenêtre de remboursement configurée ; la production ne doit pas verser automatiquement tant que le conseil juridique n’a pas validé la politique de risque.',
+  },
+  ar: {
+    title: 'دفع تجريبي (Stripe test mode)',
+    active: 'وضع Stripe التجريبي فقط. لا خصومات حقيقية. في الإنتاج سيدفع الرعاة بالبطاقة أو SEPA بعد موافقات بشرية؛ وتُسوّى نسبة 90٪ بعملة USDC عبر مزوّد خدمات أصول مشفّرة معتمد — وليس داخليًا.',
+    card: ' مؤشر واجهة اختبار البطاقة مفعّل.',
+    sepa: ' مؤشر واجهة اختبار SEPA مفعّل.',
+    idle: 'لوحة الدفع التجريبي متوقفة — payments_card_testmode_ui و payments_sepa_testmode_ui قيمتهما false. لا يتم تحميل أي سكربت Stripe.',
+    counsel: 'ملاحظة قانونية: قد تصل استردادات البطاقات بعد نافذة الاسترداد المحددة؛ يجب ألا يدفع الإنتاج تلقائيًا قبل أن يوقّع المستشار القانوني سياسة المخاطر.',
+  },
+};
+
 const copy: Record<
   Locale,
   {
@@ -131,9 +158,9 @@ export default function SponsorSandboxPage() {
       <section className="hero">
         <h1>{t.title}</h1>
         {locale === 'ar' && t.pendingReview ? (
-          <p className="review-banner" data-pending-human-review="true" role="status">
+          <output className="review-banner" data-pending-human-review="true">
             {t.pendingReview}
-          </p>
+          </output>
         ) : null}
         <p>{t.modelB}</p>
         <p className="warn-banner">
@@ -158,24 +185,17 @@ export default function SponsorSandboxPage() {
       </section>
 
       <section data-testid="test-checkout-panel">
-        <h2>{locale === 'fr' ? 'Paiement test (Stripe test mode)' : locale === 'ar' ? 'دفع تجريبي (Stripe test mode)' : 'Test checkout (Stripe test mode)'}</h2>
+        <h2>{panel[locale].title}</h2>
         {testCheckout ? (
           <p>
-            Stripe test mode only. No real charges. Production sponsors will pay by card/SEPA after
-            human gates; 90% settles USDC via authorised CASP — not DIY.
-            {cardTest ? ' Card test UI flag on.' : ''}
-            {sepaTest ? ' SEPA test UI flag on.' : ''}
+            {panel[locale].active}
+            {cardTest ? panel[locale].card : ''}
+            {sepaTest ? panel[locale].sepa : ''}
           </p>
         ) : (
-          <p>
-            Test checkout panel idle — payments_card_testmode_ui and payments_sepa_testmode_ui are
-            false. No Stripe script tags are loaded.
-          </p>
+          <p>{panel[locale].idle}</p>
         )}
-        <p className="warn-banner">
-          Counsel note: card chargebacks can arrive after the configured refund window; production
-          must not auto-payout until counsel signs the risk policy.
-        </p>
+        <p className="warn-banner">{panel[locale].counsel}</p>
       </section>
       {/* Intentionally documentary only unless testmode flags: no wallet SDK; no Stripe when flags false. */}
     </main>

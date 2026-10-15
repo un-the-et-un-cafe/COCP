@@ -61,6 +61,6 @@
   "empty_published": "No verified listings are published yet. This directory shows unverified leads from the guide.",
   "model_b_sandbox_note": "In production, sponsors pay by card or SEPA in euros. This sandbox only shows the crypto settlement leg (90% testnet USDC) after a simulated TradFi sponsorship.",
   "model_b_sandbox_pending_human_review": false,
-  "day_rhythm_note": "Free mutual-aid and information listings — not jobs, not bookings, not paid work.",
+  "day_rhythm_note": "Free mutual-aid and information listings — not jobs, not bookings. Any future voluntary-work expense compensation stays disabled (deny by default) until legal, safeguarding and launch gates approve it.",
   "day_rhythm_pending_human_review": false
 }

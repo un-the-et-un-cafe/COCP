@@ -61,6 +61,6 @@
   "empty_published": "Aucune fiche vérifiée n’est encore publiée. Ce répertoire montre des pistes non vérifiées du guide.",
   "model_b_sandbox_note": "En production, les sponsors paient par carte ou SEPA en euros. Ce bac à sable montre uniquement la jambe de règlement crypto (90 % en USDC testnet) après un sponsoring TradFi simulé.",
   "model_b_sandbox_pending_human_review": false,
-  "day_rhythm_note": "Services d’entraide et d’information — gratuit, sans réservation, sans emploi rémunéré.",
+  "day_rhythm_note": "Services d’entraide et d’information — gratuit, sans réservation, sans emploi. Toute future compensation de frais pour du travail bénévole reste désactivée par défaut jusqu’à validation juridique, de protection et des étapes de lancement.",
   "day_rhythm_pending_human_review": false
 }

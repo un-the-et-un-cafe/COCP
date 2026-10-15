@@ -8,14 +8,16 @@
   "scripts": {
     "dev": "vinext dev",
     "build": "vinext build",
-    "build:netlify": "vinext build --prerender-all && node scripts/prepare-netlify.mjs && node scripts/audit-static-site.mjs",
+    "build:netlify": "npm run check && vinext build --prerender-all && node scripts/prepare-netlify.mjs && node scripts/audit-static-site.mjs",
     "audit:static": "node scripts/audit-static-site.mjs",
     "deploy:netlify": "node ../scripts/sync-convex-listings.mjs --netlify-production",
     "convex:dev": "convex dev",
     "convex:deploy": "convex deploy",
     "start": "wrangler dev --config dist/server/wrangler.json",
     "lint": "oxlint app",
-    "format": "oxfmt"
+    "format": "oxfmt",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run lint && npm run typecheck"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",

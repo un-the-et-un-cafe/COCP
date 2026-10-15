@@ -24,7 +24,7 @@ export default function AssociationWalletsPage() {
         {String(enabled)}.
       </p>
       {!enabled ? (
-        <p role="status">Registry UI flag is false — documentary table only.</p>
+        <output>Registry UI flag is false — documentary table only.</output>
       ) : null}
       <table>
         <thead>
