@@ -19,11 +19,12 @@ export function SplitPreview({ locale, amountCents }: { locale: Locale; amountCe
   return (
     <div className="split">
       <div className="split-bar" aria-hidden="true">
-        <span style={{ inlineSize: '90%' }} />
+        <span style={{ inlineSize: `${(assoc / amountCents) * 100}%` }} />
+        <span style={{ inlineSize: `${(admin / amountCents) * 100}%` }} />
       </div>
       <ul className="split-legend">
         <li>
-          <span className="swatch assoc" aria-hidden="true" /> <bdi dir="ltr">90% · {fmt(assoc)} €</bdi> {t.assoc}
+          <span className="swatch assoc" aria-hidden="true" /> <bdi dir="ltr">≥90% · {fmt(assoc)} €</bdi> {t.assoc}
         </li>
         <li>
           <span className="swatch admin" aria-hidden="true" /> <bdi dir="ltr">≤10% · {fmt(admin)} €</bdi> {t.admin}
