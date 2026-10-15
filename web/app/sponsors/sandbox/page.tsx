@@ -59,7 +59,7 @@ const copy: Record<
       'En production, les sponsors paient par carte ou SEPA en euros. Ce bac à sable montre uniquement la jambe de règlement crypto : 90 % en USDC sur Base testnet vers une association de test, après un sponsoring TradFi simulé.',
     flow: [
       '1. Sponsoring TradFi simulé (réf. fiat synthétique, fenêtre de remboursement fermée)',
-      '2. Calcul 90/10 en euros (10 % admin peut rester en EUR hors chaîne)',
+      '2. Calcul en euros : au moins 90 % vont aux associations ; la part d’administration est plafonnée à 10 % et aux coûts documentés (EUR hors chaîne), tout reliquat va à des associations locales nommées',
       '3. Paiement testnet USDC de la jambe 90 % (aucun connect wallet sponsor)',
       '4. Ligne de registre : réf. fiat + montant USDC + hash de transaction',
     ],
@@ -81,7 +81,7 @@ const copy: Record<
       'In production, sponsors pay by card or SEPA in euros. This sandbox only shows the crypto settlement leg: 90% testnet USDC on Base to a test association after a simulated TradFi sponsorship.',
     flow: [
       '1. Simulated TradFi sponsorship (synthetic fiat ref, refund window closed)',
-      '2. 90/10 split in euros (10% admin may stay EUR off-chain)',
+      '2. Calculation in euros: at least 90% goes to associations; the admin share is capped at 10% and at documented costs (EUR off-chain), with any unused remainder going to named local charities',
       '3. Testnet USDC payout of the 90% leg (no sponsor wallet connect)',
       '4. Ledger row: fiat ref + USDC amount + transaction hash',
     ],
@@ -102,7 +102,7 @@ const copy: Record<
       'في الإنتاج يدفع الرعاة بالبطاقة أو SEPA باليورو. تعرض هذه البيئة فقط مرحلة التسوية بالعملات المشفرة: 90٪ USDC على Base اختبار إلى جمعية اختبار بعد رعاية تقليدية محاكية.',
     flow: [
       '1. رعاية تقليدية محاكية (مرجع دفع اصطناعي، نافذة الاسترداد مغلقة)',
-      '2. تقسيم 90/10 باليورو (10٪ إدارة قد تبقى باليورو خارج السلسلة)',
+      '2. الحساب باليورو: يذهب 90٪ على الأقل إلى الجمعيات، وحصة الإدارة محدودة بـ10٪ وبالتكاليف الموثّقة (باليورو خارج السلسلة)، وأي فائض غير مستخدم يذهب إلى جمعيات محلية مسمّاة',
       '3. دفع USDC على شبكة الاختبار لمرحلة الـ90٪ (بدون ربط محفظة للراعي)',
       '4. صف السجل: مرجع تقليدي + مبلغ USDC + هاش المعاملة',
     ],
@@ -138,7 +138,15 @@ export default function SponsorSandboxPage() {
     <main className="sponsor-page" dir={dir} data-locale={locale} data-dir={dir}>
       {/* Defence-in-depth noindex (Netlify headers also set X-Robots-Tag). */}
       <header className="site-header">
-        <p className="brand-note">{t.brandNote}</p>
+        <Link className="brand-block brand-home" href="/">
+          <span className="brand-mark" aria-hidden="true">
+            C
+          </span>
+          <div>
+            <p className="brand-name">Calais Open Commons</p>
+            <p className="brand-note">{t.brandNote}</p>
+          </div>
+        </Link>
         <div className="header-actions">
           <Link href="/sponsors" className="directory-link">
             <ArrowLeft aria-hidden size={16} /> {t.back}
@@ -169,22 +177,22 @@ export default function SponsorSandboxPage() {
         {!testnetUi ? <p>{t.disabled}</p> : null}
       </section>
 
-      <section className="sponsor-section">
-        <ol>
+      <section className="sponsor-section sandbox-card">
+        <ol className="sandbox-steps">
           {t.flow.map((step) => (
             <li key={step}>{step}</li>
           ))}
         </ol>
         <p>{t.mainnet}</p>
         <p>{t.casp}</p>
-        <p>
+        <p className="sandbox-links">
           <a href={evidenceHref[locale]}>{t.evidence}</a>
           {' · '}
           <Link href="/sponsors/ledger">{t.ledger}</Link>
         </p>
       </section>
 
-      <section className="sponsor-section" data-testid="test-checkout-panel">
+      <section className="sponsor-section sandbox-card" data-testid="test-checkout-panel">
         <h2>{panel[locale].title}</h2>
         {testCheckout ? (
           <p>
