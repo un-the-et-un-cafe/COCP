@@ -1,5 +1,10 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import 'tailwindcss' source(none);
+@source '../app';
+@source '../components/ui/button.tsx';
+@source '../components/ui/checkbox.tsx';
+@source '../components/ui/native-select.tsx';
+@source '../components/ui/textarea.tsx';
+/* tw-animate-css dropped: no route uses its animate-* utilities. */
 @import 'shadcn/tailwind.css';
 
 /* Calais municipal flag blue from the July 2019 colour revision. */
