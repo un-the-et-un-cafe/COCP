@@ -137,13 +137,13 @@ export default function SponsorSandboxPage() {
   return (
     <main className="sponsor-page" dir={dir} data-locale={locale} data-dir={dir}>
       {/* Defence-in-depth noindex (Netlify headers also set X-Robots-Tag). */}
-      <header className="page-header">
+      <header className="site-header">
         <p className="brand-note">{t.brandNote}</p>
         <div className="header-actions">
-          <Link href="/sponsors" className="text-link">
+          <Link href="/sponsors" className="directory-link">
             <ArrowLeft aria-hidden size={16} /> {t.back}
           </Link>
-          <label className="language-switch">
+          <label className="language-control">
             <Languages aria-hidden size={16} />
             <span className="sr-only">{t.language}</span>
             <select value={locale} onChange={(event) => setLocale(event.target.value as Locale)}>
@@ -155,21 +155,21 @@ export default function SponsorSandboxPage() {
         </div>
       </header>
 
-      <section className="hero">
+      <section className="sponsor-hero">
         <h1>{t.title}</h1>
         {locale === 'ar' && t.pendingReview ? (
-          <output className="review-banner" data-pending-human-review="true">
+          <output className="disabled-notice" data-pending-human-review="true">
             {t.pendingReview}
           </output>
         ) : null}
         <p>{t.modelB}</p>
-        <p className="warn-banner">
+        <p className="disabled-notice">
           <ShieldAlert aria-hidden size={18} /> {t.warning}
         </p>
         {!testnetUi ? <p>{t.disabled}</p> : null}
       </section>
 
-      <section>
+      <section className="sponsor-section">
         <ol>
           {t.flow.map((step) => (
             <li key={step}>{step}</li>
@@ -184,7 +184,7 @@ export default function SponsorSandboxPage() {
         </p>
       </section>
 
-      <section data-testid="test-checkout-panel">
+      <section className="sponsor-section" data-testid="test-checkout-panel">
         <h2>{panel[locale].title}</h2>
         {testCheckout ? (
           <p>
@@ -195,7 +195,7 @@ export default function SponsorSandboxPage() {
         ) : (
           <p>{panel[locale].idle}</p>
         )}
-        <p className="warn-banner">{panel[locale].counsel}</p>
+        <p className="disabled-notice">{panel[locale].counsel}</p>
       </section>
       {/* Intentionally documentary only unless testmode flags: no wallet SDK; no Stripe when flags false. */}
     </main>
