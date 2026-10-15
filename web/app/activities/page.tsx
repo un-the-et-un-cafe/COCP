@@ -10,6 +10,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import registerData from '@/data/activity-ideas.json';
+import { EmergencyStrip } from '../emergency-strip';
 import { isRtl, useLocale, type Locale } from '../use-locale';
 
 type ActivityIdea = {
@@ -287,6 +288,7 @@ export default function ActivitiesPage() {
           </label>
         </div>
       </header>
+      <EmergencyStrip locale={locale} />
 
       <section className="activities-shell" id="activity-content">
         <div className="activities-intro">

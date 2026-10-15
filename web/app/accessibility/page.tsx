@@ -9,6 +9,7 @@ import {
   ShieldCheck,
   TriangleAlert,
 } from 'lucide-react';
+import { EmergencyStrip } from '../emergency-strip';
 import { isRtl, useLocale, type Locale } from '../use-locale';
 
 const copy = {
@@ -152,6 +153,7 @@ export default function AccessibilityPage() {
           </label>
         </div>
       </header>
+      <EmergencyStrip locale={locale} />
 
       <section className="accessibility-shell" id="accessibility-content">
         <div className="accessibility-intro">

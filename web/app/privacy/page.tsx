@@ -10,6 +10,7 @@ import {
   MapPinned,
   MessageSquareWarning,
 } from 'lucide-react';
+import { EmergencyStrip } from '../emergency-strip';
 import { isRtl, useLocale, type Locale } from '../use-locale';
 
 const copy = {
@@ -174,6 +175,12 @@ const sectionIcons = [
   LockKeyhole,
 ];
 
+const privacyLead: Record<Locale, string> = {
+  fr: 'Nous ne vous suivons pas. Pas de compte. Pas de cookies.',
+  en: 'We do not track you. No account. No cookies.',
+  ar: 'We do not track you. No account. No cookies.',
+};
+
 export default function PrivacyPage() {
   const [locale, setLocale] = useLocale();
   const text = copy[locale];
@@ -216,11 +223,13 @@ export default function PrivacyPage() {
           </label>
         </div>
       </header>
+      <EmergencyStrip locale={locale} />
 
       <section className="privacy-shell" id="privacy-content">
         <div className="privacy-intro">
           <p className="eyebrow">{text.eyebrow}</p>
           <h1>{text.title}</h1>
+          <p className="privacy-lead">{privacyLead[locale]}</p>
           <p>{text.intro}</p>
         </div>
 

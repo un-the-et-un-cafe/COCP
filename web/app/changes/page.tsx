@@ -9,6 +9,7 @@ import {
   Languages,
 } from 'lucide-react';
 import history from '@/data/release-history.json';
+import { EmergencyStrip } from '../emergency-strip';
 import { isRtl, useLocale, type Locale } from '../use-locale';
 
 type ReleaseSummary = {
@@ -154,6 +155,7 @@ export default function ChangesPage() {
           </label>
         </div>
       </header>
+      <EmergencyStrip locale={locale} />
 
       <section className="changes-shell">
         <div className="changes-intro">

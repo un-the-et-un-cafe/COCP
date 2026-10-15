@@ -10,7 +10,6 @@ import {
   ExternalLink,
   Languages,
   MapPin,
-  Phone,
   RefreshCw,
   Search,
   ShieldCheck,
@@ -20,10 +19,16 @@ import candidateListings from '../data/listings.json';
 import fr from '../locales/fr.json';
 import en from '../locales/en.json';
 import ar from '../locales/ar.json';
+import { EmergencyStrip } from './emergency-strip';
 import { isRtl, useLocale, type Locale } from './use-locale';
 
 type Copy = typeof fr;
 const copies: Record<Locale, Copy> = { fr, en, ar };
+const needsTitle: Record<Locale, string> = {
+  fr: 'De quoi avez-vous besoin ?',
+  en: 'What do you need?',
+  ar: 'What do you need?',
+};
 const supportLabels: Record<Locale, string> = {
   fr: 'Financer la vérification',
   en: 'Fund verification',
@@ -242,42 +247,7 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="emergency-band" aria-labelledby="emergency-title">
-        <div className="emergency-intro">
-          <AlertTriangle size={24} aria-hidden="true" />
-          <div>
-            <h1 id="emergency-title">{copy.emergency_title}</h1>
-            <p>{copy.emergency_note}</p>
-          </div>
-        </div>
-        <div className="emergency-actions">
-          <a href="tel:112">
-            <Phone size={18} aria-hidden="true" />
-            <strong>112</strong>
-            <span>{copy.emergency_general}</span>
-          </a>
-          <a href="tel:17">
-            <Phone size={18} aria-hidden="true" />
-            <strong>17</strong>
-            <span>{copy.emergency_police}</span>
-          </a>
-          <a href="tel:15">
-            <Phone size={18} aria-hidden="true" />
-            <strong>15</strong>
-            <span>{copy.emergency_medical}</span>
-          </a>
-          <a href="tel:115">
-            <Phone size={18} aria-hidden="true" />
-            <strong>115</strong>
-            <span>{copy.emergency_shelter}</span>
-          </a>
-          <a href="sms:114">
-            <Phone size={18} aria-hidden="true" />
-            <strong>114</strong>
-            <span>{copy.emergency_sms}</span>
-          </a>
-        </div>
-      </section>
+      <EmergencyStrip locale={locale} headingLevel={1} />
 
       <section
         className="directory-shell"
@@ -334,11 +304,13 @@ export default function Home() {
           </div>
         </div>
         <search className="controls">
-          <div className="category-list" aria-label={copy.category_label}>
+          <h2 className="needs-title">{needsTitle[locale]}</h2>
+          <div className="need-grid" aria-label={copy.category_label}>
             {categories.map((item) => (
               <button
                 key={item}
                 type="button"
+                className="need-tile"
                 aria-pressed={category === item}
                 onClick={() => setCategory(item)}
               >
@@ -435,6 +407,7 @@ export default function Home() {
       <footer>
         <ShieldCheck size={20} aria-hidden="true" />
         <p>{copy.footer_privacy}</p>
+        <Link href="/changes">{changeLabels[locale]}</Link>
         <Link href="/sponsors">{supportLabels[locale]}</Link>
         <Link href="/readiness">{readinessLabels[locale]}</Link>
         <Link href="/activities">{activityLabels[locale]}</Link>
