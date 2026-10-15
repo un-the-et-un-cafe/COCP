@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { ArrowLeft, Languages, ShieldAlert } from 'lucide-react';
-import { useLocale, type Locale } from '../../use-locale';
+import { isRtl, useLocale, type Locale } from '../../use-locale';
 import flags from '@/data/feature-flags.json';
 
 const panel: Record<Locale, { title: string; active: string; card: string; sepa: string; idle: string; counsel: string }> = {
@@ -132,7 +132,7 @@ export default function SponsorSandboxPage() {
   const cardTest = Boolean(f.payments_card_testmode_ui);
   const sepaTest = Boolean(f.payments_sepa_testmode_ui);
   const testCheckout = cardTest || sepaTest;
-  const dir = locale === 'ar' ? 'rtl' : 'ltr';
+  const dir = isRtl(locale) ? 'rtl' : 'ltr';
 
   return (
     <main className="sponsor-page" dir={dir} data-locale={locale} data-dir={dir}>

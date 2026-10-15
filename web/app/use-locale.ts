@@ -4,6 +4,11 @@ import { useEffect, useSyncExternalStore } from 'react';
 
 export type Locale = 'fr' | 'en' | 'ar';
 
+/** Right-to-left scripts. ps (Pashto) and ckb (Sorani Kurdish) are prepared for future
+ *  locales; they are NOT enabled until translations pass human review. */
+export const RTL = new Set<string>(['ar', 'ps', 'ckb']);
+export const isRtl = (locale: string) => RTL.has(locale);
+
 const localeEvent = 'cocp-locale-change';
 
 function getLocaleSnapshot(): Locale {
@@ -34,7 +39,7 @@ export function useLocale() {
 
   useEffect(() => {
     document.documentElement.lang = locale;
-    document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dir = isRtl(locale) ? 'rtl' : 'ltr';
   }, [locale]);
 
   return [locale, setLocale] as const;

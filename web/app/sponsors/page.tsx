@@ -9,7 +9,8 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import Link from 'next/link';
-import { useLocale, type Locale } from '../use-locale';
+import { UsdcProof } from '../usdc-proof';
+import { isRtl, useLocale, type Locale } from '../use-locale';
 
 const copy = {
   fr: {
@@ -229,7 +230,7 @@ export default function SponsorsPage() {
   const text = copy[locale];
 
   return (
-    <main className="sponsor-page" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+    <main className="sponsor-page" dir={isRtl(locale) ? 'rtl' : 'ltr'}>
       <header className="site-header">
         <Link className="brand-block brand-home" href="/">
           <span className="brand-mark" aria-hidden="true">
@@ -324,6 +325,7 @@ export default function SponsorsPage() {
             <dd>{text.allocations[1]}</dd>
           </div>
         </dl>
+        <UsdcProof locale={locale} proofHref="/sponsors/ledger" />
       </section>
 
       <section className="sponsor-section" aria-labelledby="evidence-title">

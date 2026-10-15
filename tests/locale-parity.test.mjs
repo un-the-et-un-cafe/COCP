@@ -20,7 +20,7 @@ test("Model B sandbox note is present in all locales and AR is flagged for human
   assert.doesNotMatch(en.model_b_sandbox_note, /connect wallet|pay (with )?USDC as primary/i);
   // Real RTL regression: sandbox page derives dir from locale and flags AR for human review
   const sandbox = await readFile(new URL("../web/app/sponsors/sandbox/page.tsx", import.meta.url), "utf8");
-  assert.match(sandbox, /locale === 'ar' \? 'rtl' : 'ltr'/);
+  assert.match(sandbox, /isRtl\(locale\) \? 'rtl' : 'ltr'/);
   assert.match(sandbox, /dir=\{dir\}/);
   assert.match(sandbox, /data-dir=\{dir\}/);
   assert.match(sandbox, /data-pending-human-review="true"/);
@@ -32,4 +32,11 @@ test("glossary keys cover service/listing/sponsor/ledger", async () => {
   for (const key of ["glossary_service", "glossary_listing", "glossary_sponsor", "glossary_ledger", "verified", "unverified"]) {
     assert.ok(en[key]?.length > 0, key);
   }
+});
+
+test("RTL set prepares ar/ps/ckb but only fr/en/ar locales are enabled", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const src = await readFile(new URL("../web/app/use-locale.ts", import.meta.url), "utf8");
+  assert.match(src, /new Set<string>\(\['ar', 'ps', 'ckb'\]\)/);
+  assert.match(src, /export type Locale = 'fr' \| 'en' \| 'ar';/);
 });

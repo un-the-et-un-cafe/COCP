@@ -10,6 +10,7 @@ import {
   ExternalLink,
   Languages,
   MapPin,
+  Phone,
   RefreshCw,
   Search,
   ShieldCheck,
@@ -19,7 +20,7 @@ import candidateListings from '../data/listings.json';
 import fr from '../locales/fr.json';
 import en from '../locales/en.json';
 import ar from '../locales/ar.json';
-import { useLocale, type Locale } from './use-locale';
+import { isRtl, useLocale, type Locale } from './use-locale';
 
 type Copy = typeof fr;
 const copies: Record<Locale, Copy> = { fr, en, ar };
@@ -208,7 +209,7 @@ export default function Home() {
   }, [category, currentTime, locale, query]);
 
   return (
-    <main dir={locale === 'ar' ? 'rtl' : 'ltr'} className="page">
+    <main dir={isRtl(locale) ? 'rtl' : 'ltr'} className="page">
       <a className="skip-link" href="#services">
         {copy.skip}
       </a>
@@ -225,9 +226,6 @@ export default function Home() {
         <div className="header-actions">
           <Link className="changes-link" href="/changes">
             {changeLabels[locale]}
-          </Link>
-          <Link className="support-link" href="/sponsors">
-            {supportLabels[locale]}
           </Link>
           <label className="language-control">
             <Languages size={19} aria-hidden="true" />
@@ -254,16 +252,29 @@ export default function Home() {
         </div>
         <div className="emergency-actions">
           <a href="tel:112">
+            <Phone size={18} aria-hidden="true" />
             <strong>112</strong>
             <span>{copy.emergency_general}</span>
           </a>
+          <a href="tel:17">
+            <Phone size={18} aria-hidden="true" />
+            <strong>17</strong>
+            <span>{copy.emergency_police}</span>
+          </a>
+          <a href="tel:15">
+            <Phone size={18} aria-hidden="true" />
+            <strong>15</strong>
+            <span>{copy.emergency_medical}</span>
+          </a>
           <a href="tel:115">
+            <Phone size={18} aria-hidden="true" />
             <strong>115</strong>
             <span>{copy.emergency_shelter}</span>
           </a>
-          <a href="tel:15">
-            <strong>15</strong>
-            <span>{copy.emergency_medical}</span>
+          <a href="sms:114">
+            <Phone size={18} aria-hidden="true" />
+            <strong>114</strong>
+            <span>{copy.emergency_sms}</span>
           </a>
         </div>
       </section>
@@ -424,6 +435,7 @@ export default function Home() {
       <footer>
         <ShieldCheck size={20} aria-hidden="true" />
         <p>{copy.footer_privacy}</p>
+        <Link href="/sponsors">{supportLabels[locale]}</Link>
         <Link href="/readiness">{readinessLabels[locale]}</Link>
         <Link href="/activities">{activityLabels[locale]}</Link>
         <Link href="/privacy">{privacyLabels[locale]}</Link>

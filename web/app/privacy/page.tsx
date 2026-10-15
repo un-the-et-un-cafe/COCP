@@ -10,7 +10,7 @@ import {
   MapPinned,
   MessageSquareWarning,
 } from 'lucide-react';
-import { useLocale, type Locale } from '../use-locale';
+import { isRtl, useLocale, type Locale } from '../use-locale';
 
 const copy = {
   fr: {
@@ -179,7 +179,7 @@ export default function PrivacyPage() {
   const text = copy[locale];
 
   return (
-    <main className="privacy-page" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+    <main className="privacy-page" dir={isRtl(locale) ? 'rtl' : 'ltr'}>
       <a className="skip-link" href="#privacy-content">
         {locale === 'fr'
           ? 'Aller au contenu'

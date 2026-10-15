@@ -10,7 +10,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import registerData from '@/data/activity-ideas.json';
-import { useLocale, type Locale } from '../use-locale';
+import { isRtl, useLocale, type Locale } from '../use-locale';
 
 type ActivityIdea = {
   id: string;
@@ -250,7 +250,7 @@ export default function ActivitiesPage() {
   const text = copy[locale];
 
   return (
-    <main className="activities-page" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+    <main className="activities-page" dir={isRtl(locale) ? 'rtl' : 'ltr'}>
       <a className="skip-link" href="#activity-content">
         {locale === 'fr'
           ? 'Aller au contenu'

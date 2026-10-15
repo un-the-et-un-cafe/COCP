@@ -9,7 +9,7 @@ import {
   Languages,
 } from 'lucide-react';
 import history from '@/data/release-history.json';
-import { useLocale, type Locale } from '../use-locale';
+import { isRtl, useLocale, type Locale } from '../use-locale';
 
 type ReleaseSummary = {
   release_id: string;
@@ -124,7 +124,7 @@ export default function ChangesPage() {
   const text = copy[locale];
 
   return (
-    <main className="changes-page" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+    <main className="changes-page" dir={isRtl(locale) ? 'rtl' : 'ltr'}>
       <header className="site-header">
         <Link className="brand-block brand-home" href="/">
           <span className="brand-mark" aria-hidden="true">

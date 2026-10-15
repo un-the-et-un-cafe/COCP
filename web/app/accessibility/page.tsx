@@ -9,7 +9,7 @@ import {
   ShieldCheck,
   TriangleAlert,
 } from 'lucide-react';
-import { useLocale, type Locale } from '../use-locale';
+import { isRtl, useLocale, type Locale } from '../use-locale';
 
 const copy = {
   fr: {
@@ -115,7 +115,7 @@ export default function AccessibilityPage() {
   const text = copy[locale];
 
   return (
-    <main className="accessibility-page" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+    <main className="accessibility-page" dir={isRtl(locale) ? 'rtl' : 'ltr'}>
       <a className="skip-link" href="#accessibility-content">
         {locale === 'fr'
           ? 'Aller au contenu'

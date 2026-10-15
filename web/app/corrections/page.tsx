@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/native-select';
 import { Textarea } from '@/components/ui/textarea';
 import directoryListings from '@/data/listings.json';
-import { useLocale, type Locale } from '../use-locale';
+import { isRtl, useLocale, type Locale } from '../use-locale';
 
 type Language = Locale;
 type ReportType =
@@ -277,7 +277,7 @@ export default function CorrectionsPage() {
   }
 
   return (
-    <main dir={language === 'ar' ? 'rtl' : 'ltr'} className="correction-page">
+    <main dir={isRtl(language) ? 'rtl' : 'ltr'} className="correction-page">
       <header className="site-header">
         <Link className="brand-block brand-home" href="/">
           <span className="brand-mark" aria-hidden="true">
