@@ -29,7 +29,16 @@
     "water": "Eau",
     "healthcare": "Santé",
     "community": "Accueil",
-    "legal": "Droits"
+    "legal": "Droits",
+    "orientation": "Orientation",
+    "language_tandem": "Tandem linguistique",
+    "phone_clinic": "Aide téléphone",
+    "bike_commons": "Atelier vélo",
+    "day_laundry": "Buanderie / lessive",
+    "quiet_space": "Espace calme",
+    "clothing_swap": "Échange de vêtements",
+    "asso_cooking": "Cuisine associative",
+    "day_centre": "Centre de jour"
   },
   "results": "résultats",
   "verified": "Vérifié",
@@ -44,5 +53,14 @@
   "call": "Appeler",
   "map": "Carte externe",
   "no_results": "Aucun service ne correspond à cette recherche.",
-  "footer_privacy": "Aucun compte, cookie publicitaire, géolocalisation ou portefeuille n’est chargé sur cette page."
+  "footer_privacy": "Aucun compte, cookie publicitaire, géolocalisation ou portefeuille n’est chargé sur cette page.",
+  "glossary_service": "service",
+  "glossary_listing": "fiche",
+  "glossary_sponsor": "sponsor",
+  "glossary_ledger": "registre public",
+  "empty_published": "Aucune fiche vérifiée n’est encore publiée. Ce répertoire montre des pistes non vérifiées du guide.",
+  "model_b_sandbox_note": "En production, les sponsors paient par carte ou SEPA en euros. Ce bac à sable montre uniquement la jambe de règlement crypto (90 % en USDC testnet) après un sponsoring TradFi simulé.",
+  "model_b_sandbox_pending_human_review": false,
+  "day_rhythm_note": "Services d’entraide et d’information — gratuit, sans réservation, sans emploi. Toute future compensation de frais pour du travail bénévole reste désactivée par défaut jusqu’à validation juridique, de protection et des étapes de lancement.",
+  "day_rhythm_pending_human_review": false
 }

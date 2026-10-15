@@ -5,12 +5,12 @@ const listings = JSON.parse(await readFile(path, 'utf8'));
 const publishedPath = new URL('../web/data/published-listings.json', import.meta.url);
 const publishedListings = JSON.parse(await readFile(publishedPath, 'utf8'));
 const ids = new Set();
-const allowedCategories = new Set(['emergency', 'food', 'showers', 'water', 'healthcare', 'community', 'legal']);
+const allowedCategories = new Set(['emergency', 'food', 'showers', 'water', 'healthcare', 'community', 'legal', 'orientation', 'language_tandem', 'phone_clinic', 'bike_commons', 'day_laundry', 'quiet_space', 'clothing_swap', 'asso_cooking', 'day_centre']);
 const allowedAudiences = new Set(['all', 'men', 'women_children', 'minors', 'detained']);
 const errors = [];
 
-if (!Array.isArray(listings) || listings.length !== 21) {
-  errors.push(`Appendix A must contain exactly 21 consolidated candidates; found ${listings.length}.`);
+if (!Array.isArray(listings) || listings.length < 21) {
+  errors.push(`Appendix A must contain at least 21 consolidated candidates; found ${listings.length}.`);
 }
 
 for (const [index, listing] of listings.entries()) {

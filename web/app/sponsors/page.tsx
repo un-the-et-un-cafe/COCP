@@ -24,6 +24,8 @@ const copy = {
     disabledNote:
       'L’entité responsable, la facturation, les comptes et les procédures de remboursement doivent d’abord être approuvés.',
     ledger: 'Consulter le registre public',
+    sandbox: 'Bac à sable Model B (testnet)',
+    evidenceLink: 'Exemple de pack de preuves (synthétique)',
     offersEyebrow: 'Offres fixes',
     offersTitle: 'Choisissez le résultat à financer',
     pending: 'Ouverture après validation',
@@ -50,14 +52,14 @@ const copy = {
     allocationEyebrow: 'Règle financière',
     allocationTitle: 'Chaque euro doit être traçable',
     allocationIntro:
-      'La politique cible affecte 90 % de chaque sponsoring à la destination solidaire sélectionnée et 10 % à l’administration du projet avant frais et taxes.',
+      'Règlement Model B : les sponsors paient en euros (carte / SEPA). Après la fenêtre de remboursement, au moins 90 % vont aux associations ; la part d’administration est plafonnée à 10 % et aux coûts documentés.',
     allocationRule:
-      'Après remboursements, taxes, frais de paiement et coûts de fonctionnement documentés, 100 % du bénéfice net est reversé chaque mois à des associations locales nommées ou au soutien au logement du fondateur.',
+      'Pour chaque sponsoring après clôture des remboursements : 90 % vont à des associations Calais vérifiées en USDC sur Base (hash de transaction public au registre) ; jusqu’à 10 % couvrent uniquement les coûts documentés du projet, en EUR. Tout reliquat non utilisé va à des associations locales nommées : 100 % du bénéfice net leur est reversé et publié.',
     allocations: [
-      'Affectation solidaire cible',
-      'Administration avant coûts',
-      'Bénéfice net reversé',
+      'Associations Calais vérifiées (USDC sur Base)',
+      'Administration (EUR)',
     ],
+    pendingReview: '',
     evidenceEyebrow: 'Preuves et limites',
     evidenceTitle: 'Ce que reçoit un sponsor',
     evidence: [
@@ -91,6 +93,8 @@ const copy = {
     disabledNote:
       'The responsible entity, invoicing, accounts and refund procedures must be approved first.',
     ledger: 'View the public ledger',
+    sandbox: 'Model B sandbox (testnet)',
+    evidenceLink: 'Example evidence pack (synthetic)',
     offersEyebrow: 'Fixed offers',
     offersTitle: 'Choose the result to fund',
     pending: 'Opens after approval',
@@ -117,14 +121,14 @@ const copy = {
     allocationEyebrow: 'Financial rule',
     allocationTitle: 'Every euro must be traceable',
     allocationIntro:
-      'The target policy allocates 90% of each sponsorship to the selected social-purpose destination and 10% to project administration before fees and taxes.',
+      'Model B settlement: sponsors pay in euros (card / SEPA). After the refund window, at least 90% goes to associations; the admin share is capped at 10% and at documented costs.',
     allocationRule:
-      'After refunds, taxes, payment fees and documented operating costs, 100% of net profit is transferred monthly to named local charities or founder housing support.',
+      'Of each sponsorship after the refund window closes: 90% reaches verified Calais associations as USDC on Base (public transaction hash on the ledger); up to 10% covers documented project costs only, in EUR. Any unused remainder goes to named local charities: 100% of net profit is donated and reported publicly.',
     allocations: [
-      'Target social-purpose allocation',
-      'Administration before costs',
-      'Net profit transferred',
+      'Verified Calais associations (USDC on Base)',
+      'Administration (EUR)',
     ],
+    pendingReview: '',
     evidenceEyebrow: 'Evidence and limits',
     evidenceTitle: 'What a sponsor receives',
     evidence: [
@@ -158,6 +162,8 @@ const copy = {
     disabledNote:
       'يجب أولاً اعتماد الجهة المسؤولة والفواتير والحسابات وإجراءات الاسترداد.',
     ledger: 'عرض السجل العام',
+    sandbox: 'بيئة Model B (اختبار)',
+    evidenceLink: 'مثال حزمة الأدلة (اصطناعي)',
     offersEyebrow: 'عروض ثابتة',
     offersTitle: 'اختر النتيجة التي تريد تمويلها',
     pending: 'يتاح بعد الاعتماد',
@@ -184,14 +190,15 @@ const copy = {
     allocationEyebrow: 'القاعدة المالية',
     allocationTitle: 'يجب تتبع كل يورو',
     allocationIntro:
-      'تخصص السياسة المستهدفة 90٪ من كل رعاية للوجهة الاجتماعية المختارة و10٪ لإدارة المشروع قبل الرسوم والضرائب.',
+      'تسوية النموذج B: يدفع الرعاة باليورو (بطاقة / SEPA). بعد نافذة الاسترداد يذهب 90٪ على الأقل إلى الجمعيات، وحصة الإدارة محدودة بـ10٪ وبالتكاليف الموثّقة.',
     allocationRule:
-      'بعد الاستردادات والضرائب ورسوم الدفع وتكاليف التشغيل الموثقة، يُحوّل 100٪ من صافي الربح شهرياً إلى جمعيات محلية محددة بالاسم أو لدعم سكن مؤسس المشروع.',
+      'بعد إغلاق نافذة الاسترداد لكل رعاية: يذهب 90٪ إلى جمعيات كاليه الموثّقة كـ USDC على Base (مع هاش معاملة عام في السجل)؛ وحتى 10٪ تغطي فقط تكاليف المشروع الموثّقة باليورو. أي فائض غير مستخدم يذهب إلى جمعيات محلية مسمّاة: يُتبرَّع بـ100٪ من صافي الربح ويُنشر علنًا.',
     allocations: [
-      'التخصيص الاجتماعي المستهدف',
-      'الإدارة قبل التكاليف',
-      'صافي الربح المحوّل',
+      'جمعيات كاليه الموثّقة (USDC على Base)',
+      'الإدارة (EUR)',
     ],
+    pendingReview:
+      'مسودة ترجمة أولية — بانتظار مراجعة بشرية (pending_human_review). لا تُستخدم خارج التجربة قبل المراجعة.',
     evidenceEyebrow: 'الأدلة والحدود',
     evidenceTitle: 'ما يحصل عليه الراعي',
     evidence: [
@@ -257,6 +264,12 @@ export default function SponsorsPage() {
         <p className="eyebrow">{text.eyebrow}</p>
         <h1>{text.title}</h1>
         <p>{text.intro}</p>
+        {locale === 'ar' && text.pendingReview ? (
+          <output className="disabled-notice" data-pending-human-review="true">
+            <ShieldCheck size={20} aria-hidden="true" />
+            <span>{text.pendingReview}</span>
+          </output>
+        ) : null}
         <output className="disabled-notice">
           <ShieldCheck size={20} aria-hidden="true" />
           <span>
@@ -266,6 +279,9 @@ export default function SponsorsPage() {
         <Link className="ledger-link" href="/sponsors/ledger">
           <FileCheck2 size={18} aria-hidden="true" />
           {text.ledger}
+        </Link>
+        <Link className="ledger-link" href="/sponsors/sandbox">
+          {text.sandbox}
         </Link>
       </section>
 
@@ -304,12 +320,8 @@ export default function SponsorsPage() {
             <dd>{text.allocations[0]}</dd>
           </div>
           <div>
-            <dt>10 %</dt>
+            <dt>≤ 10 %</dt>
             <dd>{text.allocations[1]}</dd>
-          </div>
-          <div>
-            <dt>100 %</dt>
-            <dd>{text.allocations[2]}</dd>
           </div>
         </dl>
       </section>
@@ -331,6 +343,11 @@ export default function SponsorsPage() {
             );
           })}
         </div>
+        <p>
+          <a className="ledger-link" href={`/evidence/evidence-pack.synthetic.${locale}.html`}>
+            {text.evidenceLink}
+          </a>
+        </p>
       </section>
     </main>
   );

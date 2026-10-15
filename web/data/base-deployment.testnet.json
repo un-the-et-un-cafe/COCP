@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "network": "base-sepolia",
+  "chain_id": 84532,
+  "status": "not_deployed",
+  "payment_token": "0x0000000000000000000000000000000000000000",
+  "admin_wallet": "0x0000000000000000000000000000000000000000",
+  "router": "0x0000000000000000000000000000000000000000",
+  "fee_bps": 0,
+  "notes": "Placeholders only. Mainnet requires G9 + Jakob explicit confirm. Production EUR→USDC conversion must use an authorised CASP — never DIY custody/exchange in this app. Deploy script writes real testnet addresses here after Base Sepolia deploy."
+}

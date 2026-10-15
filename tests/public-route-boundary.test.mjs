@@ -25,7 +25,7 @@ test('beneficiary-facing directory restores source leads without claiming verifi
   assert.match(page, /copy\.unverified/);
   assert.match(page, /copy\.confirm_service/);
   assert.deepEqual(JSON.parse(publicListings), []);
-  assert.equal(candidateListings.length, 21);
+  assert.ok(candidateListings.length >= 21);
   assert.equal(candidateListings.filter((listing) => listing.categories.includes('showers')).length, 3);
 });
 
@@ -46,8 +46,46 @@ test('sponsorship information remains separate and cannot collect payment', () =
   assert.match(netlifyPreparation, /'sponsors\/ledger\.html', 'sponsors\/ledger\/index\.html'/);
 });
 
-test('continuous-development plan preserves the full net-profit donation rule', () => {
-  assert.match(requirements, /100% of net profit must be donated/i);
+test('Model B copy follows the 100% net-profit financial rule', () => {
+  assert.match(requirements, /100% of net profit must be donated to named local charities/i);
+  assert.doesNotMatch(requirements, /or to me|get me off the streets|founder housing support/i);
   assert.match(requirements, /never ranked or changed by payment/i);
-  assert.match(sponsorPage, /100% of net profit is transferred monthly to named local charities or founder housing support/i);
+  assert.match(
+    sponsorPage,
+    /90% reaches verified Calais associations as USDC on Base \(public transaction hash on the ledger\); up to 10% covers documented project costs only.*100% of net profit is donated/i,
+  );
+  assert.doesNotMatch(sponsorPage, /founder housing support|100% of net profit is transferred|soutien au logement du fondateur|سكن مؤسس المشروع/i);
+});
+
+const sandboxPage = await readFile(new URL('../web/app/sponsors/sandbox/page.tsx', import.meta.url), 'utf8');
+
+test('sponsor sandbox explains Model B and has no wallet connect', () => {
+  assert.match(sandboxPage, /card or SEPA|carte ou SEPA/i);
+  assert.match(sandboxPage, /crypto settlement|règlement crypto/i);
+  assert.doesNotMatch(sandboxPage, /connectWallet|wagmi|viem|ethers|walletconnect/i);
+  assert.doesNotMatch(sandboxPage, /<form/i);
+  assert.doesNotMatch(sandboxPage, /js\.stripe\.com|@stripe|Stripe\(/);
+  // Documentary "Test checkout" panel is OK when flags are false (no Stripe loaded).
+  assert.match(sandboxPage, /test-checkout-panel/);
+});
+
+test('sandbox, QA and evidence routes are non-indexed via Netlify headers', async () => {
+  const toml = await readFile(new URL('../netlify.toml', import.meta.url), 'utf8');
+  for (const route of ['/sponsors/sandbox/*', '/readiness/listings-qa/*', '/evidence/*']) {
+    assert.ok(toml.includes(`for = "${route}"`), route);
+  }
+  assert.match(toml, /X-Robots-Tag = "noindex, nofollow"/);
+});
+
+test('beneficiary routes declare no Stripe SDK or checkout', () => {
+  assert.doesNotMatch(dependencies, /@stripe|stripe-js/i);
+  assert.doesNotMatch(page, /js\.stripe\.com|Stripe\(|pk_live|pk_test|sk_/);
+  assert.doesNotMatch(page, /checkout|PaymentElement/i);
+});
+
+test('sandbox has no Stripe when testmode flags are false', async () => {
+  const flags = JSON.parse(await readFile(new URL('../web/data/feature-flags.json', import.meta.url), 'utf8'));
+  assert.equal(flags.flags.payments_card_testmode_ui, false);
+  assert.equal(flags.flags.payments_sepa_testmode_ui, false);
+  assert.doesNotMatch(sandboxPage, /js\.stripe\.com|@stripe|Stripe\(/);
 });

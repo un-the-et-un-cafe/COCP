@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "rows": [
+    {
+      "fiat_payment_ref": "SYN-CARD-BAD",
+      "state": "settled",
+      "eur_amount_cents": 7900,
+      "usdc_amount_micro": 71100000,
+      "settlement_tx_hash": null,
+      "_force_mismatch": true
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+# Optional: Foundry users can `forge build` from contracts/.
+# CI uses `npm --prefix contracts ci && npm --prefix contracts test` (solcjs + in-process EVM),
+# which needs no curl|bash installer and no network RPC.
+[profile.default]
+src = "src"
+out = "out"
+test = "test"
+solc_version = "0.8.37"
+evm_version = "cancun"
+optimizer = true
+optimizer_runs = 200

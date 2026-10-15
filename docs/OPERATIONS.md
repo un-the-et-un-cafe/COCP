@@ -82,3 +82,60 @@ npm run verify:release -- release.json signature.json public-key.pem
 ```
 
 Stop publication immediately when the current time reaches the earliest `expires_at` in a release. Verify and republish affected listings rather than extending dates without a fresh review.
+
+## Listing QA (v0.1.1)
+
+Generate an aggregate QA report (no personal data) from Appendix A candidates:
+
+```sh
+npm run qa:listings
+```
+
+The report is written to `web/data/qa-report.json`. The command exits non-zero if any `publishable: true` row lacks `verified` + `checked_at` + `expires_at` + review owner. Root `npm run validate:data` and `npm run build` include this check.
+
+## Feature flags (fail-closed)
+
+`web/data/feature-flags.json` controls experimental surfaces. Any `payments_*` or `activity_payments` flag set to `true` while launch gates are incomplete **fails the build**. Keep `payments_base_mainnet` false. Model B production conversion (EUR→USDC) requires an authorised CASP and human gates — never enable payment flags in this slice without Jakob + ethics review.
+
+## Model B settlement rehearsal (testnet / synthetic only)
+
+```sh
+npm run rehearse:settlement
+```
+
+Writes `web/data/settlement-rehearsal.draft.json` with synthetic TradFi ref + USDC 90% leg fields. Does not deploy contracts or open payment lanes. Mainnet requires G9 + Jakob explicit confirm.
+
+Contract compile + tests (local solcjs + in-process EVM; no RPC, no keys): `npm run test:contracts`. See `contracts/README.md`. No Base Sepolia deploy without Jakob's explicit OK and a dedicated testnet-only key.
+
+## Sponsor evidence + print QR
+
+```sh
+npm run generate:sponsor-evidence
+PUBLIC_SITE_URL=https://your.production.origin npm run generate:qr-pack
+```
+
+Outputs under `web/public/evidence/` and `web/public/print/`.
+
+Print QR details:
+
+- Real ISO/IEC 18004 QR (byte mode, ECC M, 4-module quiet zone) via the vendored MIT `scripts/vendor/qrcode-generator.mjs` (provenance + sha256 in `scripts/vendor/README.md`). No runtime dependency.
+- Payload is exactly `PUBLIC_SITE_URL` + `/#emergency`. The generator rejects non-https origins, paths, query strings and tracking parameters, so scans cannot be attributed to a card, venue or person.
+- Outputs: `calais-services.a6.html`, `calais-services.a5.html` (print cards with inline SVG), `calais-services.qr.svg` (standalone vector for designers), `*.url.txt` (decode target).
+- While the origin is a placeholder (`*.example.org`), cards carry a red **DRAFT** banner. Regenerate with the real production origin before printing.
+- Decode check (optional, independent reader): `npm i --no-save jsqr@1 @resvg/resvg-js@2 && npm run verify:qr`.
+- The Arabic line on the card is pending human G4 language review before any print run.
+
+## Empty publishable set
+
+`npm run release:listings` refuses an empty signed release (`Refusing to create an empty signed release.`). `web/data/published-listings.json` is intentionally `[]` until a verified release exists; the directory UI continues to show unverified guide leads with confirmation warnings.
+
+## Model B sandbox (v0.2)
+
+- Feature flags live in `web/data/feature-flags.json` (version 2). Production `payments_card` / `payments_sepa` / `payments_base_mainnet` / `activity_payments` stay **false** while launch gates are blocked.
+- Sandbox UI flags (`payments_card_testmode_ui`, `payments_sepa_testmode_ui`, `payout_queue_sandbox`, …) may be enabled only on noindex sponsor/operator routes with **test** Stripe keys (`pk_test_` / `sk_test_`). Live keys fail validation.
+- Refund window defaults: 14 days card / 14 days SEPA (`web/data/settlement-config.json`). **Counsel note:** chargebacks can arrive after the window — production must not auto-payout until counsel signs the risk policy.
+- Association wallets: `web/data/association-wallet-registry.sandbox.json` (fictional only). Operator page `/readiness/association-wallets`. Never expose wallets on beneficiary routes.
+- Payout: `npm run payout:batch` (dry-run). `TestnetDirectProvider` for sandbox; `CaspProvider` throws `CASP_NOT_CONFIGURED` until a real authorised CASP adapter is registered. No DIY EUR→USDC.
+- Reconciliation: `npm run generate:reconciliation`. CI fails on mismatch fixture.
+- Base Sepolia deploy: `contracts/scripts/deploy-testnet.mjs` refuses without `--testnet --confirm` + `BASE_SEPOLIA_DEPLOY_KEY`. Needs Jakob OK.
+- Ethics review by Whitey before any PR that flips a **production** payment flag.

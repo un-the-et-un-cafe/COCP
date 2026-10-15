@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "period": "2026-10",
+  "synthetic": true,
+  "totals": {
+    "eur_in_paid_cents": 22800,
+    "eur_held_cents": 14900,
+    "eur_cleared_cents": 7900,
+    "eur_refunds_cents": 24900,
+    "eur_disputed_cents": 0,
+    "eur_admin_retained_cents": 790,
+    "usdc_settled_micro": 71100000
+  },
+  "mismatches": [],
+  "ok": true,
+  "row_count": 3
+}

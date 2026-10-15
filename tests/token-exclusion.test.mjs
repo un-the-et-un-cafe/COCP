@@ -4,7 +4,7 @@ import { readdir, readFile } from 'node:fs/promises';
 import { extname } from 'node:path';
 
 const root = new URL('..', import.meta.url);
-const scannedRoots = ['web/app', 'web/lib', 'web/package.json', 'contracts/src'];
+const scannedRoots = ['web/app', 'web/lib', 'web/components', 'web/convex', 'web/package.json', 'contracts/src', 'scripts'];
 const sourceExtensions = new Set(['.js', '.mjs', '.ts', '.tsx', '.sol', '.json']);
 
 async function collect(relative) {
@@ -29,10 +29,19 @@ test('repository excludes activity-token and market mechanisms', async () => {
     /addLiquidity\w*\s*\(/,
     /liquidityMining/i,
     /buyback\s*\(/i,
+    /\bburn\s*\(/i,
+    /\_mint\s*\(/,
     /priceOracle/i,
     /redeem\w*Token\w*Voucher/i,
   ];
+  const allowList = new Set([
+    'contracts/test/mocks/MockUSDC.sol', // test double only — no production mint path
+  ]);
   for (const relative of files) {
+    const normalised = relative.replace(/^\.\//, '');
+    if ([...allowList].some((a) => normalised.endsWith(a) || normalised === a)) continue;
+    // Skip vendored QR / node tooling noise under scripts/vendor
+    if (normalised.includes('scripts/vendor/')) continue;
     const text = await readFile(new URL(relative, root), 'utf8');
     for (const pattern of forbidden) assert.doesNotMatch(text, pattern, `${relative} violates token exclusion`);
   }
