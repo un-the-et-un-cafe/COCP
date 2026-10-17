@@ -24,7 +24,7 @@ test('Part 1 deck carries no sponsor keys (they live in deck-p3.json)', () => {
 });
 
 test('EUR → USDC flow mirrors its arrow in RTL', () => {
-  assert.match(read('app/globals.css'), /\[dir='rtl'\] \.flow-arrow \{[^}]*scaleX\(-1\)/);
+  assert.match(read('app/globals.css') + read('app/secondary.css'), /\[dir='rtl'\] \.flow-arrow \{[^}]*scaleX\(-1\)/);
   const batch = read('app/sponsors/ledger/batch/page.tsx');
   assert.ok(batch.includes('<Flow from={eur('));
   assert.ok(!/→ \{usdc/.test(batch));

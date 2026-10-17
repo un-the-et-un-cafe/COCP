@@ -172,6 +172,10 @@ export async function auditStaticSite(
       `${route}: HTML exceeds ${budgets.routeHtmlBytes} bytes.`,
     );
     auditHtml(html, route);
+    for (const m of html.matchAll(/(?:href|src)="(\/_next\/static\/[^"]+)"/g)) {
+      const exists = await stat(new URL(`.${m[1]}`, clientDirectory)).then(() => true, () => false);
+      assert(exists, `${route}: references missing asset ${m[1]}.`);
+    }
     if (['/sponsors/sandbox/', '/readiness/listings-qa/', '/sponsors/checkout/', '/sponsors/receipt/', '/sponsors/ledger/batch/'].includes(route)) {
       assert(
         /name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(html) ||

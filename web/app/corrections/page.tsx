@@ -1,5 +1,6 @@
 'use client';
 
+import '../secondary.css';
 import {
   useCallback,
   useEffect,

@@ -1,5 +1,6 @@
 'use client';
 
+import '../secondary.css';
 import Link from 'next/link';
 import {
   ArrowLeft,

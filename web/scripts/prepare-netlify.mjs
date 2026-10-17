@@ -1,4 +1,4 @@
-import { copyFile, mkdir, writeFile } from 'node:fs/promises';
+import { access, copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 const client = new URL('../dist/client/', import.meta.url);
@@ -30,6 +30,15 @@ for (const [source, destination] of pages) {
   const output = new URL(destination, client);
   await mkdir(new URL('./', output), { recursive: true });
   await copyFile(new URL(source, prerendered), output);
+  // vinext emits a modulepreload for the CSS-only chunk of a side-effect `import './x.css'`
+  // (secondary.css) but writes no such JS file: drop preloads that point at nothing.
+  const html = await readFile(output, 'utf8');
+  let fixed = html;
+  for (const m of html.matchAll(/<link rel="modulepreload" href="(\/_next\/static\/[^"]+\.js)"[^>]*\/?>/g)) {
+    const exists = await access(new URL(`.${m[1]}`, client)).then(() => true, () => false);
+    if (!exists) fixed = fixed.replace(m[0], '');
+  }
+  if (fixed !== html) await writeFile(output, fixed);
 }
 
 await writeFile(

@@ -1,5 +1,6 @@
 'use client';
 
+import '../../../secondary.css';
 import { useEffect, useState } from 'react';
 import rehearsal from '@/data/settlement-rehearsal.draft.json';
 import reconciliation from '@/data/reconciliation/2026-10.sandbox.json';
