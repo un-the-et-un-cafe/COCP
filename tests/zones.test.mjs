@@ -43,3 +43,14 @@ test('every ring is closed, has valid coordinates inside Calais, and does not se
     assert.ok(Math.abs(area) > 0, `${id}: non-degenerate`);
   }
 });
+
+test('zones-meta.json mirrors zones.json ids, order and names; geometry only in the lazy map chunk', () => {
+  const read = (p) => readFileSync(new URL(`../web/${p}`, import.meta.url), 'utf8');
+  const full = JSON.parse(read('data/zones.json'));
+  const meta = JSON.parse(read('data/zones-meta.json'));
+  assert.deepEqual(meta.zones, full.zones.map(({ id, order, name }) => ({ id, order, name })));
+  assert.ok(!read('app/map-ui.tsx').includes("from '../data/zones.json'"));
+  assert.ok(!read('app/need-view.tsx').includes("from '../data/zones.json'"));
+  assert.match(read('app/need-view.tsx'), /lazy\(\(\) => import\('\.\/zone-map'\)\)/);
+  assert.ok(read('app/zone-map.tsx').includes("from '../data/zones.json'"));
+});
