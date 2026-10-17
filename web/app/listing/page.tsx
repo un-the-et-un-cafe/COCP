@@ -48,8 +48,13 @@ export default function ListingPage() {
 
   return (
     <P1Shell locale={locale} setLocale={setLocale} note={t.details}>
-      {id === null ? null : !listing ? (
-        <p className="empty-state">{t.notFound}</p>
+      {id === null ? (
+        <h1 className="sr-only">{t.details}</h1>
+      ) : !listing ? (
+        <>
+          <h1>{t.details}</h1>
+          <p className="empty-state">{t.notFound}</p>
+        </>
       ) : (
         <article className="listing-detail">
           <h1>{listing.name}</h1>
