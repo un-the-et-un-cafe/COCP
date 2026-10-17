@@ -21,10 +21,9 @@ import ar from '../locales/ar.json';
 import { EmergencyStrip } from './emergency-strip';
 import { NeedIcon, OfflineBanner } from './listing-ui';
 import { LANGUAGES } from './languages';
-import { p1Copy } from './p1-copy';
+import { dataDate, p1Copy } from './p1-copy';
 import { T } from './deck-text';
 import { AudioHint } from './audio-hint';
-import { dataDate } from './p1-shell';
 import { isRtl, useLocale, type Locale } from './use-locale';
 
 type Copy = typeof fr;

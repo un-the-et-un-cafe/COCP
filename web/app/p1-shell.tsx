@@ -4,11 +4,10 @@ import Link from 'next/link';
 import { Languages } from 'lucide-react';
 import { EmergencyStrip } from './emergency-strip';
 import { OfflineBanner } from './listing-ui';
-import { p1Copy } from './p1-copy';
+import { dataDate, p1Copy } from './p1-copy';
 import { isRtl, type Locale } from './use-locale';
 
 /** Data snapshot label for the offline banner (source guide edition; no release published yet). */
-export const dataDate: Record<Locale, string> = { fr: 'août 2026', en: 'August 2026', ar: 'August 2026' };
 
 export function P1Shell({ locale, setLocale, note, children }: { locale: Locale; setLocale: (l: Locale) => void; note: string; children: React.ReactNode }) {
   const t = p1Copy[locale];
