@@ -15,6 +15,7 @@ import { PhoneIcon } from './marks';
 import { useLocale, type Locale } from './use-locale';
 
 const listings = listingsData as unknown as Listing[];
+const TILES_PUBLISHED = false;
 const names: Record<Locale, Record<string, string>> = { fr: fr.categories, en: en.categories, ar: ar.categories };
 
 function distanceM(a: [number, number], b: [number, number]) {
@@ -131,14 +132,14 @@ export function NeedView() {
           </span>
           <input type="checkbox" role="switch" aria-checked={useLoc} checked={useLoc} onChange={(e) => toggleLocation(e.target.checked)} />
         </label>
+        <p className="freshness switch-note">
+          <T locale={locale} k={here ? 'map.nearestFirst' : 'toggle.locationNote'} />
+        </p>
         <label className="switch">
           <span>{t.toggleOpenNow}</span>
           <input type="checkbox" role="switch" aria-checked={openNow} checked={openNow} onChange={(e) => setOpenNow(e.target.checked)} />
         </label>
       </div>
-      <p className="freshness">
-        <T locale={locale} k={here ? 'map.nearestFirst' : 'toggle.locationNote'} />
-      </p>
       {denied ? (
         <p className="alert">
           <T locale={locale} k="location.denied" />
@@ -149,7 +150,13 @@ export function NeedView() {
         <>
           <ZoneMap locale={locale} counts={counts} zone={zone} onZone={(z) => sync({ zone: z })} title={tr(locale, 'map.svgTitle')} />
           <ZoneChips locale={locale} counts={counts} zone={zone} onZone={(z) => sync({ zone: z })} />
-          <TilesOptIn locale={locale} />
+          {Object.keys(counts).length === 0 ? (
+            <p className="alert">
+              <T locale={locale} k="map.empty" />
+            </p>
+          ) : null}
+          {/* TilesOptIn stays hidden until a self-hosted tile set exists (QA N10). */}
+          {TILES_PUBLISHED ? <TilesOptIn locale={locale} /> : null}
         </>
       ) : null}
       {items.length === 0 ? (
