@@ -1,68 +1,50 @@
+import { tr, type DeckKey } from './deck';
 import type { Locale } from './use-locale';
 
-/** Part 1 copy from COCP-Copy-Deck-v0.3 (fr source, en reference). ar has no translation in
- *  the deck yet ("TODO human translator"), so it falls back to en until it is delivered. */
-const fr = {
-  openNow: 'Ouvert maintenant',
-  hoursUnknown: 'Horaires non confirmés',
-  toggleOpenNow: 'Ouvert maintenant',
-  openNowNoHours: 'Aucun horaire confirmé pour l’instant : ce filtre ne trouve rien. Désactivez-le pour voir la liste.',
-  listEmpty: 'Rien trouvé ici. Appelez le 115 pour un abri.',
-  offline: (d: string) => `Infos du ${d}`,
-  verified: (a: string, d: string) => `Vérifié par ${a} le ${d}`,
-  unverified: (p: number) => `Pas encore vérifié · guide p. ${p}`,
-  stale30: 'Peut-être plus à jour',
-  stale90: 'Info ancienne. Appelez avant d’y aller.',
-  reportButton: 'Signaler une erreur',
-  reportTitle: 'Qu’est-ce qui ne va pas ?',
-  reasons: { closed: 'Fermé', hours: 'Mauvais horaires', moved: 'A déménagé', other: 'Autre' },
-  submit: 'Envoyer',
-  success: 'Merci. Une association va vérifier.',
-  error: 'Pas envoyé. Réessayez plus tard.',
-  sending: 'Envoi…',
-  close: 'Fermer',
-  when: 'Quand',
-  where: 'Où',
-  what: 'Quoi',
-  who: 'Pour qui',
-  whoAll: 'Tout le monde',
-  map: 'Carte',
-  details: 'Détails',
-  back: 'Retour',
-  notFound: 'Ce service est introuvable.',
-  pickLanguage: 'Choisissez votre langue',
-  needs: 'De quoi avez-vous besoin ?',
+/** Part 1 copy from COCP Copy Deck v0.3.3 (fr source, en reference). ar has no translation in
+ *  the deck yet ("TODO human translator"), so it falls back to en until it is delivered.
+ *  `own` strings have no deck key yet (pending Whitey). */
+const build = (l: 'fr' | 'en') => {
+  const d = (k: DeckKey) => tr(l, k);
+  const own = {
+    fr: { openNowNoHours: 'Aucun horaire confirmé pour l’instant : ce filtre ne trouve rien. Désactivez-le pour voir la liste.', what: 'Quoi', who: 'Pour qui', whoAll: 'Tout le monde', details: 'Détails', back: 'Retour', guidePage: 'guide p.', call: 'Appeler' },
+    en: { openNowNoHours: 'No confirmed hours yet, so this filter finds nothing. Turn it off to see the list.', what: 'What', who: 'Who it’s for', whoAll: 'Everyone', details: 'Details', back: 'Back', guidePage: 'guide p.', call: 'Call' },
+  }[l];
+  return {
+    ...own,
+    openNow: d('status.open'),
+    hoursUnknown: d('listing.hoursUnknown'),
+    toggleOpenNow: d('toggle.openNow'),
+    listEmpty: d('list.empty'),
+    offline: (date: string) => d('offline.banner').replace('{date}', date),
+    verified: (a: string, date: string) => d('freshness.verified').replace('{association}', a).replace('{date}', date),
+    unverified: (p: number) => `${d('listing.unverified')} · ${own.guidePage} ${p}`,
+    stale30: d('freshness.stale30'),
+    stale90: d('freshness.stale90'),
+    reportButton: d('report.button'),
+    reportTitle: d('report.title'),
+    reasons: { closed: d('report.reason.closed'), hours: d('report.reason.hours'), moved: d('report.reason.moved'), other: d('report.reason.other') },
+    submit: d('report.submit'),
+    success: d('report.success'),
+    queued: d('report.queued'),
+    error: d('report.error'),
+    sending: d('report.sending'),
+    close: d('common.close'),
+    when: d('detail.when'),
+    where: d('detail.where'),
+    map: d('map.viewMap'),
+    notFound: d('common.notFound'),
+    pickLanguage: d('lang.pick'),
+    needs: d('home.needs'),
+    directions: d('detail.directions'),
+    addressPending: d('detail.addressPending'),
+    audioHint: d('need.audioHint'),
+  };
 };
-export type P1Copy = typeof fr;
-const en: P1Copy = {
-  openNow: 'Open now',
-  hoursUnknown: 'Hours not confirmed',
-  toggleOpenNow: 'Open now',
-  openNowNoHours: 'No confirmed hours yet, so this filter finds nothing. Turn it off to see the list.',
-  listEmpty: 'Nothing found here. Call 115 for shelter.',
-  offline: (d) => `Info from ${d}`,
-  verified: (a, d) => `Checked by ${a} on ${d}`,
-  unverified: (p) => `Not yet verified · guide p. ${p}`,
-  stale30: 'Maybe not up to date',
-  stale90: 'Old info. Call before you go.',
-  reportButton: 'Report outdated',
-  reportTitle: 'What is wrong?',
-  reasons: { closed: 'Closed', hours: 'Wrong hours', moved: 'Moved', other: 'Other' },
-  submit: 'Send',
-  success: 'Thanks. An association will check.',
-  error: 'Not sent. Try again later.',
-  sending: 'Sending…',
-  close: 'Close',
-  when: 'When',
-  where: 'Where',
-  what: 'What',
-  who: 'Who it’s for',
-  whoAll: 'Everyone',
-  map: 'Map',
-  details: 'Details',
-  back: 'Back',
-  notFound: 'This service could not be found.',
-  pickLanguage: 'Choose your language',
-  needs: 'What do you need?',
-};
+export type P1Copy = ReturnType<typeof build>;
+const fr = build('fr');
+const en = build('en');
 export const p1Copy: Record<Locale, P1Copy> = { fr, en, ar: en };
+
+/** Date of the bundled listing data (release-history.json is still empty). */
+export const dataDate: Record<Locale, string> = { fr: 'août 2026', en: 'August 2026', ar: 'August 2026' };

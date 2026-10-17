@@ -20,6 +20,9 @@ const pages = [
   ['sponsors.html', 'sponsors/index.html'],
   ['sponsors/ledger.html', 'sponsors/ledger/index.html'],
   ['sponsors/sandbox.html', 'sponsors/sandbox/index.html'],
+  ['sponsors/checkout.html', 'sponsors/checkout/index.html'],
+  ['sponsors/receipt.html', 'sponsors/receipt/index.html'],
+  ['sponsors/ledger/batch.html', 'sponsors/ledger/batch/index.html'],
   ['404.html', '404.html'],
 ];
 

@@ -14,7 +14,7 @@ import {
   CheckCircle2,
   ShieldCheck,
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import {
   NativeSelect,
   NativeSelectOption,
@@ -381,8 +381,8 @@ export default function CorrectionsPage() {
             />
             <span>{text.confirm}</span>
           </label>
-          <Button
-            className="submit-correction"
+          <button
+            className={buttonVariants({ className: 'submit-correction' })}
             type="submit"
             disabled={
               !listingId ||
@@ -392,7 +392,7 @@ export default function CorrectionsPage() {
             }
           >
             {state === 'sending' ? text.sending : text.submit}
-          </Button>
+          </button>
           {state === 'success' ? (
             <output className="form-result success">
               <CheckCircle2 aria-hidden="true" />

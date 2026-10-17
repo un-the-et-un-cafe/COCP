@@ -25,7 +25,7 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "DENY"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(self)"
 
 [[headers]]
   for = "/sponsors/sandbox/*"
@@ -47,3 +47,18 @@
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
 
+
+[[headers]]
+  for = "/sponsors/checkout/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/sponsors/receipt/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/sponsors/ledger/batch/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"

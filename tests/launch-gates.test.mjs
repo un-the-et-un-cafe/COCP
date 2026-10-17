@@ -8,6 +8,8 @@ const register = JSON.parse(
 );
 const page = await readFile(new URL("../web/app/readiness/page.tsx", import.meta.url), "utf8");
 const home = await readFile(new URL("../web/app/page.tsx", import.meta.url), "utf8");
+// QA N4 (spec §1.6): the readiness link moved from the Part 1 home footer to the neutral /changes page.
+const changesPage = await readFile(new URL("../web/app/changes/page.tsx", import.meta.url), "utf8");
 const preparation = await readFile(
   new URL("../web/scripts/prepare-netlify.mjs", import.meta.url),
   "utf8",
@@ -51,7 +53,8 @@ test("public approval register rejects personal approval fields", () => {
 });
 
 test("readiness route is public, static, and contains no activation control", () => {
-  assert.match(home, /href="\/readiness"/);
+  assert.match(changesPage, /href="\/readiness"/);
+  assert.doesNotMatch(home, /href="\/readiness"/);
   assert.match(preparation, /'readiness\.html', 'readiness\/index\.html'/);
   assert.match(audit, /'\/readiness\/', 'readiness\/index\.html'/);
   assert.match(page, /operational launch remains blocked/);

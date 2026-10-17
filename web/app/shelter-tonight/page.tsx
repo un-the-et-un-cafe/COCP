@@ -37,7 +37,7 @@ export default function ShelterTonightPage() {
         <div className="header-actions">
           <Link className="directory-link" href="/">
             <ArrowLeft size={18} aria-hidden="true" />
-            {t.back}
+            <span className="back-text">{t.back}</span>
           </Link>
           <label className="language-control">
             <Languages size={19} aria-hidden="true" />

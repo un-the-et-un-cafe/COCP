@@ -44,7 +44,7 @@ const copy = {
       },
       {
         title: 'Liens externes',
-        body: 'Les appels téléphoniques et les cartes OpenStreetMap quittent ce service. Aucune carte n’est intégrée et aucune géolocalisation n’est demandée. La politique de référent limite l’information envoyée aux sites externes à l’origine du site.',
+        body: 'Les appels téléphoniques et les cartes OpenStreetMap quittent ce service. Aucune carte externe n’est intégrée. La position n’est demandée que si vous activez « Utiliser ma position » : elle reste sur ce téléphone, n’est ni enregistrée ni envoyée. La politique de référent limite l’information envoyée aux sites externes à l’origine du site.',
       },
       {
         title: 'Sponsors et paiements',
@@ -94,7 +94,7 @@ const copy = {
       },
       {
         title: 'External links',
-        body: 'Telephone calls and OpenStreetMap links leave this service. No map is embedded and no geolocation is requested. The referrer policy limits information sent to external sites to the site origin.',
+        body: 'Telephone calls and OpenStreetMap links leave this service. No external map is embedded. Your location is requested only if you turn on “Use my location”: it stays on this phone and is never stored or sent. The referrer policy limits information sent to external sites to the site origin.',
       },
       {
         title: 'Sponsors and payments',
@@ -144,7 +144,7 @@ const copy = {
       },
       {
         title: 'الروابط الخارجية',
-        body: 'تغادر المكالمات الهاتفية وروابط OpenStreetMap هذه الخدمة. لا توجد خريطة مدمجة ولا يُطلب تحديد الموقع. تحد سياسة الإحالة المعلومات المرسلة إلى المواقع الخارجية بأصل الموقع.',
+        body: 'Telephone calls and OpenStreetMap links leave this service. No external map is embedded. Your location is requested only if you turn on “Use my location”: it stays on this phone and is never stored or sent. The referrer policy limits information sent to external sites to the site origin.',
       },
       {
         title: 'الرعاة والمدفوعات',

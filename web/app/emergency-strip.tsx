@@ -1,18 +1,38 @@
 import Link from 'next/link';
 import type { Locale } from './use-locale';
-import { CrossIcon, MoonIcon, PhoneIcon } from './marks';
+import { CrossIcon, MailIcon, MoonIcon, PhoneIcon } from './marks';
+import strip from './deck-strip.json';
 
-/** EmergencyStrip (design-system.md §2): four always-visible buttons in this order —
- *  112, 15 (SAMU), 115, Abri ce soir — on every Part 1 page. Never collapsed or hidden.
+// Subset of deck.json (Copy Deck v0.3.3) so pages that only need the strip don't load the deck.
+type DeckKey = keyof typeof strip.fr;
+const tr = (l: 'fr' | 'en', k: DeckKey) => strip[l][k];
+
+/** EmergencyStrip (design-system.md §2): four always-visible buttons in Jakob's order —
+ *  115, 112, 15 (SAMU), Abri ce soir — on every Part 1 page. Never collapsed or hidden.
  *  Copy: COCP-Copy-Deck-v0.3 (fr source, en reference). ar keeps the existing reviewed
  *  strings; deck keys without an ar translation fall back to en until the human translator
- *  delivers (deck: "TODO human translator"). 17 and 114 stay as a secondary text line
- *  (added in an earlier review; pending confirmation with Pinky/Whitey). */
+ *  delivers (deck: "TODO human translator"). 17 and 114 are secondary 48px full-width buttons in
+ *  one column (deck v0.3.3: emergency.more, emergency.btn.17, emergency.btn.114). */
 type Copy = { heading: string; b112: string; b15: string; b115: string; tonight: string; more: string; police: string; sms: string };
+/** Deck "115 · Abri" → "Abri" (the number is rendered separately in <bdi>). */
+const label = (l: 'fr' | 'en', k: DeckKey) => tr(l, k).replace(/^\d+\s*·\s*/, '');
+const fromDeck = (l: 'fr' | 'en'): Copy => ({
+  heading: tr(l, 'emergency.heading'),
+  b112: label(l, 'emergency.btn.112'),
+  b15: label(l, 'emergency.btn.15'),
+  b115: label(l, 'emergency.btn.115'),
+  tonight: tr(l, 'emergency.btn.shelterTonight'),
+  more: tr(l, 'emergency.more'),
+  police: label(l, 'emergency.btn.17'),
+  sms: label(l, 'emergency.btn.114'),
+});
+// ar: the existing reviewed strings. "Abri ce soir" and the 114 label (old ar draft flagged for the
+// translator, deck meaning changed) have no ar translation yet → en fallback isolated by dir="ltr"
+// (an element with dir is bidi-isolated, like <bdi>; a span keeps the label styling).
 const copy: Record<Locale, Copy> = {
-  fr: { heading: 'Urgence', b112: 'Urgence', b15: 'SAMU (médecin)', b115: 'Abri', tonight: 'Abri ce soir', more: 'Autres numéros :', police: 'Police', sms: 'SMS sourds / malentendants' },
-  en: { heading: 'Emergency', b112: 'Emergency', b15: 'SAMU (medical)', b115: 'Shelter', tonight: 'Shelter tonight', more: 'Other numbers:', police: 'Police', sms: 'SMS for deaf / hard of hearing' },
-  ar: { heading: 'الطوارئ', b112: 'الطوارئ العامة', b15: 'الطوارئ الطبية', b115: 'الإيواء الطارئ', tonight: 'Shelter tonight', more: 'أرقام أخرى:', police: 'الشرطة', sms: 'رسائل قصيرة للصم' },
+  fr: fromDeck('fr'),
+  en: fromDeck('en'),
+  ar: { heading: 'الطوارئ', b112: 'الطوارئ العامة', b15: 'الطوارئ الطبية', b115: 'الإيواء الطارئ', tonight: '', more: 'أرقام أخرى', police: 'الشرطة', sms: '' },
 };
 
 export function EmergencyStrip({ locale, headingLevel = 2 }: { locale: Locale; headingLevel?: 1 | 2 }) {
@@ -34,12 +54,18 @@ export function EmergencyStrip({ locale, headingLevel = 2 }: { locale: Locale; h
           <CrossIcon /> <bdi dir="ltr">15</bdi> <span>{t.b15}</span>
         </a>
         <Link className="call-btn" href="/shelter-tonight">
-          <MoonIcon /> <span>{t.tonight}</span>
+          <MoonIcon /> {t.tonight ? <span>{t.tonight}</span> : <span lang="en" dir="ltr">{tr('en', 'emergency.btn.shelterTonight')}</span>}
         </Link>
       </div>
-      <p className="emergency-more">
-        {t.more} <a href="tel:17"><bdi dir="ltr">17</bdi> {t.police}</a> · <a href="sms:114"><bdi dir="ltr">114</bdi> {t.sms}</a>
-      </p>
+      <p className="emergency-more">{t.more}</p>
+      <div className="emergency-more-grid">
+        <a className="call-btn call-btn-2" href="tel:17">
+          <PhoneIcon /> <bdi dir="ltr">17</bdi> <span>{t.police}</span>
+        </a>
+        <a className="call-btn call-btn-2" href="sms:114">
+          <MailIcon /> <bdi dir="ltr">114</bdi> {t.sms ? <span>{t.sms}</span> : <span lang="en" dir="ltr">{tr('en', 'emergency.btn.114').replace(/^\d+\s*·\s*/, '')}</span>}
+        </a>
+      </div>
     </section>
   );
 }

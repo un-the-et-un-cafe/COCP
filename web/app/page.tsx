@@ -2,18 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import {
-  AlertTriangle,
-  CheckCircle2,
-  Clock3,
-  Database,
-  ExternalLink,
-  Languages,
-  MapPin,
-  RefreshCw,
-  Search,
-  ShieldCheck,
-} from 'lucide-react';
+import { AlertTriangle, CheckCircle2, Clock3, Database, Languages, MapPin, RefreshCw, Search, ShieldCheck } from './home-icons';
 import publishedListings from '../data/published-listings.json';
 import candidateListings from '../data/listings.json';
 import fr from '../locales/fr.json';
@@ -22,22 +11,13 @@ import ar from '../locales/ar.json';
 import { EmergencyStrip } from './emergency-strip';
 import { NeedIcon, OfflineBanner } from './listing-ui';
 import { LANGUAGES } from './languages';
-import { p1Copy } from './p1-copy';
-import { dataDate } from './p1-shell';
+import { dataDate, p1Copy } from './p1-copy';
+import { T } from './deck-text';
+import { AudioHint } from './audio-hint';
 import { isRtl, useLocale, type Locale } from './use-locale';
 
 type Copy = typeof fr;
 const copies: Record<Locale, Copy> = { fr, en, ar };
-const needsTitle: Record<Locale, string> = {
-  fr: 'De quoi avez-vous besoin ?',
-  en: 'What do you need?',
-  ar: 'What do you need?',
-};
-const supportLabels: Record<Locale, string> = {
-  fr: 'Financer la vérification',
-  en: 'Fund verification',
-  ar: 'تمويل التحقق',
-};
 const changeLabels: Record<Locale, string> = {
   fr: 'Modifications et exports',
   en: 'Changes and exports',
@@ -63,11 +43,6 @@ const activityLabels: Record<Locale, string> = {
   en: 'Activity ideas',
   ar: 'أفكار الأنشطة',
 };
-const readinessLabels: Record<Locale, string> = {
-  fr: 'État du lancement',
-  en: 'Launch status',
-  ar: 'حالة الإطلاق',
-};
 const categories = [
   'all',
   'emergency',
@@ -82,7 +57,7 @@ type Listing = {
   id: string;
   name: string;
   categories: string[];
-  location: { label: string; map_url: string | null };
+  location: { label: string };
   source: { notes: string; page: number };
   verification: {
     status: string;
@@ -259,7 +234,7 @@ export default function Home() {
             {LANGUAGES.filter((l) => l.enabled).map((l) => (
               <li key={l.code}>
                 <button type="button" lang={l.code} onClick={() => { changeLocale(l.code as Locale); document.documentElement.classList.remove('first-visit'); }}>
-                  {l.native}
+                  <span className="lang-glyph" aria-hidden="true">{l.glyph}</span> {l.native}
                 </button>
               </li>
             ))}
@@ -271,6 +246,45 @@ export default function Home() {
         id="services"
         aria-labelledby="directory-title"
       >
+        <search className="controls">
+          <h2 className="needs-title">
+            <T locale={locale} k="home.needs" />
+          </h2>
+          <div className="need-grid" aria-label={copy.category_label}>
+            {categories.map((item) => (
+              <div className="need-tile-wrap" key={item}>
+                <button
+                  type="button"
+                  className="need-tile"
+                  aria-pressed={category === item}
+                  onClick={() => setCategory(item)}
+                >
+                  <NeedIcon id={item} />
+                  {copy.categories[item]}
+                </button>
+                <AudioHint text={copy.categories[item]} lang={locale} hint={p1Copy[locale].audioHint} />
+              </div>
+            ))}
+          </div>
+          <p className="need-open">
+            <Link className="btn-2" href={`/need/?id=${category}`}>
+              <NeedIcon id={category} /> <T locale={locale} k="map.textTitle" />
+            </Link>{' '}
+            <Link className="btn-2" href={`/need/?id=${category}&view=map`}>
+              <T locale={locale} k="map.viewMap" />
+            </Link>
+          </p>
+          <label className="search-box">
+            <Search size={20} aria-hidden="true" />
+            <span className="sr-only">{copy.search_label}</span>
+            <input
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder={copy.search_placeholder}
+            />
+          </label>
+        </search>
         <div className="directory-heading">
           <div>
             <p className="eyebrow">{copy.eyebrow}</p>
@@ -320,38 +334,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <search className="controls">
-          <h2 className="needs-title">{needsTitle[locale]}</h2>
-          <div className="need-grid" aria-label={copy.category_label}>
-            {categories.map((item) => (
-              <button
-                key={item}
-                type="button"
-                className="need-tile"
-                aria-pressed={category === item}
-                onClick={() => setCategory(item)}
-              >
-                <NeedIcon id={item} />
-                {copy.categories[item]}
-              </button>
-            ))}
-          </div>
-          <p className="need-open">
-            <Link className="btn-2" href={`/need/?id=${category}`}>
-              <NeedIcon id={category} /> {copy.categories[category]} ›
-            </Link>
-          </p>
-          <label className="search-box">
-            <Search size={20} aria-hidden="true" />
-            <span className="sr-only">{copy.search_label}</span>
-            <input
-              type="search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder={copy.search_placeholder}
-            />
-          </label>
-        </search>
         <p className="result-count" aria-live="polite">
           {visibleListings.length} {copy.results}
         </p>
@@ -406,16 +388,10 @@ export default function Home() {
                 </dl>
               )}
               <div className="card-actions">
-                {listing.location.map_url ? (
-                  <a
-                    href={listing.location.map_url}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <ExternalLink size={17} aria-hidden="true" />
-                    {copy.map}
-                  </a>
-                ) : null}
+                <Link href={`/need/?id=${listing.categories[0] ?? 'all'}&view=map`}>
+                  <MapPin size={17} aria-hidden="true" />
+                  {p1Copy[locale].map}
+                </Link>
                 <Link href={`/listing/?id=${listing.id}`}>{p1Copy[locale].details}</Link>
                 <Link href={`/corrections?listing=${listing.id}`}>
                   {correctionLabels[locale]}
@@ -432,8 +408,6 @@ export default function Home() {
         <ShieldCheck size={20} aria-hidden="true" />
         <p>{copy.footer_privacy}</p>
         <Link href="/changes">{changeLabels[locale]}</Link>
-        <Link href="/sponsors">{supportLabels[locale]}</Link>
-        <Link href="/readiness">{readinessLabels[locale]}</Link>
         <Link href="/activities">{activityLabels[locale]}</Link>
         <Link href="/privacy">{privacyLabels[locale]}</Link>
         <Link href="/accessibility">{accessibilityLabels[locale]}</Link>
