@@ -1,0 +1,89 @@
+{
+  "note": "Generated from zones.json (ids, order, names only); tests/zones.test.mjs keeps them equal.",
+  "zones": [
+    {
+      "id": "A",
+      "order": 1,
+      "name": {
+        "fr": "Blériot-Plage",
+        "en": "Blériot-Plage",
+        "ar": "TODO human translator",
+        "ps": "TODO human translator",
+        "fa": "TODO human translator",
+        "ti": "TODO human translator",
+        "ckb": "TODO human translator",
+        "kmr": "TODO human translator"
+      }
+    },
+    {
+      "id": "B",
+      "order": 2,
+      "name": {
+        "fr": "Fort-Nieulay",
+        "en": "Fort-Nieulay",
+        "ar": "TODO human translator",
+        "ps": "TODO human translator",
+        "fa": "TODO human translator",
+        "ti": "TODO human translator",
+        "ckb": "TODO human translator",
+        "kmr": "TODO human translator"
+      }
+    },
+    {
+      "id": "C",
+      "order": 3,
+      "name": {
+        "fr": "Calais-Nord – Centre",
+        "en": "Calais-Nord – Centre",
+        "ar": "TODO human translator",
+        "ps": "TODO human translator",
+        "fa": "TODO human translator",
+        "ti": "TODO human translator",
+        "ckb": "TODO human translator",
+        "kmr": "TODO human translator"
+      }
+    },
+    {
+      "id": "D",
+      "order": 4,
+      "name": {
+        "fr": "Saint-Pierre",
+        "en": "Saint-Pierre",
+        "ar": "TODO human translator",
+        "ps": "TODO human translator",
+        "fa": "TODO human translator",
+        "ti": "TODO human translator",
+        "ckb": "TODO human translator",
+        "kmr": "TODO human translator"
+      }
+    },
+    {
+      "id": "E",
+      "order": 5,
+      "name": {
+        "fr": "Beau-Marais",
+        "en": "Beau-Marais",
+        "ar": "TODO human translator",
+        "ps": "TODO human translator",
+        "fa": "TODO human translator",
+        "ti": "TODO human translator",
+        "ckb": "TODO human translator",
+        "kmr": "TODO human translator"
+      }
+    },
+    {
+      "id": "F",
+      "order": 6,
+      "name": {
+        "fr": "Zone industrielle des Dunes – Port Est",
+        "en": "Zone industrielle des Dunes – Port Est",
+        "ar": "TODO human translator",
+        "ps": "TODO human translator",
+        "fa": "TODO human translator",
+        "ti": "TODO human translator",
+        "ckb": "TODO human translator",
+        "kmr": "TODO human translator"
+      }
+    }
+  ]
+}

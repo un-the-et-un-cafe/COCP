@@ -20,7 +20,7 @@ test('beneficiary-facing page has no sponsor attribution or payment calls', () =
 
 test('beneficiary-facing directory restores source leads without claiming verification', () => {
   assert.match(page, /published-listings\.json/);
-  assert.match(page, /data\/listings\.json/);
+  assert.match(page, /data\/listings\.public\.json/); // listings.json minus fictional sandbox listings
   assert.match(page, /Date\.parse\(listing\.verification\.expires_at\) > currentTime/);
   assert.match(page, /copy\.unverified/);
   assert.match(page, /copy\.confirm_service/);

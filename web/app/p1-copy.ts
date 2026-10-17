@@ -1,15 +1,20 @@
 import { tr, type DeckKey } from './deck';
 import type { Locale } from './use-locale';
 
-/** Part 1 copy from COCP Copy Deck v0.3.3 (fr source, en reference). ar has no translation in
- *  the deck yet ("TODO human translator"), so it falls back to en until it is delivered.
- *  `own` strings have no deck key yet (pending Whitey). */
+/** Part 1 copy from COCP Copy Deck v0.3.5 (fr source, en reference). ar has no translation in
+ *  the deck yet ("TODO human translator"), so it falls back to en until it is delivered. */
 const build = (l: 'fr' | 'en') => {
   const d = (k: DeckKey) => tr(l, k);
   const own = {
-    fr: { openNowNoHours: 'Aucun horaire confirmé pour l’instant : ce filtre ne trouve rien. Désactivez-le pour voir la liste.', what: 'Quoi', who: 'Pour qui', whoAll: 'Tout le monde', details: 'Détails', back: 'Retour', guidePage: 'guide p.', call: 'Appeler' },
-    en: { openNowNoHours: 'No confirmed hours yet, so this filter finds nothing. Turn it off to see the list.', what: 'What', who: 'Who it’s for', whoAll: 'Everyone', details: 'Details', back: 'Back', guidePage: 'guide p.', call: 'Call' },
-  }[l];
+    openNowNoHours: d('list.openNowNoHours'),
+    what: d('detail.what'),
+    who: d('detail.who'),
+    whoAll: d('detail.whoAll'),
+    details: d('detail.details'),
+    back: d('common.back'),
+    guidePage: d('detail.guidePage'),
+    call: d('detail.call'),
+  };
   return {
     ...own,
     openNow: d('status.open'),

@@ -1,6 +1,6 @@
 import { env } from 'cloudflare:workers';
 import { validateCorrection } from '@/lib/correction-validation';
-import directoryListings from '@/data/listings.json';
+import directoryListings from '@/data/listings.public.json';
 
 const listings = directoryListings as Array<{ id: string }>;
 

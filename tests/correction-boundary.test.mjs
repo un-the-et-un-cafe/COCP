@@ -21,9 +21,9 @@ test('anonymous correction route has no public read operation or identity fields
   assert.match(corrections, /internalQuery/);
   assert.match(corrections, /internalMutation/);
   assert.doesNotMatch(schema, /email|phone|ipAddress|immigration|nationality|caseHistory/i);
-  assert.match(api, /data\/listings\.json/);
-  assert.match(netlifyApi, /data\/listings\.json/);
-  assert.match(form, /data\/listings\.json/);
+  assert.match(api, /data\/listings\.public\.json/);
+  assert.match(netlifyApi, /data\/listings\.public\.json/);
+  assert.match(form, /data\/listings\.public\.json/);
 });
 
 test('correction input is bounded and requires an explicit privacy confirmation', () => {

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { ArrowLeft, Languages } from 'lucide-react';
-import listings from '../../data/listings.json';
+import listings from '../../data/listings.public.json';
 import { EmergencyStrip } from '../emergency-strip';
 import { PhoneIcon } from '../marks';
 import { isRtl, useLocale, type Locale } from '../use-locale';

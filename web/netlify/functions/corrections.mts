@@ -1,4 +1,4 @@
-import directoryListings from '../../data/listings.json';
+import directoryListings from '../../data/listings.public.json';
 import { validateCorrection } from '../../lib/correction-validation';
 
 const listings = directoryListings as Array<{ id: string }>;

@@ -1,4 +1,5 @@
 import { readFile, mkdir, rename, writeFile } from 'node:fs/promises';
+import { publicListings } from './lib/sandbox-listings.mjs';
 import { dirname, resolve } from 'node:path';
 import { createRelease, listingsToCsv, signRelease, verifyRelease } from './release-lib.mjs';
 
@@ -35,7 +36,8 @@ for (const required of ['released-at', 'key-id', 'private-key', 'public-key']) {
 }
 
 const root = resolve(import.meta.dirname, '..');
-const listings = await readJson(resolve(root, 'web/data/listings.json'));
+// Fictional sandbox listings never go into a public release or export.
+const listings = publicListings(await readJson(resolve(root, 'web/data/listings.json')));
 const latestPath = resolve(root, 'web/public/releases/latest.json');
 const previousRelease = await readJson(latestPath);
 const privateKey = await readFile(resolve(args['private-key']), 'utf8');

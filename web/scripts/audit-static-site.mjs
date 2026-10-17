@@ -1,6 +1,7 @@
 import { readdir, readFile, stat } from 'node:fs/promises';
 import { extname, relative } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { isSandboxListing } from '../../scripts/lib/sandbox-listings.mjs';
 
 export const budgets = Object.freeze({
   totalBytes: 1_500_000,
@@ -9,6 +10,28 @@ export const budgets = Object.freeze({
   totalCssBytes: 225_000,
   routeHtmlBytes: 80_000,
 });
+
+/** Internal, noindex QA report that names unpublishable listings, including the sandbox ones. */
+export const SANDBOX_LISTING_ROUTES_ALLOWED = Object.freeze(['/readiness/listings-qa/']);
+
+/** JS a route can load: its <script>/modulepreload assets plus their static and dynamic imports
+ *  (lazy chunks such as the map view). The framework entry's route table (other pages' chunks,
+ *  loaded only when navigating there) is not followed. */
+export async function routeScriptClosure(html, clientDirectory) {
+  const seen = new Set();
+  const queue = [...new Set(html.match(/\/_next\/static\/[^"'\s)]+\.js/g) ?? [])];
+  while (queue.length) {
+    const asset = queue.pop();
+    if (seen.has(asset)) continue;
+    seen.add(asset);
+    const name = asset.split('/').pop();
+    if (/^index-[\w-]+\.js$/.test(name)) continue; // vinext client entry: route table only
+    const code = await readFile(new URL(`.${asset}`, clientDirectory), 'utf8').catch(() => '');
+    const dir = asset.slice(0, asset.lastIndexOf('/') + 1);
+    for (const m of code.matchAll(/(?:from\s*|import\s*\(\s*)["'`]\.\/([\w.-]+\.js)["'`]/g)) queue.push(dir + m[1]);
+  }
+  return [...seen];
+}
 
 const routes = [
   ['/', 'index.html'],
@@ -71,6 +94,7 @@ export function auditHtml(html, route) {
     `${route}: missing document title.`,
   );
   assert(/<h1(?:\s|>)/i.test(html), `${route}: missing primary heading.`);
+  assert(!html.includes('[copy:'), `${route}: deck fallback [copy: …] rendered (missing deck key).`);
   assert(
     !/<(?:iframe|frame|frameset|object|embed)(?:\s|>)/i.test(html),
     `${route}: embedded third-party content is forbidden.`,
@@ -171,6 +195,10 @@ export async function auditStaticSite(
       `${route}: HTML exceeds ${budgets.routeHtmlBytes} bytes.`,
     );
     auditHtml(html, route);
+    for (const m of html.matchAll(/(?:href|src)="(\/_next\/static\/[^"]+)"/g)) {
+      const exists = await stat(new URL(`.${m[1]}`, clientDirectory)).then(() => true, () => false);
+      assert(exists, `${route}: references missing asset ${m[1]}.`);
+    }
     if (['/sponsors/sandbox/', '/readiness/listings-qa/', '/sponsors/checkout/', '/sponsors/receipt/', '/sponsors/ledger/batch/'].includes(route)) {
       assert(
         /name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(html) ||
@@ -207,6 +235,33 @@ export async function auditStaticSite(
         !content.includes(signature.toLowerCase()),
         `${displayName}: secret signature ${signature} reached the client artifact.`,
       );
+    }
+  }
+
+  // Fictional sandbox listings must not reach any public page (HTML + its JS, lazy chunks included)
+  // or any export/print artefact. Only the internal noindex QA report may name them.
+  const sandbox = JSON.parse(await readFile(new URL('../data/listings.json', import.meta.url), 'utf8')).filter(isSandboxListing);
+  const needles = sandbox.flatMap((l) => [l.id, l.name]);
+  const shipped = [];
+  for (const [route, filename] of routes) {
+    if (SANDBOX_LISTING_ROUTES_ALLOWED.includes(route)) continue;
+    const html = await readFile(new URL(filename, clientDirectory), 'utf8');
+    shipped.push([route, html]);
+    for (const asset of await routeScriptClosure(html, clientDirectory)) shipped.push([`${route} ${asset}`, await readFile(new URL(`.${asset}`, clientDirectory), 'utf8')]);
+  }
+  for (const file of files) {
+    const rel = relative(fileURLToPath(clientDirectory), fileURLToPath(file));
+    if (/^(exports|print)\//.test(rel) && ['.html', '.json', '.csv', '.txt'].includes(extname(rel))) shipped.push([rel, await readFile(file, 'utf8')]);
+  }
+  for (const [where, text] of shipped) {
+    for (const n of needles) assert(!text.includes(n), `${where}: fictional sandbox listing "${n}" shipped.`);
+  }
+
+  // deck.ts falls back to `[copy: key]` when a key has no en text: fail the build instead.
+  for (const deckFile of ['deck.json', 'deck-p3.json', 'deck-strip.json']) {
+    const deck = JSON.parse(await readFile(new URL(`../app/${deckFile}`, import.meta.url), 'utf8'));
+    for (const key of Object.keys(deck.fr)) {
+      assert(typeof deck.en?.[key] === 'string' && deck.en[key].trim() !== '', `${deckFile}: ${key} has no en text, deck.ts would render [copy: ${key}].`);
     }
   }
 

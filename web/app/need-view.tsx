@@ -1,14 +1,14 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import listingsData from '../data/listings.json';
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import listingsData from '../data/listings.public.json';
 import fr from '../locales/fr.json';
 import en from '../locales/en.json';
 import ar from '../locales/ar.json';
 import { tr } from './deck';
 import { T } from './deck-text';
 import { FreshnessLine, NeedIcon, OpenBadge, type Listing } from './listing-ui';
-import { approxNote, AreaRow, OSM_ATTRIBUTION, TilesOptIn, UNASSIGNED, ViewSwitch, ZONES, ZoneChips, ZoneMap, zoneLabel, zoneOf } from './map-ui';
+import { AreaRow, OSM_ATTRIBUTION, UNASSIGNED, ViewSwitch, ZONES, zoneLabel, zoneOf } from './map-ui';
 import { p1Copy } from './p1-copy';
 import { P1Shell } from './p1-shell';
 import { PhoneIcon } from './marks';
@@ -16,6 +16,8 @@ import { useLocale, type Locale } from './use-locale';
 
 const listings = listingsData as unknown as Listing[];
 const TILES_PUBLISHED = false;
+// Zone geometry + SVG load only when the map view is shown (not on the list view or other routes).
+const MapView = lazy(() => import('./zone-map'));
 const names: Record<Locale, Record<string, string>> = { fr: fr.categories, en: en.categories, ar: ar.categories };
 
 function distanceM(a: [number, number], b: [number, number]) {
@@ -147,17 +149,9 @@ export function NeedView() {
       ) : null}
       {openNow ? <p className="alert">{t.openNowNoHours}</p> : null}
       {view === 'map' ? (
-        <>
-          <ZoneMap locale={locale} counts={counts} zone={zone} onZone={(z) => sync({ zone: z })} title={tr(locale, 'map.svgTitle')} />
-          <ZoneChips locale={locale} counts={counts} zone={zone} onZone={(z) => sync({ zone: z })} />
-          {Object.keys(counts).length === 0 ? (
-            <p className="alert">
-              <T locale={locale} k="map.empty" />
-            </p>
-          ) : null}
-          {/* TilesOptIn stays hidden until a self-hosted tile set exists (QA N10). */}
-          {TILES_PUBLISHED ? <TilesOptIn locale={locale} /> : null}
-        </>
+        <Suspense fallback={<div className="zone-map-loading" style={{ minHeight: 240 }} aria-busy="true" />}>
+          <MapView locale={locale} counts={counts} zone={zone} onZone={(z) => sync({ zone: z })} tiles={TILES_PUBLISHED} />
+        </Suspense>
       ) : null}
       {items.length === 0 ? (
         <div className="empty-state">
@@ -174,7 +168,7 @@ export function NeedView() {
         <div className="area-groups">
           {view === 'area' && anyZone ? (
             <p className="freshness">
-              <span lang={lang}>{approxNote[lang]}</span> <span lang="en">{OSM_ATTRIBUTION}</span>
+              <span lang={lang}>{tr(lang, 'map.approxNote')}</span> <span lang="en">{OSM_ATTRIBUTION}</span>
             </p>
           ) : null}
           {groups.map(({ k, ls }) => (

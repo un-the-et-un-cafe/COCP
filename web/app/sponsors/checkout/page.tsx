@@ -1,5 +1,6 @@
 'use client';
 
+import '../../secondary.css';
 import Link from 'next/link';
 import { useState } from 'react';
 import packagesData from '@/data/sponsor-packages.json';
