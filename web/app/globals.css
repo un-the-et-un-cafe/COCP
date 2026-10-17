@@ -1021,3 +1021,4 @@ footer a,.transparency-links a { display:inline-flex; align-items:center; min-he
 @media (min-width:600px) { .p3-dl { grid-template-columns:minmax(8rem,14rem) minmax(0,1fr); } .p3-dl dd { margin-block-end:0; } }
 @media (max-width:420px) { .header-actions { flex-wrap:nowrap; gap:var(--space-2); } .site-header { gap:var(--space-2); } .site-header .language-control > svg { display:none; } .site-header .language-control { padding-inline:var(--space-2); } }
 [dir='rtl'] .flow-arrow { display:inline-block; transform:scaleX(-1); }
+.brand-home { min-height:var(--tap); display:inline-flex; align-items:center; }

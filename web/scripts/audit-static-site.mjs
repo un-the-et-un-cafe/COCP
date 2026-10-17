@@ -71,6 +71,7 @@ export function auditHtml(html, route) {
     `${route}: missing document title.`,
   );
   assert(/<h1(?:\s|>)/i.test(html), `${route}: missing primary heading.`);
+  assert(!html.includes('[copy:'), `${route}: deck fallback [copy: …] rendered (missing deck key).`);
   assert(
     !/<(?:iframe|frame|frameset|object|embed)(?:\s|>)/i.test(html),
     `${route}: embedded third-party content is forbidden.`,
@@ -207,6 +208,14 @@ export async function auditStaticSite(
         !content.includes(signature.toLowerCase()),
         `${displayName}: secret signature ${signature} reached the client artifact.`,
       );
+    }
+  }
+
+  // deck.ts falls back to `[copy: key]` when a key has no en text: fail the build instead.
+  for (const deckFile of ['deck.json', 'deck-p3.json', 'deck-strip.json']) {
+    const deck = JSON.parse(await readFile(new URL(`../app/${deckFile}`, import.meta.url), 'utf8'));
+    for (const key of Object.keys(deck.fr)) {
+      assert(typeof deck.en?.[key] === 'string' && deck.en[key].trim() !== '', `${deckFile}: ${key} has no en text, deck.ts would render [copy: ${key}].`);
     }
   }
 
