@@ -1,34 +1,10 @@
-import deck from './deck.json';
+import deck from './deck-p3.json';
 import type { Locale } from './use-locale';
 
-/* Part 3 copy from Copy Deck v0.3.4 (deck.json). `extra` holds the settlement-detail labels that
- * have no deck key yet (FR/EN, pending Whitey). ar falls back to en: no machine translation.
- * receipt.refundWindow is rendered with its [OFFEN] placeholder (no day count from config), and
- * The deck's fiscal-document key is deliberately not used (no such claim until counsel confirms). */
-const extra = {
-  fr: {
-    batchTitle: 'Détail du versement',
-    batch: 'Lot',
-    association: 'Association',
-    conversion: 'EUR → USDC',
-    rate: 'Conversion (sandbox)',
-    reconciliation: 'Rapprochement',
-    recOk: 'Conforme',
-    recMismatch: 'Écart',
-    noTx: 'Aucune transaction publique pour ce lot : répétition synthétique, rien n’a été envoyé sur la chaîne.',
-  },
-  en: {
-    batchTitle: 'Settlement detail',
-    batch: 'Batch',
-    association: 'Association',
-    conversion: 'EUR → USDC',
-    rate: 'Conversion (sandbox)',
-    reconciliation: 'Reconciliation',
-    recOk: 'Matches',
-    recMismatch: 'Mismatch',
-    noTx: 'No public transaction for this batch: synthetic rehearsal, nothing was sent on-chain.',
-  },
-};
+/* Part 3 copy from Copy Deck v0.3.5 (deck-p3.json: sponsor/public keys, so Part 1 pages never load
+ * them). ar falls back to en: no machine translation. receipt.refundWindow is rendered with its
+ * [OFFEN] placeholder (no day count from config), and the deck's fiscal-document key is
+ * deliberately not used (no such claim until counsel confirms). */
 
 const fromDeck = (l: 'fr' | 'en') => {
   const d = deck[l];
@@ -47,12 +23,21 @@ const fromDeck = (l: 'fr' | 'en') => {
     seeBatch: d['receipt.seeBatch'],
     notFound: d['receipt.notFound'],
     refundWindow: d['receipt.refundWindow'],
+    batchTitle: d['batch.title'],
+    batch: d['batch.batch'],
+    association: d['batch.association'],
+    conversion: d['batch.conversion'],
+    rate: d['batch.rate'],
+    reconciliation: d['batch.reconciliation'],
+    recOk: d['batch.recOk'],
+    recMismatch: d['batch.recMismatch'],
+    noTx: d['batch.noTx'],
   };
 };
 
 export function p3Copy(locale: Locale) {
   const lang = locale === 'fr' ? 'fr' : 'en';
-  return { lang, d: deck[lang], x: { ...extra[lang], ...fromDeck(lang) } } as const;
+  return { lang, d: deck[lang], x: fromDeck(lang) } as const;
 }
 
 export const eur = (cents: number, lang: 'fr' | 'en') => {

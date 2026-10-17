@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { tr } from './deck';
 import { T } from './deck-text';
 import type { Listing } from './listing-ui';
 import type { Locale } from './use-locale';
@@ -40,11 +41,6 @@ export const ZONES: Zone[] = [...data.zones]
 export const zoneLabel = (z: Zone, locale: string) => {
   const v = z.name[locale];
   return v && !v.startsWith('TODO') ? v : z.name.en;
-};
-/* Not in the deck yet (pending Whitey): approximate-boundary note. */
-export const approxNote = {
-  fr: 'Limites approximatives, à confirmer par les associations.',
-  en: 'Approximate boundaries, to be confirmed by associations.',
 };
 export const OSM_ATTRIBUTION = '© OpenStreetMap contributors, ODbL';
 export const UNASSIGNED = 'unassigned';
@@ -96,7 +92,7 @@ export function ZoneMap({ locale, counts, zone, onZone, title }: { locale: Local
         ))}
       </ul>
       <figcaption className="freshness" dir="auto">
-        <span lang={lang}>{approxNote[lang]}</span> <span lang="en">{OSM_ATTRIBUTION}</span>
+        <span lang={lang}>{tr(lang, 'map.approxNote')}</span> <span lang="en">{OSM_ATTRIBUTION}</span>
       </figcaption>
     </figure>
   );

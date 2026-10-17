@@ -27,6 +27,8 @@ test('no [copy: …] placeholder key in the rendered HTML (when a build exists)'
 });
 
 test('every deck key the app uses exists in fr and en', () => {
-  const deck = JSON.parse(readFileSync(new URL('app/deck.json', root), 'utf8'));
-  for (const k of Object.keys(deck.fr)) assert.ok(deck.en[k], k);
+  for (const f of ['app/deck.json', 'app/deck-p3.json', 'app/deck-strip.json']) {
+    const deck = JSON.parse(readFileSync(new URL(f, root), 'utf8'));
+    for (const k of Object.keys(deck.fr)) assert.ok(deck.en[k], `${f} ${k}`);
+  }
 });

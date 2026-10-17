@@ -35,3 +35,17 @@ export function P3Shell({ locale, setLocale, back, backLabel, children }: { loca
     </main>
   );
 }
+
+/** "EUR → USDC" as a flow: each side is isolated and the arrow mirrors in RTL (CSS .flow-arrow),
+ *  so an RTL page shows "USDC ← EUR" (read right to left, EUR first). */
+export function Flow({ from, to }: { from: ReactNode; to: ReactNode }) {
+  return (
+    <>
+      <bdi dir="ltr">{from}</bdi> <span className="flow-arrow">→</span> <bdi dir="ltr">{to}</bdi>
+    </>
+  );
+}
+export const flowParts = (label: string) => {
+  const [a, b] = label.split('→').map((s) => s.trim());
+  return b === undefined ? null : ([a, b] as const);
+};

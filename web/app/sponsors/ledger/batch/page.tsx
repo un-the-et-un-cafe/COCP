@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import rehearsal from '@/data/settlement-rehearsal.draft.json';
 import reconciliation from '@/data/reconciliation/2026-10.sandbox.json';
-import { P3Shell } from '../../../p3-shell';
+import { Flow, flowParts, P3Shell } from '../../../p3-shell';
 import { eur, p3Copy, parisDate, usdc } from '../../../p3-copy';
 import { useLocale } from '../../../use-locale';
 
@@ -19,6 +19,7 @@ export default function BatchPage() {
     const frame = requestAnimationFrame(() => setId(new URLSearchParams(window.location.search).get('id') ?? ''));
     return () => cancelAnimationFrame(frame);
   }, []);
+  const conv = flowParts(x.conversion);
   const rows = rehearsal.rows.filter((r) => r.campaign_id === id);
   const period = rows[0]?.recorded_at.slice(0, 7);
   const rec = reconciliation.period === period ? reconciliation : null;
@@ -47,8 +48,8 @@ export default function BatchPage() {
                 <dd><code dir="ltr">{r.association_label}</code></dd>
                 <dt>{d['receipt.date']}</dt>
                 <dd><bdi dir="ltr">{parisDate(r.recorded_at, lang)}</bdi></dd>
-                <dt>{x.conversion}</dt>
-                <dd><bdi dir="ltr">{eur(r.split_90_10.charity_eur_cents, lang)} → {usdc(r.usdc_amount_micro)}</bdi></dd>
+                <dt>{conv ? <Flow from={conv[0]} to={conv[1]} /> : x.conversion}</dt>
+                <dd><Flow from={eur(r.split_90_10.charity_eur_cents, lang)} to={usdc(r.usdc_amount_micro)} /></dd>
                 <dt>{d['ledger.adminEur']}</dt>
                 <dd><bdi dir="ltr">{eur(r.split_90_10.admin_eur_cents, lang)}</bdi></dd>
                 <dt>{x.rate}</dt>

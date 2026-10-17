@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 
 const read = (p) => readFileSync(new URL(`../web/${p}`, import.meta.url), 'utf8');
-const deck = JSON.parse(read('app/deck.json'));
+const deck = JSON.parse(read('app/deck-p3.json'));
 
 test('receipt shows the refund window as the deck [OFFEN] placeholder, not a day count from config', () => {
   const page = read('app/sponsors/receipt/page.tsx');

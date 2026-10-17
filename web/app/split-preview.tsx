@@ -1,5 +1,5 @@
 import type { Locale } from './use-locale';
-import deck from './deck.json';
+import deck from './deck-p3.json';
 
 /** SplitPreview (design-system.md §2): bar without labels (aria-hidden), then a visible
  *  legend with swatches and amounts, then the deck sentence + detail + rounding lines.
