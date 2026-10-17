@@ -47,3 +47,18 @@
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
 
+
+[[headers]]
+  for = "/sponsors/checkout/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/sponsors/receipt/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/sponsors/ledger/batch/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"

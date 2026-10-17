@@ -22,6 +22,12 @@ const routes = [
   ['/sponsors/', 'sponsors/index.html'],
   ['/sponsors/ledger/', 'sponsors/ledger/index.html'],
   ['/sponsors/sandbox/', 'sponsors/sandbox/index.html'],
+  ['/sponsors/checkout/', 'sponsors/checkout/index.html'],
+  ['/sponsors/receipt/', 'sponsors/receipt/index.html'],
+  ['/sponsors/ledger/batch/', 'sponsors/ledger/batch/index.html'],
+  ['/need/', 'need/index.html'],
+  ['/map/', 'map/index.html'],
+  ['/listing/', 'listing/index.html'],
 ];
 
 /** Static artefacts copied as-is (evidence/print) — tracker + secret scan only. */
@@ -166,7 +172,7 @@ export async function auditStaticSite(
       `${route}: HTML exceeds ${budgets.routeHtmlBytes} bytes.`,
     );
     auditHtml(html, route);
-    if (route === '/sponsors/sandbox/' || route === '/readiness/listings-qa/') {
+    if (['/sponsors/sandbox/', '/readiness/listings-qa/', '/sponsors/checkout/', '/sponsors/receipt/', '/sponsors/ledger/batch/'].includes(route)) {
       assert(
         /name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(html) ||
           /content=["'][^"']*noindex[^"']*["'][^>]*name=["']robots["']/i.test(html) ||

@@ -126,6 +126,9 @@ const evidenceHref: Record<Locale, string> = {
   ar: '/evidence/evidence-pack.synthetic.ar.html',
 };
 
+// Links to the P3 sandbox screens; labels pending Whitey (ar falls back to en).
+const p3 = { fr: { checkout: 'Paiement (test)', batch: 'Détail du versement (synthétique)' }, en: { checkout: 'Checkout (test)', batch: 'Settlement detail (synthetic)' } };
+
 export default function SponsorSandboxPage() {
   const [locale, setLocale] = useLocale();
   const t = copy[locale];
@@ -193,6 +196,10 @@ export default function SponsorSandboxPage() {
           <a href={evidenceHref[locale]}>{t.evidence}</a>
           {' · '}
           <Link href="/sponsors/ledger">{t.ledger}</Link>
+          {' · '}
+          <Link href="/sponsors/checkout">{p3[locale === 'fr' ? 'fr' : 'en'].checkout}</Link>
+          {' · '}
+          <Link href="/sponsors/ledger/batch/?id=sandbox-verification-2026-10">{p3[locale === 'fr' ? 'fr' : 'en'].batch}</Link>
         </p>
       </section>
 

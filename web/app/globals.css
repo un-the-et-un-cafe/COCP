@@ -943,3 +943,17 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:2px so
 .map-here { fill: var(--destructive, #b42318); stroke: var(--background); stroke-width: 2; }
 .map-legend { margin: var(--space-3) 0 0; padding-inline-start: 1.2em; display: grid; gap: 4px; }
 .map-legend a { display: inline-block; min-block-size: 32px; line-height: 32px; }
+.p3-body { max-inline-size: 640px; margin: 0 auto; padding: var(--space-4); display: grid; gap: var(--space-3); }
+.p3-body h1 { margin: 0; }
+.p3-form { display: grid; gap: var(--space-3); }
+.p3-field { display: grid; gap: 6px; }
+.p3-field select { min-block-size: var(--tap); }
+.p3-check { display: flex; gap: var(--space-2); align-items: center; min-block-size: var(--tap); }
+.p3-check input { inline-size: 24px; block-size: 24px; }
+.p3-form .btn-1 { min-block-size: var(--tap); }
+.p3-form .btn-1:disabled { opacity: .55; cursor: not-allowed; }
+.p3-dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px var(--space-3); margin: 0; }
+.p3-dl dt { font-weight: 600; }
+.p3-dl dd { margin: 0; overflow-wrap: anywhere; }
+.pill-ok { background: color-mix(in oklab, #1a7f37 15%, transparent); color: #1a7f37; }
+.pill-warn { background: color-mix(in oklab, #b54708 15%, transparent); color: #b54708; }
