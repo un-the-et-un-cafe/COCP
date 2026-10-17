@@ -18,11 +18,6 @@ import { isRtl, useLocale, type Locale } from './use-locale';
 
 type Copy = typeof fr;
 const copies: Record<Locale, Copy> = { fr, en, ar };
-const supportLabels: Record<Locale, string> = {
-  fr: 'Financer la vérification',
-  en: 'Fund verification',
-  ar: 'تمويل التحقق',
-};
 const changeLabels: Record<Locale, string> = {
   fr: 'Modifications et exports',
   en: 'Changes and exports',
@@ -47,11 +42,6 @@ const activityLabels: Record<Locale, string> = {
   fr: 'Idées d’activités',
   en: 'Activity ideas',
   ar: 'أفكار الأنشطة',
-};
-const readinessLabels: Record<Locale, string> = {
-  fr: 'État du lancement',
-  en: 'Launch status',
-  ar: 'حالة الإطلاق',
 };
 const categories = [
   'all',
@@ -418,8 +408,6 @@ export default function Home() {
         <ShieldCheck size={20} aria-hidden="true" />
         <p>{copy.footer_privacy}</p>
         <Link href="/changes">{changeLabels[locale]}</Link>
-        <Link href="/sponsors">{supportLabels[locale]}</Link>
-        <Link href="/readiness">{readinessLabels[locale]}</Link>
         <Link href="/activities">{activityLabels[locale]}</Link>
         <Link href="/privacy">{privacyLabels[locale]}</Link>
         <Link href="/accessibility">{accessibilityLabels[locale]}</Link>

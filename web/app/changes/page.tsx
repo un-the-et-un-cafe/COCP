@@ -21,6 +21,10 @@ type ReleaseSummary = {
   changes: { added: string[]; updated: string[]; removed: string[] };
 };
 
+const ledgerLabel: Record<Locale, string> = { fr: 'Registre public', en: 'Public ledger', ar: 'Public ledger' };
+const readinessLabel: Record<Locale, string> = { fr: 'État du lancement', en: 'Launch status', ar: 'حالة الإطلاق' };
+const transparencyNav: Record<Locale, string> = { fr: 'Transparence', en: 'Transparency', ar: 'Transparency' };
+
 const copy = {
   fr: {
     brandNote: 'Données publiques vérifiables',
@@ -247,6 +251,12 @@ export default function ChangesPage() {
             </ol>
           )}
         </section>
+        {/* Neutral entry to the transparency pages, moved off the Part 1 home footer (spec §1.6:
+            no payment wording in Part 1). Labels: deck ledger.title + the existing readiness label. */}
+        <nav className="transparency-links" aria-label={transparencyNav[locale]}>
+          <Link href="/sponsors/ledger">{ledgerLabel[locale]}</Link>
+          <Link href="/readiness">{readinessLabel[locale]}</Link>
+        </nav>
       </section>
     </main>
   );
