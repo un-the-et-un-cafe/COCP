@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import listingsData from '../../data/listings.json';
+import listingsData from '../../data/listings.public.json';
 import { FreshnessLine, OpenBadge, type Listing } from '../listing-ui';
 import { p1Copy } from '../p1-copy';
 import { P1Shell } from '../p1-shell';

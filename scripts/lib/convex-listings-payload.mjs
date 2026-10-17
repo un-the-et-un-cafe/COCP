@@ -3,6 +3,8 @@
 // any field the schema does not declare is stripped. tests/convex-import-payload.test.mjs validates
 // the payload against the real schema export and keeps SERVICE_LISTING_FIELDS equal to it.
 
+import { isSandboxListing as isFictional } from './sandbox-listings.mjs';
+
 /** Fields of serviceListings in web/convex/schema.ts (nested objects list their own fields). */
 export const SERVICE_LISTING_FIELDS = Object.freeze({
   id: true,
@@ -16,12 +18,10 @@ export const SERVICE_LISTING_FIELDS = Object.freeze({
   publishable: true,
 });
 
-/** Sandbox/demo listings: a sandbox-* id, a sandbox* tag, or any `tags` field at all (tags are a
- *  sandbox-only extension of the listing schema and must not reach the production directory). */
+/** Sandbox/demo listings (see sandbox-listings.mjs), plus anything with a `tags` field at all
+ *  (tags are a sandbox-only extension of the listing schema and must not reach production). */
 export function isSandboxListing(listing) {
-  if (typeof listing?.id === 'string' && listing.id.startsWith('sandbox-')) return true;
-  if (listing && Object.hasOwn(listing, 'tags')) return true;
-  return false;
+  return isFictional(listing) || (listing !== null && typeof listing === 'object' && Object.hasOwn(listing, 'tags'));
 }
 
 const pick = (value, keys) =>

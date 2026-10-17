@@ -21,7 +21,7 @@ import {
   NativeSelectOption,
 } from '@/components/ui/native-select';
 import { Textarea } from '@/components/ui/textarea';
-import directoryListings from '@/data/listings.json';
+import directoryListings from '@/data/listings.public.json';
 import { EmergencyStrip } from '../emergency-strip';
 import { isRtl, useLocale, type Locale } from '../use-locale';
 

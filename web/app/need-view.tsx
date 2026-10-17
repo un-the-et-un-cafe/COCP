@@ -1,7 +1,7 @@
 'use client';
 
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
-import listingsData from '../data/listings.json';
+import listingsData from '../data/listings.public.json';
 import fr from '../locales/fr.json';
 import en from '../locales/en.json';
 import ar from '../locales/ar.json';

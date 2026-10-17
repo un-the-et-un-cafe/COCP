@@ -5,6 +5,7 @@ import { spawnSync } from 'node:child_process';
 import { join, resolve } from 'node:path';
 import { canonicalJson } from './release-lib.mjs';
 import { buildServiceListingsPayload } from './lib/convex-listings-payload.mjs';
+import { publicListings } from './lib/sandbox-listings.mjs';
 
 const netlifyProduction = process.argv.includes('--netlify-production');
 const production = netlifyProduction || process.argv.includes('--prod');
@@ -18,7 +19,9 @@ if (production && !netlifyProduction && !process.argv.includes('--confirm-produc
 const root = resolve(import.meta.dirname, '..');
 const web = resolve(root, 'web');
 const sourcePath = resolve(web, 'data/listings.json');
-const listings = JSON.parse(await readFile(sourcePath, 'utf8'));
+// Same list the public pages bundle (web/data/listings.public.json), so the home page's sourceHash
+// check matches what was synced.
+const listings = publicListings(JSON.parse(await readFile(sourcePath, 'utf8')));
 const sourceHash = `sha256-${createHash('sha256').update(canonicalJson(listings)).digest('hex')}`;
 // Sandbox listings stay out of Convex and non-schema fields are stripped, so the schema stays strict.
 const { payload, excluded, stripped } = buildServiceListingsPayload(listings);
