@@ -5,55 +5,88 @@ import { useEffect, useState } from 'react';
 import { T } from './deck-text';
 import type { Listing } from './listing-ui';
 import type { Locale } from './use-locale';
+import zonesData from '../data/zones.json';
 
-/** Map & text by area (screens.md "Part 1 · Map & text by area", v0.3.2/0.3.3).
- *  There is no web/data/zones.json yet and no listing carries a `zone` (zones are assigned by an
- *  association), so the six zones are PLACEHOLDERS: names "[zone A]"…"[zone F]" and schematic
- *  shapes (not geography). Unassigned listings are listed under a placeholder group. */
-export type Zone = { id: string; name: string; d: string; cx: number; cy: number };
-export const ZONES: Zone[] = [
-  { id: 'A', name: '[zone A]', d: 'M8 10H112L106 72H8Z', cx: 58, cy: 46 },
-  { id: 'B', name: '[zone B]', d: 'M112 10H212L218 72H106Z', cx: 162, cy: 46 },
-  { id: 'C', name: '[zone C]', d: 'M212 10H320V82L218 72Z', cx: 268, cy: 46 },
-  { id: 'D', name: '[zone D]', d: 'M8 72H106L112 140H8Z', cx: 58, cy: 108 },
-  { id: 'E', name: '[zone E]', d: 'M106 72H218L224 140H112Z', cx: 166, cy: 108 },
-  { id: 'F', name: '[zone F]', d: 'M218 72L320 82V140H224Z', cx: 272, cy: 112 },
-];
-export const UNASSIGNED = '[copy: map.zoneUnassigned]';
+/** Map & text by area (screens.md "Part 1 · Map & text by area", v0.3.2–0.3.4).
+ *  Zones come from web/data/zones.json (approximate boundaries from © OpenStreetMap contributors,
+ *  ODbL; to be confirmed by Calais associations). No listing carries a `zone` yet (zones are
+ *  assigned by an association), so listings stay under map.zoneUnassigned until then. */
+type ZoneData = { id: string; order: number; name: Record<string, string>; polygon: [number, number][] };
+const data = zonesData as unknown as { source: string; zones: ZoneData[] };
+export type Zone = { id: string; name: Record<string, string>; d: string; cx: number; cy: number };
+
+// Local equirectangular projection of the zone rings into the SVG viewBox (north up).
+const W = 328;
+const all = data.zones.flatMap((z) => z.polygon);
+const k = Math.cos((50.95 * Math.PI) / 180);
+const minX = Math.min(...all.map((p) => p[0])) * k;
+const maxX = Math.max(...all.map((p) => p[0])) * k;
+const minY = Math.min(...all.map((p) => p[1]));
+const maxY = Math.max(...all.map((p) => p[1]));
+const PAD = 6;
+const scale = (W - 2 * PAD) / (maxX - minX);
+export const MAP_H = Math.round((maxY - minY) * scale + 2 * PAD);
+const px = (p: [number, number]) => [PAD + (p[0] * k - minX) * scale, MAP_H - PAD - (p[1] - minY) * scale] as const;
+
+export const ZONES: Zone[] = [...data.zones]
+  .sort((a, b) => a.order - b.order)
+  .map((z) => {
+    const pts = z.polygon.slice(0, -1).map(px);
+    const cx = pts.reduce((s, p) => s + p[0], 0) / pts.length;
+    const cy = pts.reduce((s, p) => s + p[1], 0) / pts.length;
+    return { id: z.id, name: z.name, d: `M${pts.map((p) => `${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join('L')}Z`, cx, cy };
+  });
+/** Zone names are data: fr source, en reference; untranslated languages fall back to en. */
+export const zoneLabel = (z: Zone, locale: string) => {
+  const v = z.name[locale];
+  return v && !v.startsWith('TODO') ? v : z.name.en;
+};
+/* Not in the deck yet (pending Whitey): approximate-boundary note. */
+export const approxNote = {
+  fr: 'Limites approximatives, à confirmer par les associations.',
+  en: 'Approximate boundaries, to be confirmed by associations.',
+};
+export const OSM_ATTRIBUTION = '© OpenStreetMap contributors, ODbL';
+export const UNASSIGNED = 'unassigned';
 export const zoneOf = (l: Listing) => (l as Listing & { zone?: string }).zone ?? null;
 
 export function ViewSwitch({ locale, view, onChange }: { locale: Locale; view: 'area' | 'map'; onChange: (v: 'area' | 'map') => void }) {
   return (
     <fieldset className="view-switch">
-      <legend className="sr-only">[copy: map.viewSwitch]</legend>
+      <legend className="sr-only">
+        <T locale={locale} k="map.viewSwitch" />
+      </legend>
       {(['area', 'map'] as const).map((v) => (
         <label key={v}>
           <input type="radio" name="view" value={v} checked={view === v} onChange={() => onChange(v)} />
-          <span>{v === 'area' ? <T locale={locale} k="map.textTitle" /> : <T locale={locale} k="map.viewMap" />}</span>
+          <span>{v === 'area' ? <T locale={locale} k="map.viewList" /> : <T locale={locale} k="map.viewMap" />}</span>
         </label>
       ))}
     </fieldset>
   );
 }
 
-/** Inline SVG (dir=ltr, works offline, < 2 KB): tap a zone to filter. Shapes are schematic. */
+/** Inline SVG (dir=ltr, works offline): tap a zone to filter. Shapes are approximate. */
 export function ZoneMap({ locale, counts, zone, onZone, title }: { locale: Locale; counts: Record<string, number>; zone: string | null; onZone: (z: string | null) => void; title: string }) {
+  const lang = locale === 'fr' ? 'fr' : 'en';
   return (
     <figure className="zone-map" dir="ltr">
-      <svg viewBox="0 0 328 150" aria-labelledby="zone-map-title">
+      <svg viewBox={`0 0 ${W} ${MAP_H}`} aria-labelledby="zone-map-title">
         <title id="zone-map-title">{title}</title>
         {ZONES.map((z) => (
           // Keyboard and screen-reader users use the ZoneChips below; the shapes are a pointer shortcut.
           // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
           <g key={z.id} className={zone === z.id ? 'zone on' : 'zone'} onClick={() => onZone(zone === z.id ? null : z.id)}>
             <path d={z.d} />
-            <text x={z.cx} y={z.cy - 12} textAnchor="middle" className="zone-name">{z.name}</text>
-            <circle cx={z.cx} cy={z.cy + 6} r="11" />
-            <text x={z.cx} y={z.cy + 10} textAnchor="middle" className="zone-count">{counts[z.id] ?? 0}</text>
+            <circle cx={z.cx} cy={z.cy} r="12" />
+            <text x={z.cx} y={z.cy - 16} textAnchor="middle" className="zone-name">{z.id}</text>
+            <text x={z.cx} y={z.cy + 4} textAnchor="middle" className="zone-count">{counts[z.id] ?? 0}</text>
           </g>
         ))}
       </svg>
-      <figcaption className="sr-only" lang={locale}>{title}</figcaption>
+      <figcaption className="freshness" dir="auto">
+        <span lang={lang}>{approxNote[lang]}</span> <span lang="en">{OSM_ATTRIBUTION}</span>
+      </figcaption>
     </figure>
   );
 }
@@ -66,7 +99,7 @@ export function ZoneChips({ locale, counts, zone, onZone }: { locale: Locale; co
       </button>
       {ZONES.map((z) => (
         <button type="button" key={z.id} aria-pressed={zone === z.id} onClick={() => onZone(z.id)}>
-          {z.name} <bdi dir="ltr">{counts[z.id] ?? 0}</bdi>
+          {z.id} · {zoneLabel(z, locale)} <bdi dir="ltr">{counts[z.id] ?? 0}</bdi>
         </button>
       ))}
     </div>
@@ -99,7 +132,7 @@ export function TilesOptIn({ locale }: { locale: Locale }) {
       <button type="button" className="btn-2" disabled>
         <T locale={locale} k="map.tilesLoad" />
       </button>
-      <p className="freshness">{online ? '[copy: map.tilesUnavailable]' : <T locale={locale} k="map.tilesOffline" />}</p>
+      <p className="freshness"><T locale={locale} k={online ? 'map.tilesUnavailable' : 'map.tilesOffline'} /></p>
     </section>
   );
 }

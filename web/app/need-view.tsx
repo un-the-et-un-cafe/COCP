@@ -8,7 +8,7 @@ import ar from '../locales/ar.json';
 import { tr } from './deck';
 import { T } from './deck-text';
 import { FreshnessLine, NeedIcon, OpenBadge, type Listing } from './listing-ui';
-import { AreaRow, TilesOptIn, UNASSIGNED, ViewSwitch, ZONES, ZoneChips, ZoneMap, zoneOf } from './map-ui';
+import { approxNote, AreaRow, OSM_ATTRIBUTION, TilesOptIn, UNASSIGNED, ViewSwitch, ZONES, ZoneChips, ZoneMap, zoneLabel, zoneOf } from './map-ui';
 import { p1Copy } from './p1-copy';
 import { P1Shell } from './p1-shell';
 import { PhoneIcon } from './marks';
@@ -111,7 +111,12 @@ export function NeedView() {
   }, [items, here, zone]);
 
   const title = names[locale][id] ?? id;
-  const zoneName = (k: string) => ZONES.find((z) => z.id === k)?.name ?? k;
+  const zoneName = (k: string) => {
+    const z = ZONES.find((x) => x.id === k);
+    return z ? `${z.id} · ${zoneLabel(z, locale)}` : tr(locale, 'map.zoneUnassigned');
+  };
+  const lang = locale === 'fr' ? 'fr' : 'en';
+  const anyZone = groups.some((g) => g.k !== UNASSIGNED);
 
   return (
     <P1Shell locale={locale} setLocale={setLocale} note={title}>
@@ -160,6 +165,11 @@ export function NeedView() {
         </p>
       ) : (
         <div className="area-groups">
+          {view === 'area' && anyZone ? (
+            <p className="freshness">
+              <span lang={lang}>{approxNote[lang]}</span> <span lang="en">{OSM_ATTRIBUTION}</span>
+            </p>
+          ) : null}
           {groups.map(({ k, ls }) => (
             <section key={k} aria-labelledby={`zone-${k}`}>
               <div className="area-head">
