@@ -22,17 +22,13 @@ import { EmergencyStrip } from './emergency-strip';
 import { NeedIcon, OfflineBanner } from './listing-ui';
 import { LANGUAGES } from './languages';
 import { p1Copy } from './p1-copy';
-import deck from './deck.json';
+import { T } from './deck-text';
+import { AudioHint } from './audio-hint';
 import { dataDate } from './p1-shell';
 import { isRtl, useLocale, type Locale } from './use-locale';
 
 type Copy = typeof fr;
 const copies: Record<Locale, Copy> = { fr, en, ar };
-const needsTitle: Record<Locale, string> = {
-  fr: 'De quoi avez-vous besoin ?',
-  en: 'What do you need?',
-  ar: 'What do you need?',
-};
 const supportLabels: Record<Locale, string> = {
   fr: 'Financer la vérification',
   en: 'Fund verification',
@@ -271,6 +267,45 @@ export default function Home() {
         id="services"
         aria-labelledby="directory-title"
       >
+        <search className="controls">
+          <h2 className="needs-title">
+            <T locale={locale} k="home.needs" />
+          </h2>
+          <div className="need-grid" aria-label={copy.category_label}>
+            {categories.map((item) => (
+              <div className="need-tile-wrap" key={item}>
+                <button
+                  type="button"
+                  className="need-tile"
+                  aria-pressed={category === item}
+                  onClick={() => setCategory(item)}
+                >
+                  <NeedIcon id={item} />
+                  {copy.categories[item]}
+                </button>
+                <AudioHint text={copy.categories[item]} lang={locale} />
+              </div>
+            ))}
+          </div>
+          <p className="need-open">
+            <Link className="btn-2" href={`/need/?id=${category}`}>
+              <NeedIcon id={category} /> <T locale={locale} k="map.textTitle" />
+            </Link>{' '}
+            <Link className="btn-2" href={`/need/?id=${category}&view=map`}>
+              <T locale={locale} k="map.viewMap" />
+            </Link>
+          </p>
+          <label className="search-box">
+            <Search size={20} aria-hidden="true" />
+            <span className="sr-only">{copy.search_label}</span>
+            <input
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder={copy.search_placeholder}
+            />
+          </label>
+        </search>
         <div className="directory-heading">
           <div>
             <p className="eyebrow">{copy.eyebrow}</p>
@@ -320,41 +355,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <search className="controls">
-          <h2 className="needs-title">{needsTitle[locale]}</h2>
-          <div className="need-grid" aria-label={copy.category_label}>
-            {categories.map((item) => (
-              <button
-                key={item}
-                type="button"
-                className="need-tile"
-                aria-pressed={category === item}
-                onClick={() => setCategory(item)}
-              >
-                <NeedIcon id={item} />
-                {copy.categories[item]}
-              </button>
-            ))}
-          </div>
-          <p className="need-open">
-            <Link className="btn-2" href={`/need/?id=${category}`}>
-              <NeedIcon id={category} /> {copy.categories[category]} <span aria-hidden="true">›</span>
-            </Link>{' '}
-            <Link className="btn-2" href={`/map/?id=${category}`}>
-              {deck[locale === 'fr' ? 'fr' : 'en']['map.textTitle']}
-            </Link>
-          </p>
-          <label className="search-box">
-            <Search size={20} aria-hidden="true" />
-            <span className="sr-only">{copy.search_label}</span>
-            <input
-              type="search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder={copy.search_placeholder}
-            />
-          </label>
-        </search>
         <p className="result-count" aria-live="polite">
           {visibleListings.length} {copy.results}
         </p>
