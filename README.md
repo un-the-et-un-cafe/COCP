@@ -7,7 +7,7 @@ The active requirements and backlog are in `requirements.md`. `Calais_Open_Commo
 ## Current safety posture
 
 - Every imported service is `unverified` and `publishable: false`.
-- The public directory has no account, analytics, wallet SDK, checkout, sponsor attribution, or geolocation request.
+- The public directory has no account, analytics, wallet SDK, checkout, or sponsor attribution. Location is requested only after the user turns on "Use my location" and stays on the device.
 - No payment lane is enabled.
 - No activity provider or paid activity can be published.
 - No project token, exchange, liquidity, burn, buyback, price oracle, or traded-token redemption code is permitted.
