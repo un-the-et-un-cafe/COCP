@@ -78,12 +78,23 @@ export function ZoneMap({ locale, counts, zone, onZone, title }: { locale: Local
           // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
           <g key={z.id} className={zone === z.id ? 'zone on' : 'zone'} onClick={() => onZone(zone === z.id ? null : z.id)}>
             <path d={z.d} />
-            <circle cx={z.cx} cy={z.cy} r="12" />
-            <text x={z.cx} y={z.cy - 16} textAnchor="middle" className="zone-name">{z.id}</text>
-            <text x={z.cx} y={z.cy + 4} textAnchor="middle" className="zone-count">{counts[z.id] ?? 0}</text>
+            <text x={z.cx} y={counts[z.id] ? z.cy - 16 : z.cy + 4} textAnchor="middle" className="zone-name">{z.id}</text>
+            {counts[z.id] ? (
+              <>
+                <circle cx={z.cx} cy={z.cy} r="12" />
+                <text x={z.cx} y={z.cy + 4} textAnchor="middle" className="zone-count">{counts[z.id]}</text>
+              </>
+            ) : null}
           </g>
         ))}
       </svg>
+      <ul className="zone-legend">
+        {ZONES.map((z) => (
+          <li key={z.id}>
+            <b>{z.id}</b> <bdi dir="auto">{zoneLabel(z, locale)}</bdi>
+          </li>
+        ))}
+      </ul>
       <figcaption className="freshness" dir="auto">
         <span lang={lang}>{approxNote[lang]}</span> <span lang="en">{OSM_ATTRIBUTION}</span>
       </figcaption>
@@ -92,12 +103,15 @@ export function ZoneMap({ locale, counts, zone, onZone, title }: { locale: Local
 }
 
 export function ZoneChips({ locale, counts, zone, onZone }: { locale: Locale; counts: Record<string, number>; zone: string | null; onZone: (z: string | null) => void }) {
+  // Zones with no listing get no chip (QA N3); with no zone data at all there are no chips.
+  const shown = ZONES.filter((z) => counts[z.id]);
+  if (shown.length === 0) return null;
   return (
     <div className="zone-chips">
       <button type="button" aria-pressed={zone === null} onClick={() => onZone(null)}>
         <T locale={locale} k="map.zoneAll" />
       </button>
-      {ZONES.map((z) => (
+      {shown.map((z) => (
         <button type="button" key={z.id} aria-pressed={zone === z.id} onClick={() => onZone(z.id)}>
           {z.id} · {zoneLabel(z, locale)} <bdi dir="ltr">{counts[z.id] ?? 0}</bdi>
         </button>
