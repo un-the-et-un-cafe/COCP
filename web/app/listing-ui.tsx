@@ -8,7 +8,7 @@ export type Listing = {
   name: string;
   categories: string[];
   audience: string[];
-  location: { label: string; map_url?: string; coordinates?: [number, number] };
+  location: { label: string; coordinates?: [number, number] };
   source: { page: number; notes: string; title: string };
   verification: { status: string; checked_at: string | null; expires_at: string | null; owner: string | null };
 };

@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import listingsData from '../../data/listings.json';
 import { FreshnessLine, OpenBadge, type Listing } from '../listing-ui';
@@ -60,11 +61,9 @@ export default function ListingPage() {
           <h1>{listing.name}</h1>
           <OpenBadge t={t} />
           <div className="detail-actions">
-            {listing.location.map_url ? (
-              <a className="btn-2" href={listing.location.map_url} target="_blank" rel="noreferrer">
-                {t.map}
-              </a>
-            ) : null}
+            <Link className="btn-2" href={`/need/?id=${listing.categories[0] ?? 'all'}&view=map`}>
+              {t.map}
+            </Link>
           </div>
           <section>
             <h2>{t.what}</h2>

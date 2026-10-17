@@ -7,7 +7,6 @@ import {
   CheckCircle2,
   Clock3,
   Database,
-  ExternalLink,
   Languages,
   MapPin,
   RefreshCw,
@@ -83,7 +82,7 @@ type Listing = {
   id: string;
   name: string;
   categories: string[];
-  location: { label: string; map_url: string | null };
+  location: { label: string };
   source: { notes: string; page: number };
   verification: {
     status: string;
@@ -410,16 +409,10 @@ export default function Home() {
                 </dl>
               )}
               <div className="card-actions">
-                {listing.location.map_url ? (
-                  <a
-                    href={listing.location.map_url}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <ExternalLink size={17} aria-hidden="true" />
-                    {copy.map}
-                  </a>
-                ) : null}
+                <Link href={`/need/?id=${listing.categories[0] ?? 'all'}&view=map`}>
+                  <MapPin size={17} aria-hidden="true" />
+                  {p1Copy[locale].map}
+                </Link>
                 <Link href={`/listing/?id=${listing.id}`}>{p1Copy[locale].details}</Link>
                 <Link href={`/corrections?listing=${listing.id}`}>
                   {correctionLabels[locale]}
