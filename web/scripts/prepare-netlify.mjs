@@ -11,7 +11,6 @@ const pages = [
   ['privacy.html', 'privacy/index.html'],
   ['shelter-tonight.html', 'shelter-tonight/index.html'],
   ['need.html', 'need/index.html'],
-  ['map.html', 'map/index.html'],
   ['listing.html', 'listing/index.html'],
   ['readiness.html', 'readiness/index.html'],
   ['readiness/listings-qa.html', 'readiness/listings-qa/index.html'],

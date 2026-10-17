@@ -26,7 +26,6 @@ const routes = [
   ['/sponsors/receipt/', 'sponsors/receipt/index.html'],
   ['/sponsors/ledger/batch/', 'sponsors/ledger/batch/index.html'],
   ['/need/', 'need/index.html'],
-  ['/map/', 'map/index.html'],
   ['/listing/', 'listing/index.html'],
 ];
 
