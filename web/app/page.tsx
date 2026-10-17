@@ -23,6 +23,7 @@ import { EmergencyStrip } from './emergency-strip';
 import { NeedIcon, OfflineBanner } from './listing-ui';
 import { LANGUAGES } from './languages';
 import { p1Copy } from './p1-copy';
+import deck from './deck.json';
 import { dataDate } from './p1-shell';
 import { isRtl, useLocale, type Locale } from './use-locale';
 
@@ -338,7 +339,10 @@ export default function Home() {
           </div>
           <p className="need-open">
             <Link className="btn-2" href={`/need/?id=${category}`}>
-              <NeedIcon id={category} /> {copy.categories[category]} ›
+              <NeedIcon id={category} /> {copy.categories[category]} <span aria-hidden="true">›</span>
+            </Link>{' '}
+            <Link className="btn-2" href={`/map/?id=${category}`}>
+              {deck[locale === 'fr' ? 'fr' : 'en']['map.textTitle']}
             </Link>
           </p>
           <label className="search-box">

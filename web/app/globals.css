@@ -929,3 +929,17 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:2px so
 .language-pick button:hover { background:var(--muted); }
 .need-open { margin:0 0 var(--space-4); } .need-open svg { inline-size:20px; block-size:20px; }
 .first-visit-pick { display: none; } html.first-visit .first-visit-pick { display: block; }
+.toggle-row { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); }
+.view-switch { display: flex; gap: var(--space-2); border: 0; padding: 0; margin: var(--space-3) 0; flex-wrap: wrap; }
+.view-switch label { display: inline-flex; align-items: center; gap: 6px; min-block-size: var(--tap); padding: 0 var(--space-3); border: 1px solid var(--border); border-radius: 999px; cursor: pointer; }
+.view-switch label:has(input:checked) { border-color: var(--primary); background: color-mix(in oklab, var(--primary) 12%, transparent); font-weight: 600; }
+.area-groups { display: grid; gap: var(--space-4); }
+.area-title { font-size: var(--fs-1, 1rem); margin: 0 0 var(--space-2); }
+.distance { margin: 4px 0 0; font-weight: 600; }
+.map-plan { margin: 0; }
+.map-plan svg { inline-size: 100%; block-size: auto; max-inline-size: 640px; display: block; }
+.map-bg { fill: var(--muted); stroke: var(--border); }
+.map-pin { fill: var(--primary); stroke: var(--background); stroke-width: 2; }
+.map-here { fill: var(--destructive, #b42318); stroke: var(--background); stroke-width: 2; }
+.map-legend { margin: var(--space-3) 0 0; padding-inline-start: 1.2em; display: grid; gap: 4px; }
+.map-legend a { display: inline-block; min-block-size: 32px; line-height: 32px; }
