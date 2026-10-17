@@ -754,3 +754,5 @@ footer a,.transparency-links a { display:inline-flex; align-items:center; min-he
 @media (max-width:420px) { .header-actions { flex-wrap:nowrap; gap:var(--space-2); } .site-header { gap:var(--space-2); } .site-header .language-control > svg { display:none; } .site-header .language-control { padding-inline:var(--space-2); } }
 [dir='rtl'] .flow-arrow { display:inline-block; transform:scaleX(-1); }
 .brand-home { min-height:var(--tap); display:inline-flex; align-items:center; }
+/* P3 has no ar copy yet: the en fallback text gets its own bidi paragraph direction (Pinky N1 for P3). */
+.p3-page[data-locale='ar'] .p3-body :is(h1,h2,h3,p,dt,dd,li,a,button,label,small):not(:has(.flow-arrow)) { unicode-bidi:plaintext; text-align:right; }

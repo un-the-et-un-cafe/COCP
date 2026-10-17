@@ -41,3 +41,7 @@ test('build fails on a [copy:] fallback', async () => {
 test('.brand-home tap target is 48px', () => {
   assert.match(read('app/globals.css'), /\.brand-home \{[^}]*min-height:var\(--tap\)/);
 });
+
+test('P3 ar en-fallback text gets its own bidi paragraph, except EUR → USDC flows (they keep RTL + mirrored arrow)', () => {
+  assert.match(read('app/secondary.css'), /\.p3-page\[data-locale='ar'\] \.p3-body :is\([^)]*\):not\(:has\(\.flow-arrow\)\) \{ unicode-bidi:plaintext; text-align:right; \}/);
+});
