@@ -272,7 +272,7 @@ export default function Home() {
                   <NeedIcon id={item} />
                   {copy.categories[item]}
                 </button>
-                <AudioHint text={copy.categories[item]} lang={locale} />
+                <AudioHint text={copy.categories[item]} lang={locale} hint={p1Copy[locale].audioHint} />
               </div>
             ))}
           </div>

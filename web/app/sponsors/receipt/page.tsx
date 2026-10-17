@@ -3,14 +3,14 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import rehearsal from '@/data/settlement-rehearsal.draft.json';
-import config from '@/data/settlement-config.json';
 import { P3Shell } from '../../p3-shell';
 import { eur, p3Copy, parisDate } from '../../p3-copy';
 import { SplitPreview } from '../../split-preview';
 import { useLocale } from '../../use-locale';
 
 /** Receipt (screens.md P3 #3), static: /sponsors/receipt/?ref=<fiat_payment_ref>. Only rows that
- *  exist in the synthetic rehearsal file can be shown; nothing is generated here. */
+ *  exist in the synthetic rehearsal file can be shown; nothing is generated here. The refund window
+ *  length is open ([OFFEN] in the deck), so no day count is shown, and no fiscal document is offered. */
 export default function ReceiptPage() {
   const [locale, setLocale] = useLocale();
   const { lang, d, x } = p3Copy(locale);
@@ -35,7 +35,7 @@ export default function ReceiptPage() {
             <dd><bdi dir="ltr">{parisDate(row.recorded_at, lang)}</bdi></dd>
             <dt>{d['receipt.reference']}</dt>
             <dd><code dir="ltr">{row.fiat_payment_ref}</code></dd>
-            <dt>{x.refundWindow(config.refund_window_days_card)}</dt>
+            <dt>{x.refundWindow}</dt>
             <dd>{row.refund_window_closed ? x.refundClosed : x.refundOpen}</dd>
           </dl>
           <SplitPreview locale={locale} amountCents={row.eur_amount_cents} />

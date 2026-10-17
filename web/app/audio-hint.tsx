@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 
 /** 48×48 ▸ audio hint on a need tile (design: inline-end/top). Speaks the tile name with an
  *  on-device voice only (SpeechSynthesisVoice.localService), so no text leaves the phone; the
- *  button is not shown when no local voice exists for the language. Label: placeholder key
- *  [copy: need.audioHint] until Whitey adds it. */
-export function AudioHint({ text, lang }: { text: string; lang: string }) {
+ *  button is not shown when no local voice exists for the language. Label: deck need.audioHint
+ *  followed by the need name ("Écouter : Repas"). */
+export function AudioHint({ text, lang, hint }: { text: string; lang: string; hint: string }) {
   const [voice, setVoice] = useState<SpeechSynthesisVoice | null>(null);
   useEffect(() => {
     if (!('speechSynthesis' in window)) return;
@@ -20,7 +20,7 @@ export function AudioHint({ text, lang }: { text: string; lang: string }) {
     <button
       type="button"
       className="audio-hint"
-      aria-label={`[copy: need.audioHint] ${text}`}
+      aria-label={`${hint} ${text}`}
       onClick={() => {
         speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(text);
