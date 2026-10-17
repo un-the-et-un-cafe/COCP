@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { Locale } from './use-locale';
-import { CrossIcon, MoonIcon, PhoneIcon } from './marks';
+import { CrossIcon, MailIcon, MoonIcon, PhoneIcon } from './marks';
 import strip from './deck-strip.json';
 
 // Subset of deck.json (Copy Deck v0.3.3) so pages that only need the strip don't load the deck.
@@ -61,7 +61,7 @@ export function EmergencyStrip({ locale, headingLevel = 2 }: { locale: Locale; h
           <PhoneIcon /> <bdi dir="ltr">17</bdi> <span>{t.police}</span>
         </a>
         <a className="call-btn call-btn-2" href="sms:114">
-          <PhoneIcon /> <bdi dir="ltr">114</bdi> <span>{t.sms}</span>
+          <MailIcon /> <bdi dir="ltr">114</bdi> <span>{t.sms}</span>
         </a>
       </div>
     </section>
