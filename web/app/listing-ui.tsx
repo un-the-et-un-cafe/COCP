@@ -15,14 +15,22 @@ export type Listing = {
 
 /** OpenBadge: the data has no confirmed opening hours yet, so we never claim "open". */
 export function OpenBadge({ t }: { t: P1Copy }) {
-  return <span className="pill">{t.hoursUnknown}</span>;
+  return (
+    <span className="pill">
+      <bdi dir="auto">{t.hoursUnknown}</bdi>
+    </span>
+  );
 }
 
 /** FreshnessLine: verified → "Checked by … on …"; >30d amber chip; >90d warning. */
 export function FreshnessLine({ listing, t, now }: { listing: Listing; t: P1Copy; now: number }) {
   const v = listing.verification;
   if (v.status !== 'verified' || !v.checked_at) {
-    return <p className="freshness stale">{t.unverified(listing.source.page)}</p>;
+    return (
+      <p className="freshness stale">
+        <bdi dir="auto">{t.unverified(listing.source.page)}</bdi>
+      </p>
+    );
   }
   const days = now ? (now - Date.parse(v.checked_at)) / 864e5 : 0;
   return (

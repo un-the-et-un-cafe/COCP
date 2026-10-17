@@ -96,31 +96,33 @@ export default function ListingPage() {
               </a>
             ) : null}
             <Link className="btn-2" href={`/need/?id=${listing.categories[0] ?? 'all'}&view=map`}>
-              {t.map}
+              <bdi dir="auto">{t.map}</bdi>
             </Link>
             <a className="btn-2" href="#where">
-              {t.directions}
+              <bdi dir="auto">{t.directions}</bdi>
             </a>
           </div>
           <section>
-            <h2>{t.what}</h2>
-            <p>{listing.source.notes}</p>
+            <h2><bdi dir="auto">{t.what}</bdi></h2>
+            <p><bdi dir="auto">{listing.source.notes}</bdi></p>
           </section>
           <section>
-            <h2>{t.when}</h2>
-            <p>{t.hoursUnknown}</p>
+            <h2><bdi dir="auto">{t.when}</bdi></h2>
+            <p><bdi dir="auto">{t.hoursUnknown}</bdi></p>
           </section>
           <section id="where">
-            <h2>{t.where}</h2>
-            <p>{where ? <bdi>{where}</bdi> : t.addressPending}</p>
+            <h2><bdi dir="auto">{t.where}</bdi></h2>
+            <p>
+              <bdi dir="auto">{where ?? t.addressPending}</bdi>
+            </p>
           </section>
           <section>
-            <h2>{t.who}</h2>
-            <p>{listing.audience.includes('all') ? t.whoAll : listing.audience.join(', ')}</p>
+            <h2><bdi dir="auto">{t.who}</bdi></h2>
+            <p><bdi dir="auto">{listing.audience.includes('all') ? t.whoAll : listing.audience.join(', ')}</bdi></p>
           </section>
           <FreshnessLine listing={listing} t={t} now={now} />
           <button type="button" className="btn-2" onClick={() => dialog.current?.showModal()}>
-            {t.reportButton}
+            <bdi dir="auto">{t.reportButton}</bdi>
           </button>
           <dialog ref={dialog} className="report-sheet" aria-labelledby="report-title">
             <form method="dialog" onSubmit={(e) => { e.preventDefault(); void send(); }}>
