@@ -2,17 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import {
-  AlertTriangle,
-  CheckCircle2,
-  Clock3,
-  Database,
-  Languages,
-  MapPin,
-  RefreshCw,
-  Search,
-  ShieldCheck,
-} from 'lucide-react';
+import { AlertTriangle, CheckCircle2, Clock3, Database, Languages, MapPin, RefreshCw, Search, ShieldCheck } from './home-icons';
 import publishedListings from '../data/published-listings.json';
 import candidateListings from '../data/listings.json';
 import fr from '../locales/fr.json';
