@@ -244,7 +244,7 @@ export default function Home() {
             {LANGUAGES.filter((l) => l.enabled).map((l) => (
               <li key={l.code}>
                 <button type="button" lang={l.code} onClick={() => { changeLocale(l.code as Locale); document.documentElement.classList.remove('first-visit'); }}>
-                  {l.native}
+                  <span className="lang-glyph" aria-hidden="true">{l.glyph}</span> {l.native}
                 </button>
               </li>
             ))}
