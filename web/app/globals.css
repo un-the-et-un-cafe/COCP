@@ -844,8 +844,11 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:2px so
 .call-btn:hover { background:color-mix(in srgb,var(--surface) 94%,#000); }
 .call-btn svg { flex:0 0 auto; }
 .call-btn bdi { font-size:var(--fs-lg); }
-.emergency-grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--space-2); }
-.emergency-more { margin:var(--space-2) 0 0; font-size:var(--fs-sm); color:var(--emergency-text); }
+.emergency-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--space-2); }
+.call-btn { min-width:0; }
+.call-btn span { min-width:0; overflow-wrap:anywhere; }
+.call-btn-2 { border-width:1px; font-weight:700; }
+.emergency-more { margin:var(--space-2) 0 var(--space-2); font-size:var(--fs-sm); color:var(--emergency-text); }
 .emergency-more a { color:var(--emergency); font-weight:700; }
 .testnet-banner { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:var(--space-2); padding:var(--space-2) var(--space-4); background:var(--testnet-soft); color:var(--testnet); font-size:var(--fs-sm); font-weight:700; }
 .chain-chip { font-family:var(--font-mono); }
@@ -877,7 +880,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:2px so
 @media (min-width:600px) { .ledger-summary { grid-template-columns:repeat(3,1fr); } }
 .emergency-band { display:block; padding:var(--space-3) max(var(--space-4),calc((100vw - 1180px)/2)); }
 .emergency-heading { display:flex; align-items:center; gap:var(--space-2); margin:0 0 var(--space-2); font-size:var(--fs-md); color:var(--emergency); }
-@media (min-width:1024px) { .emergency-grid { grid-template-columns:repeat(4,1fr); } }
+@media (min-width:1024px) { .emergency-grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }
 .privacy-lead { font-size:var(--fs-lg); font-weight:700; color:var(--foreground); }
 .needs-title { margin:0 0 var(--space-2); font-size:var(--fs-lg); }
 .need-grid { margin-bottom:var(--space-4); }

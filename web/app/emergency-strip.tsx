@@ -2,12 +2,12 @@ import Link from 'next/link';
 import type { Locale } from './use-locale';
 import { CrossIcon, MoonIcon, PhoneIcon } from './marks';
 
-/** EmergencyStrip (design-system.md §2): four always-visible buttons in this order —
- *  112, 15 (SAMU), 115, Abri ce soir — on every Part 1 page. Never collapsed or hidden.
+/** EmergencyStrip (design-system.md §2): four always-visible buttons in Jakob's order —
+ *  115, 112, 15 (SAMU), Abri ce soir — on every Part 1 page. Never collapsed or hidden.
  *  Copy: COCP-Copy-Deck-v0.3 (fr source, en reference). ar keeps the existing reviewed
  *  strings; deck keys without an ar translation fall back to en until the human translator
- *  delivers (deck: "TODO human translator"). 17 and 114 stay as a secondary text line
- *  (added in an earlier review; pending confirmation with Pinky/Whitey). */
+ *  delivers (deck: "TODO human translator"). 17 and 114 are two secondary 48px call buttons
+ *  (mockups.html#p1-area-list); their labels await deck keys emergency.more/btn.17/btn.114. */
 type Copy = { heading: string; b112: string; b15: string; b115: string; tonight: string; more: string; police: string; sms: string };
 const copy: Record<Locale, Copy> = {
   fr: { heading: 'Urgence', b112: 'Urgence', b15: 'SAMU (médecin)', b115: 'Abri', tonight: 'Abri ce soir', more: 'Autres numéros :', police: 'Police', sms: 'SMS sourds / malentendants' },
@@ -37,9 +37,15 @@ export function EmergencyStrip({ locale, headingLevel = 2 }: { locale: Locale; h
           <MoonIcon /> <span>{t.tonight}</span>
         </Link>
       </div>
-      <p className="emergency-more">
-        {t.more} <a href="tel:17"><bdi dir="ltr">17</bdi> {t.police}</a> · <a href="sms:114"><bdi dir="ltr">114</bdi> {t.sms}</a>
-      </p>
+      <p className="emergency-more">{t.more}</p>
+      <div className="emergency-grid">
+        <a className="call-btn call-btn-2" href="tel:17">
+          <PhoneIcon /> <bdi dir="ltr">17</bdi> <span>{t.police}</span>
+        </a>
+        <a className="call-btn call-btn-2" href="sms:114">
+          <PhoneIcon /> <bdi dir="ltr">114</bdi> <span>{t.sms}</span>
+        </a>
+      </div>
     </section>
   );
 }

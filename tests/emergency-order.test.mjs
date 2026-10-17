@@ -14,3 +14,15 @@ test('17 and 114 are tappable', () => {
   assert.match(src, /href="tel:17"/);
   assert.match(src, /href="sms:114"/);
 });
+
+test('17 and 114 are 48px call buttons, not inline text links', () => {
+  assert.match(src, /className="call-btn call-btn-2" href="tel:17"/);
+  assert.match(src, /className="call-btn call-btn-2" href="sms:114"/);
+});
+
+test('public Part 1 pages link to no third-party map', () => {
+  for (const f of ['page.tsx', 'listing/page.tsx', 'need-view.tsx', 'listing-ui.tsx']) {
+    const s = readFileSync(new URL(`../web/app/${f}`, import.meta.url), 'utf8');
+    assert.doesNotMatch(s, /map_url|openstreetmap|target="_blank"/i, f);
+  }
+});
