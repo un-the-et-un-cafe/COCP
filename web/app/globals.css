@@ -969,3 +969,5 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:2px so
 .site-header { flex-wrap:wrap; }
 .support-link,.directory-link,.changes-link,.language-control { min-height:var(--tap); }
 .language-control select { min-height:calc(var(--tap) - 2px); }
+.detail-actions > * { min-height:var(--tap); flex:1 1 0; display:inline-flex; align-items:center; justify-content:center; }
+.listing-card .pill,.listing-detail .pill { justify-self:start; inline-size:fit-content; }

@@ -12,6 +12,7 @@ const listings = listingsData as unknown as Listing[];
 type Reason = 'closed' | 'hours' | 'moved' | 'other';
 // Map the 4 sheet reasons onto the existing correction API types. The sheet has no text field;
 // a fixed, non-personal message satisfies the API's minimum length.
+const QUEUE = 'cocp-report-queue';
 const apiType: Record<Reason, string> = { closed: 'closed', hours: 'hours', moved: 'location', other: 'other' };
 
 /** Listing detail (screens.md P1 #4) + Report-outdated sheet (#7), static: /listing/?id=<id>. */
@@ -21,7 +22,7 @@ export default function ListingPage() {
   const [id, setId] = useState<string | null>(null);
   const [now, setNow] = useState(0);
   const [reason, setReason] = useState<Reason | ''>('');
-  const [state, setState] = useState<'idle' | 'sending' | 'ok' | 'error'>('idle');
+  const [state, setState] = useState<'idle' | 'sending' | 'ok' | 'error' | 'queued'>('idle');
   const dialog = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
@@ -32,20 +33,48 @@ export default function ListingPage() {
   }, []);
   const listing = listings.find((l) => l.id === id);
 
+  async function post(body: string) {
+    const res = await fetch('/api/corrections', { method: 'POST', headers: { 'content-type': 'application/json' }, body });
+    return res.ok;
+  }
+  // Offline: keep the (non-personal) quick report on this device and send it when back online.
+  function queue(body: string) {
+    const q = JSON.parse(localStorage.getItem(QUEUE) ?? '[]') as string[];
+    localStorage.setItem(QUEUE, JSON.stringify([...q, body]));
+    setState('queued');
+  }
   async function send() {
     if (!listing || !reason) return;
+    const body = JSON.stringify({ listingId: listing.id, reportType: apiType[reason], message: `Quick report: ${reason}`, language: locale, privacyConfirmed: true });
+    if (!navigator.onLine) return queue(body);
     setState('sending');
     try {
-      const res = await fetch('/api/corrections', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ listingId: listing.id, reportType: apiType[reason], message: `Quick report: ${reason}`, language: locale, privacyConfirmed: true }),
-      });
-      setState(res.ok ? 'ok' : 'error');
+      setState((await post(body)) ? 'ok' : 'error');
     } catch {
-      setState('error');
+      queue(body);
     }
   }
+  useEffect(() => {
+    async function flush() {
+      const q = JSON.parse(localStorage.getItem(QUEUE) ?? '[]') as string[];
+      const left: string[] = [];
+      for (const b of q) {
+        try {
+          if (!(await post(b))) left.push(b);
+        } catch {
+          left.push(b);
+        }
+      }
+      if (left.length) localStorage.setItem(QUEUE, JSON.stringify(left));
+      else localStorage.removeItem(QUEUE);
+    }
+    if (navigator.onLine) void flush();
+    window.addEventListener('online', flush);
+    return () => window.removeEventListener('online', flush);
+  }, []);
+  const coords = /^-?\d+\.\d+,\s*-?\d+\.\d+$/;
+  const where = listing && !coords.test(listing.location.label) && !listing.location.label.includes('/') ? listing.location.label : null;
+  const phone = (listing as (Listing & { contact?: { phone?: string } }) | undefined)?.contact?.phone;
 
   return (
     <P1Shell locale={locale} setLocale={setLocale} note={t.details}>
@@ -61,9 +90,17 @@ export default function ListingPage() {
           <h1>{listing.name}</h1>
           <OpenBadge t={t} />
           <div className="detail-actions">
+            {phone ? (
+              <a className="btn-2" href={`tel:${phone.replace(/\s/g, '')}`}>
+                {t.call}
+              </a>
+            ) : null}
             <Link className="btn-2" href={`/need/?id=${listing.categories[0] ?? 'all'}&view=map`}>
               {t.map}
             </Link>
+            <a className="btn-2" href="#where">
+              {t.directions}
+            </a>
           </div>
           <section>
             <h2>{t.what}</h2>
@@ -73,11 +110,9 @@ export default function ListingPage() {
             <h2>{t.when}</h2>
             <p>{t.hoursUnknown}</p>
           </section>
-          <section>
+          <section id="where">
             <h2>{t.where}</h2>
-            <p>
-              <bdi dir="ltr">{listing.location.label}</bdi>
-            </p>
+            <p>{where ? <bdi>{where}</bdi> : t.addressPending}</p>
           </section>
           <section>
             <h2>{t.who}</h2>
@@ -90,8 +125,8 @@ export default function ListingPage() {
           <dialog ref={dialog} className="report-sheet" aria-labelledby="report-title">
             <form method="dialog" onSubmit={(e) => { e.preventDefault(); void send(); }}>
               <h2 id="report-title">{t.reportTitle}</h2>
-              {state === 'ok' ? (
-                <output className="alert">{t.success}</output>
+              {state === 'ok' || state === 'queued' ? (
+                <output className="alert">{state === 'ok' ? t.success : t.queued}</output>
               ) : (
                 <>
                   <fieldset className="reason-list">
