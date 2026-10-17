@@ -26,11 +26,12 @@ const fromDeck = (l: 'fr' | 'en'): Copy => ({
   police: label(l, 'emergency.btn.17'),
   sms: label(l, 'emergency.btn.114'),
 });
-// ar: the existing reviewed strings; "Abri ce soir" has no ar translation yet → isolated en fallback.
+// ar: the existing reviewed strings. "Abri ce soir" and the 114 label (old ar draft flagged for the
+// translator, deck meaning changed) have no ar translation yet → isolated en fallback.
 const copy: Record<Locale, Copy> = {
   fr: fromDeck('fr'),
   en: fromDeck('en'),
-  ar: { heading: 'الطوارئ', b112: 'الطوارئ العامة', b15: 'الطوارئ الطبية', b115: 'الإيواء الطارئ', tonight: '', more: 'أرقام أخرى', police: 'الشرطة', sms: 'رسائل قصيرة للصم' },
+  ar: { heading: 'الطوارئ', b112: 'الطوارئ العامة', b15: 'الطوارئ الطبية', b115: 'الإيواء الطارئ', tonight: '', more: 'أرقام أخرى', police: 'الشرطة', sms: '' },
 };
 
 export function EmergencyStrip({ locale, headingLevel = 2 }: { locale: Locale; headingLevel?: 1 | 2 }) {
@@ -52,7 +53,7 @@ export function EmergencyStrip({ locale, headingLevel = 2 }: { locale: Locale; h
           <CrossIcon /> <bdi dir="ltr">15</bdi> <span>{t.b15}</span>
         </a>
         <Link className="call-btn" href="/shelter-tonight">
-          <MoonIcon /> {t.tonight ? <span>{t.tonight}</span> : <span lang="en" dir="ltr">{tr('en', 'emergency.btn.shelterTonight')}</span>}
+          <MoonIcon /> {t.tonight ? <span>{t.tonight}</span> : <bdi lang="en" dir="ltr">{tr('en', 'emergency.btn.shelterTonight')}</bdi>}
         </Link>
       </div>
       <p className="emergency-more">{t.more}</p>
@@ -61,7 +62,7 @@ export function EmergencyStrip({ locale, headingLevel = 2 }: { locale: Locale; h
           <PhoneIcon /> <bdi dir="ltr">17</bdi> <span>{t.police}</span>
         </a>
         <a className="call-btn call-btn-2" href="sms:114">
-          <MailIcon /> <bdi dir="ltr">114</bdi> <span>{t.sms}</span>
+          <MailIcon /> <bdi dir="ltr">114</bdi> {t.sms ? <span>{t.sms}</span> : <bdi lang="en" dir="ltr">{tr('en', 'emergency.btn.114').replace(/^\d+\s*·\s*/, '')}</bdi>}
         </a>
       </div>
     </section>
