@@ -1016,3 +1016,6 @@ footer a,.transparency-links a { display:inline-flex; align-items:center; min-he
 .emergency-grid .call-btn > span { flex-basis:100%; }
 @media (max-width:420px) { .site-header .back-text { position:absolute; inline-size:1px; block-size:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; } .site-header .directory-link { min-inline-size:var(--tap); } }
 .zone-legend { list-style:none; display:flex; flex-wrap:wrap; gap:4px var(--space-3); margin:var(--space-2) 0 0; padding:0; font-size:var(--fs-sm); }
+.p3-dl { grid-template-columns:minmax(0,1fr); }
+.p3-dl dd { margin-block-end:var(--space-2); }
+@media (min-width:600px) { .p3-dl { grid-template-columns:minmax(8rem,14rem) minmax(0,1fr); } .p3-dl dd { margin-block-end:0; } }

@@ -27,7 +27,8 @@ const fromDeck = (l: 'fr' | 'en'): Copy => ({
   sms: label(l, 'emergency.btn.114'),
 });
 // ar: the existing reviewed strings. "Abri ce soir" and the 114 label (old ar draft flagged for the
-// translator, deck meaning changed) have no ar translation yet → isolated en fallback.
+// translator, deck meaning changed) have no ar translation yet → en fallback isolated by dir="ltr"
+// (an element with dir is bidi-isolated, like <bdi>; a span keeps the label styling).
 const copy: Record<Locale, Copy> = {
   fr: fromDeck('fr'),
   en: fromDeck('en'),
@@ -53,7 +54,7 @@ export function EmergencyStrip({ locale, headingLevel = 2 }: { locale: Locale; h
           <CrossIcon /> <bdi dir="ltr">15</bdi> <span>{t.b15}</span>
         </a>
         <Link className="call-btn" href="/shelter-tonight">
-          <MoonIcon /> {t.tonight ? <span>{t.tonight}</span> : <bdi lang="en" dir="ltr">{tr('en', 'emergency.btn.shelterTonight')}</bdi>}
+          <MoonIcon /> {t.tonight ? <span>{t.tonight}</span> : <span lang="en" dir="ltr">{tr('en', 'emergency.btn.shelterTonight')}</span>}
         </Link>
       </div>
       <p className="emergency-more">{t.more}</p>
@@ -62,7 +63,7 @@ export function EmergencyStrip({ locale, headingLevel = 2 }: { locale: Locale; h
           <PhoneIcon /> <bdi dir="ltr">17</bdi> <span>{t.police}</span>
         </a>
         <a className="call-btn call-btn-2" href="sms:114">
-          <MailIcon /> <bdi dir="ltr">114</bdi> {t.sms ? <span>{t.sms}</span> : <bdi lang="en" dir="ltr">{tr('en', 'emergency.btn.114').replace(/^\d+\s*·\s*/, '')}</bdi>}
+          <MailIcon /> <bdi dir="ltr">114</bdi> {t.sms ? <span>{t.sms}</span> : <span lang="en" dir="ltr">{tr('en', 'emergency.btn.114').replace(/^\d+\s*·\s*/, '')}</span>}
         </a>
       </div>
     </section>
