@@ -1004,3 +1004,4 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:2px so
 .split p { margin:var(--space-2) 0 0; }
 .shelter-shell { padding-block-start:var(--space-4); } .shelter-shell h1 { font-size:var(--fs-xl, 1.75rem); margin:0; }
 .lang-glyph { display:inline-grid; place-items:center; inline-size:32px; block-size:32px; margin-inline-end:var(--space-2); border-radius:var(--radius); background:var(--muted); font-weight:700; }
+.p3-card { border:1px solid var(--line); border-radius:var(--radius-lg); background:var(--surface); padding:var(--space-3); display:grid; gap:var(--space-2); } .p3-card p { margin:0; }

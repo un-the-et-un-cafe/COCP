@@ -41,7 +41,7 @@ export default function BatchPage() {
           ) : null}
           {rec && !(rec.ok && rec.mismatches.length === 0) ? <p className="alert">{d['ledger.mismatch']}</p> : null}
           {rows.map((r) => (
-            <article className="listing-card" key={r.fiat_payment_ref}>
+            <article className="p3-card" key={r.fiat_payment_ref}>
               <dl className="p3-dl">
                 <dt>{x.association}</dt>
                 <dd><code dir="ltr">{r.association_label}</code></dd>
