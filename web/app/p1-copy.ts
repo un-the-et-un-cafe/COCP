@@ -52,4 +52,4 @@ const en = build('en');
 export const p1Copy: Record<Locale, P1Copy> = { fr, en, ar: en };
 
 /** Date of the bundled listing data (release-history.json is still empty). */
-export const dataDate: Record<Locale, string> = { fr: 'août 2026', en: 'August 2026', ar: 'August 2026' };
+export const dataDate: Record<Locale, string> = { fr: 'octobre 2026', en: 'October 2026', ar: 'October 2026' };
