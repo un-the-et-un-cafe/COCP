@@ -3,11 +3,11 @@
     "id": "roundabout-1",
     "name": "Roundabout 1",
     "categories": [
-      "food",
-      "water"
+      "food"
     ],
     "audience": [
-      "all"
+      "all",
+      "women_children"
     ],
     "location": {
       "label": "50.941293, 1.898737",
@@ -19,9 +19,9 @@
     },
     "contact": {},
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
       "page": 1,
-      "notes": "Breakfast, afternoon meal and water schedules are listed in the source; provider confirmation is required."
+      "notes": "Breakfast 10:15 and meal 14:00 daily (La Vie Active). Salam breakfast daily, stop 5. Women and children: shower pick-up from 14:00."
     },
     "verification": {
       "status": "unverified",
@@ -36,11 +36,15 @@
     "name": "English Toilet / Bd des Justes",
     "categories": [
       "food",
+      "water",
       "community",
       "healthcare"
     ],
     "audience": [
-      "all"
+      "all",
+      "men",
+      "women_children",
+      "minors"
     ],
     "location": {
       "label": "50.943076, 1.899636",
@@ -52,9 +56,9 @@
     },
     "contact": {},
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
       "page": 1,
-      "notes": "Meals, non-food items, charging, Wi-Fi, classes, health and family-link sessions are listed on different days."
+      "notes": "Food Mon–Fri 15:45–17:00 (RCK). Clothes (Care4Calais): Tue 14:00–17:00 women and children only; Sat 14:00–17:00 men only. Charging and Wi-Fi: CHIP Mon, Fri 10:30–13:00, Wed 14:30–16:30, Thu 10:30–16:30; Secours Catholique Tue 10:00–12:00; Care4Calais Tue, Thu, Sat 14:00–17:00 (haircuts, hot drinks); Red Cross Wed 11:00–13:00 (bike repair, calls). MSF mental-health workshop Tue 10:30–12:00. FAST first aid Tue, Sat 14:00–16:30 (+33 7 66 04 92 98). Red Cross family links Wed 10:45–12:45. Kaleidoscope (under 18) Fri 11:00–13:00. CFC water container. Toilet."
     },
     "verification": {
       "status": "unverified",
@@ -74,7 +78,8 @@
     ],
     "audience": [
       "all",
-      "men"
+      "men",
+      "women_children"
     ],
     "location": {
       "label": "50.945500, 1.805917",
@@ -86,9 +91,9 @@
     },
     "contact": {},
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
       "page": 1,
-      "notes": "Food, water and a weekday men’s shower bus are listed; times require confirmation."
+      "notes": "Food daily 09:00–11:00, 14:00–16:30; water daily 09:00–11:30, 14:00–16:00 (La Vie Active). Men's shower bus Mon–Fri 08:30–12:00. Women and children: shower pick-up from 14:00."
     },
     "verification": {
       "status": "unverified",
@@ -105,7 +110,8 @@
       "food"
     ],
     "audience": [
-      "all"
+      "all",
+      "women_children"
     ],
     "location": {
       "label": "50.965902, 1.899407",
@@ -117,9 +123,9 @@
     },
     "contact": {},
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
       "page": 1,
-      "notes": "Daily food distribution and a Salam breakfast stop are listed."
+      "notes": "Food daily 09:00–11:00, 14:00–16:00 (La Vie Active). Salam breakfast daily, stop 4. Women and children: shower pick-up from 14:00."
     },
     "verification": {
       "status": "unverified",
@@ -136,11 +142,13 @@
       "food",
       "showers",
       "water",
-      "community"
+      "community",
+      "healthcare"
     ],
     "audience": [
       "all",
-      "men"
+      "men",
+      "women_children"
     ],
     "location": {
       "label": "50.964782 / 50.966028, 1.895543 / 1.894917",
@@ -149,9 +157,9 @@
     },
     "contact": {},
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
       "page": 1,
-      "notes": "Food, water, shower buses and a CAES bus departure are listed at nearby points."
+      "notes": "Water daily 09:00–11:00, 14:00–16:00 (La Vie Active). Men's shower bus Mon–Fri 08:30–12:00. Women and children: shower pick-up from 14:00. Salam breakfast daily, stop 3. CAES bus Mon–Fri 08:30, 'ZI des Dunes' stop. FAST first aid Thu."
     },
     "verification": {
       "status": "unverified",
@@ -181,9 +189,9 @@
     },
     "contact": {},
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
       "page": 1,
-      "notes": "Meals and weekend device charging are listed on specific days."
+      "notes": "Food Mon, Wed, Fri 12:45–13:45 (RCK). Charging and Wi-Fi: CHIP Tue 14:30–16:30, Sat 11:00–15:30; Care4Calais Sun 14:00–17:00 (haircuts, hot drinks)."
     },
     "verification": {
       "status": "unverified",
@@ -197,7 +205,9 @@
     "id": "quai-de-la-moselle",
     "name": "Town Centre — Quai de la Moselle",
     "categories": [
-      "community"
+      "food",
+      "community",
+      "healthcare"
     ],
     "audience": [
       "all"
@@ -212,9 +222,9 @@
     },
     "contact": {},
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
       "page": 1,
-      "notes": "Sunday non-food distributions are listed for Care4Calais and FAST."
+      "notes": "Clothes for everyone Sun 14:00–17:00 (Care4Calais, a full set every few weeks). FAST first aid Sun 14:00–16:30. Salam breakfast daily, stop 2."
     },
     "verification": {
       "status": "unverified",
@@ -243,9 +253,9 @@
     },
     "contact": {},
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
       "page": 1,
-      "notes": "A Salam breakfast stop is listed as order 1."
+      "notes": "Salam breakfast daily, stop 1 (blankets and hygiene items on request)."
     },
     "verification": {
       "status": "unverified",
@@ -259,13 +269,15 @@
     "id": "roundabout-2",
     "name": "Roundabout 2",
     "categories": [
+      "water",
       "showers",
       "community",
       "legal"
     ],
     "audience": [
       "all",
-      "men"
+      "men",
+      "women_children"
     ],
     "location": {
       "label": "50.940186, 1.895820",
@@ -277,9 +289,9 @@
     },
     "contact": {},
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
       "page": 1,
-      "notes": "A weekday men’s shower bus and Tuesday OFII outreach are listed."
+      "notes": "Water daily 09:00–11:30, 14:00–18:00 (La Vie Active; women's hygiene items and baby food on request). Men's shower bus Mon–Fri 08:30–12:00. Women and children: shower pick-up from 14:00. OFII outreach Tue morning (maraudes@ofii.fr)."
     },
     "verification": {
       "status": "unverified",
@@ -294,7 +306,7 @@
     "name": "Pegasus",
     "categories": [
       "water",
-      "community"
+      "healthcare"
     ],
     "audience": [
       "all"
@@ -304,11 +316,13 @@
       "coordinates": null,
       "map_url": null
     },
-    "contact": {},
+    "contact": {
+      "phone": "+33605883819"
+    },
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
       "page": 1,
-      "notes": "A water container, charging sessions and Thursday outreach are listed."
+      "notes": "CFC water container (bring a jerrycan; if empty call +33 6 05 88 38 19). FAST first aid Thu."
     },
     "verification": {
       "status": "unverified",
@@ -323,6 +337,7 @@
     "name": "BMX track water point",
     "categories": [
       "water",
+      "healthcare",
       "community"
     ],
     "audience": [
@@ -333,11 +348,13 @@
       "coordinates": null,
       "map_url": null
     },
-    "contact": {},
+    "contact": {
+      "phone": "+33605883819"
+    },
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
       "page": 1,
-      "notes": "A water container, Thursday charging and outreach are listed."
+      "notes": "CFC water container. Red Cross nurses Tue morning; family links Tue 11:00–13:00. FAST first aid Thu."
     },
     "verification": {
       "status": "unverified",
@@ -352,6 +369,8 @@
     "name": "Jean Bouin — Fontinettes",
     "categories": [
       "water",
+      "food",
+      "healthcare",
       "community"
     ],
     "audience": [
@@ -362,11 +381,13 @@
       "coordinates": null,
       "map_url": null
     },
-    "contact": {},
+    "contact": {
+      "phone": "+33605883819"
+    },
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
       "page": 1,
-      "notes": "A water container and Thursday outreach are listed."
+      "notes": "CFC water container. Red Cross nurses Tue morning; family links Tue 11:00–13:00. FAST first aid Thu. Salam breakfast only if an organisation requests it in advance."
     },
     "verification": {
       "status": "unverified",
@@ -393,11 +414,13 @@
       ],
       "map_url": "https://www.openstreetmap.org/?mlat=50.955111&mlon=1.856258"
     },
-    "contact": {},
+    "contact": {
+      "phone": "+33605883819"
+    },
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
       "page": 1,
-      "notes": "A CFC water container is listed."
+      "notes": "CFC water container (bring a jerrycan; if empty call +33 6 05 88 38 19). CFC also has soap, bin bags and tape."
     },
     "verification": {
       "status": "unverified",
@@ -417,18 +440,17 @@
       "all"
     ],
     "location": {
-      "label": "50.938383, 1.893588",
-      "coordinates": [
-        1.893588,
-        50.938383
-      ],
-      "map_url": "https://www.openstreetmap.org/?mlat=50.938383&mlon=1.893588"
+      "label": "Public site; exact point must be verified",
+      "coordinates": null,
+      "map_url": null
     },
-    "contact": {},
+    "contact": {
+      "phone": "+33605883819"
+    },
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
       "page": 1,
-      "notes": "A CFC water container is listed."
+      "notes": "CFC water container (bring a jerrycan; if empty call +33 6 05 88 38 19)."
     },
     "verification": {
       "status": "unverified",
@@ -448,15 +470,17 @@
       "all"
     ],
     "location": {
-      "label": "Four public coordinates listed in the source",
+      "label": "Four points listed in the source; exact points must be verified",
       "coordinates": null,
       "map_url": null
     },
-    "contact": {},
+    "contact": {
+      "phone": "+33605883819"
+    },
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
       "page": 1,
-      "notes": "Four CFC water containers are listed; each point requires confirmation."
+      "notes": "Four CFC water containers (if empty call +33 6 05 88 38 19)."
     },
     "verification": {
       "status": "unverified",
@@ -476,8 +500,9 @@
     ],
     "audience": [
       "all",
-      "minors",
-      "women_children"
+      "men",
+      "women_children",
+      "minors"
     ],
     "location": {
       "label": "39 Rue de Moscou, 62100 Calais",
@@ -486,9 +511,9 @@
     },
     "contact": {},
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
-      "page": 2,
-      "notes": "Community support, charging, medical, family-link, legal and dedicated activity sessions are listed."
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
+      "page": 1,
+      "notes": "Mon, Wed, Fri 13:30–17:00: drinks, charging, Wi-Fi, information, asylum and medical advice; sewing Wed. FAST nurse Mon, Wed (men's side); psychologists Wed. Women and children only (Rue Baillon door, ring): Mon, Tue, Wed, Fri 13:00–17:00 with Refugee Women's Centre; shower shuttle (call La Vie Active before 14:30). Under 18: ECPAT Wed, Fri afternoon; Kaleidoscope Wed 13:30. Red Cross family links Wed 13:30–16:30 (+33 6 45 46 39 93). Legal, confirm here: La Cimade Mon 5, 19, 26 Oct; lawyers (CNB) Fri 2, 16, 30 Oct; UK asylum info (RLS) Mon 5, Fri 16, Mon 19, Mon 26 Oct."
     },
     "verification": {
       "status": "unverified",
@@ -515,9 +540,9 @@
     },
     "contact": {},
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
-      "page": 2,
-      "notes": "Domiciliation and writing help are listed on Tuesday and Thursday afternoons, subject to volunteers."
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
+      "page": 1,
+      "notes": "Address domiciliation and help writing CVs and formal documents in French: Tue, Thu 14:30–16:00. Shorter hours if volunteers are lacking."
     },
     "verification": {
       "status": "unverified",
@@ -546,9 +571,9 @@
     },
     "contact": {},
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
-      "page": 2,
-      "notes": "A public toilet is listed at this location."
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
+      "page": 1,
+      "notes": "Public toilet."
     },
     "verification": {
       "status": "unverified",
@@ -574,9 +599,9 @@
     },
     "contact": {},
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
       "page": 2,
-      "notes": "Free weekday medical appointments and specialist schedules are listed; all dates require confirmation."
+      "notes": "Free medical appointments, no money or papers needed: Mon–Fri 09:00–12:00, 13:30–16:30. Dentist Tue 6, 13, 20 Oct from 08:30 (10 patients, come early). Gynaecology Thu 13:30–16:30. Social worker Mon, Wed, Thu 14:00–16:00. Psychologist (Arabic, English, French) Tue, Fri from 09:30."
     },
     "verification": {
       "status": "unverified",
@@ -602,9 +627,9 @@
     },
     "contact": {},
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
       "page": 2,
-      "notes": "Weekday morning pre-registration appointment requests are listed. This service is outside Calais."
+      "notes": "Go in person Mon–Fri 09:00–11:30 to request an information appointment (not yet the asylum claim). Outside Calais."
     },
     "verification": {
       "status": "unverified",
@@ -633,9 +658,327 @@
     },
     "contact": {},
     "source": {
-      "title": "New Arrival Guide, English, August 2026",
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
       "page": 2,
-      "notes": "A weekday afternoon recovery point for belongings is listed."
+      "notes": "Belongings seized by police can be collected the next day, Mon–Fri 13:00–16:00."
+    },
+    "verification": {
+      "status": "unverified",
+      "checked_at": null,
+      "expires_at": null,
+      "owner": null
+    },
+    "publishable": false
+  },
+  {
+    "id": "utopia-56-emergency-line",
+    "name": "Utopia 56 emergency line",
+    "categories": [
+      "emergency"
+    ],
+    "audience": [
+      "all",
+      "minors"
+    ],
+    "location": {
+      "label": "Phone line, 24/7",
+      "coordinates": null,
+      "map_url": null
+    },
+    "contact": {
+      "phone": "+33753918596",
+      "hours": "24/7"
+    },
+    "source": {
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
+      "page": 1,
+      "notes": "Call +33 7 53 91 85 96, 24/7: help to reach emergency shelter (also minors), crossing-risk information, dry clothes after a crossing attempt, police-violence reports. Helps with 115."
+    },
+    "verification": {
+      "status": "unverified",
+      "checked_at": null,
+      "expires_at": null,
+      "owner": null
+    },
+    "publishable": false
+  },
+  {
+    "id": "alarm-phone",
+    "name": "Alarm Phone (sea emergencies)",
+    "categories": [
+      "emergency"
+    ],
+    "audience": [
+      "all"
+    ],
+    "location": {
+      "label": "Phone line",
+      "coordinates": null,
+      "map_url": null
+    },
+    "contact": {
+      "phone": "+33486517161"
+    },
+    "source": {
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
+      "page": 1,
+      "notes": "At sea, call 112 first and ask for the coast guard. If they do not answer or you cannot talk to them, call +33 4 86 51 71 61. Know your location."
+    },
+    "verification": {
+      "status": "unverified",
+      "checked_at": null,
+      "expires_at": null,
+      "owner": null
+    },
+    "publishable": false
+  },
+  {
+    "id": "state-shelter-115-caes",
+    "name": "State shelter: 115 and CAES",
+    "categories": [
+      "emergency"
+    ],
+    "audience": [
+      "all"
+    ],
+    "location": {
+      "label": "Phone 115; CAES is outside Calais",
+      "coordinates": null,
+      "map_url": null
+    },
+    "contact": {
+      "phone": "115",
+      "hours": "24/7"
+    },
+    "source": {
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
+      "page": 2,
+      "notes": "115 (free, 24/7, French or English): one night, sometimes shower and laundry; call after 14:00, few places. CAES: up to 2 weeks, then an asylum claim is needed; very few places; bus Mon–Fri 08:30 from Rue des Huttes, 'ZI des Dunes' stop."
+    },
+    "verification": {
+      "status": "unverified",
+      "checked_at": null,
+      "expires_at": null,
+      "owner": null
+    },
+    "publishable": false
+  },
+  {
+    "id": "ftda-minors-shelter",
+    "name": "FTDA shelter for minors",
+    "categories": [
+      "emergency"
+    ],
+    "audience": [
+      "minors"
+    ],
+    "location": {
+      "label": "Arras or Saint-Omer",
+      "coordinates": null,
+      "map_url": null
+    },
+    "contact": {
+      "phone": "+33761447929",
+      "whatsapp_only": true
+    },
+    "source": {
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
+      "page": 2,
+      "notes": "Under 18 only: up to 5 nights in Arras or Saint-Omer; leave any time. WhatsApp +33 7 61 44 79 29."
+    },
+    "verification": {
+      "status": "unverified",
+      "checked_at": null,
+      "expires_at": null,
+      "owner": null
+    },
+    "publishable": false
+  },
+  {
+    "id": "refugee-womens-centre",
+    "name": "Refugee Women's Centre",
+    "categories": [
+      "community",
+      "healthcare"
+    ],
+    "audience": [
+      "women_children"
+    ],
+    "location": {
+      "label": "Secours Catholique day centre and outreach",
+      "coordinates": null,
+      "map_url": null
+    },
+    "contact": {
+      "phone": "+33671511815",
+      "whatsapp_only": true,
+      "hours": "Mon–Fri except Wed 09:30–18:00"
+    },
+    "source": {
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
+      "page": 2,
+      "notes": "Women and families: items, shelter access, psychosocial and medical help (contraception, pregnancy, STI tests). WhatsApp +33 6 71 51 18 15, Mon–Fri except Wed 09:30–18:00; otherwise call Utopia 56. Secours Catholique Mon, Tue, Fri 13:30–17:00; outreach Tue, Thu, Fri 11:00–12:00 and Thu 13:30–18:00."
+    },
+    "verification": {
+      "status": "unverified",
+      "checked_at": null,
+      "expires_at": null,
+      "owner": null
+    },
+    "publishable": false
+  },
+  {
+    "id": "human-rights-observers",
+    "name": "Human Rights Observers (HRO)",
+    "categories": [
+      "legal"
+    ],
+    "audience": [
+      "all"
+    ],
+    "location": {
+      "label": "Phone and WhatsApp",
+      "coordinates": null,
+      "map_url": null
+    },
+    "contact": {
+      "phone": "+33651466881",
+      "hours": "Mon–Fri 05:30–18:00"
+    },
+    "source": {
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
+      "page": 2,
+      "notes": "Mon–Fri 05:30–18:00, WhatsApp, call or text +33 6 51 46 68 81. Report evictions or police violence (anonymous possible). Message them for 'police is coming' alerts."
+    },
+    "verification": {
+      "status": "unverified",
+      "checked_at": null,
+      "expires_at": null,
+      "owner": null
+    },
+    "publishable": false
+  },
+  {
+    "id": "la-capuche-tents",
+    "name": "La Capuche (tents)",
+    "categories": [
+      "community"
+    ],
+    "audience": [
+      "all"
+    ],
+    "location": {
+      "label": "WhatsApp; team at Secours Catholique",
+      "coordinates": null,
+      "map_url": null
+    },
+    "contact": {
+      "phone": "+33620355250",
+      "whatsapp_only": true,
+      "hours": "Mon, Wed, Fri"
+    },
+    "source": {
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
+      "page": 1,
+      "notes": "Tents: WhatsApp +33 6 20 35 52 50 (Mon, Wed, Fri only) to join the waiting list; not same day. Team at Secours Catholique Mon, Wed, Fri 13:30–17:00."
+    },
+    "verification": {
+      "status": "unverified",
+      "checked_at": null,
+      "expires_at": null,
+      "owner": null
+    },
+    "publishable": false
+  },
+  {
+    "id": "project-play",
+    "name": "Project Play (children)",
+    "categories": [
+      "community"
+    ],
+    "audience": [
+      "women_children"
+    ],
+    "location": {
+      "label": "Changing places",
+      "coordinates": null,
+      "map_url": null
+    },
+    "contact": {
+      "phone": "+33745409765",
+      "whatsapp_only": true
+    },
+    "source": {
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
+      "page": 2,
+      "notes": "Play sessions only for children and their families, changing places and times. WhatsApp +33 7 45 40 97 65."
+    },
+    "verification": {
+      "status": "unverified",
+      "checked_at": null,
+      "expires_at": null,
+      "owner": null
+    },
+    "publishable": false
+  },
+  {
+    "id": "msf-minors-day-centre",
+    "name": "MSF day centre for minors",
+    "categories": [
+      "community",
+      "healthcare"
+    ],
+    "audience": [
+      "minors"
+    ],
+    "location": {
+      "label": "MSF day centre (address not in guide)",
+      "coordinates": null,
+      "map_url": null
+    },
+    "contact": {
+      "phone": "+33761338046"
+    },
+    "source": {
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
+      "page": 2,
+      "notes": "Unaccompanied minors: rest, activities, information, support; no items given. Call +33 7 61 33 80 46. Kaleidoscope Mon 14:30."
+    },
+    "verification": {
+      "status": "unverified",
+      "checked_at": null,
+      "expires_at": null,
+      "owner": null
+    },
+    "publishable": false
+  },
+  {
+    "id": "detention-support",
+    "name": "Detention and UK support",
+    "categories": [
+      "legal"
+    ],
+    "audience": [
+      "detained",
+      "all"
+    ],
+    "location": {
+      "label": "Email and phone",
+      "coordinates": null,
+      "map_url": null
+    },
+    "contact": {
+      "email": [
+        "captainsupportfrance@riseup.net",
+        "calaisanticra@anche.no"
+      ],
+      "phone": "+447519773268",
+      "sms": "+447482847775"
+    },
+    "source": {
+      "title": "New Arrival Guide (Infos für Neue, NAG), German edition by CHIP, October 2026 — extracted 2026-10-19",
+      "page": 2,
+      "notes": "Detained after a crossing attempt: email captainsupportfrance@riseup.net (lawyer contact). No news from someone in Coquelles CRA for 24 h: calaisanticra@anche.no. In the UK: care4calais.org 'Get Support'; legal help WhatsApp +44 7519 773268; facing 1-in-1-out return, text 0748 2847775 with name and language."
     },
     "verification": {
       "status": "unverified",

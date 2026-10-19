@@ -1,10 +1,10 @@
 {
-  "total": 24,
-  "unverified": 24,
+  "total": 34,
+  "unverified": 34,
   "publishable": 0,
   "expired": 0,
-  "missing_phone_count": 24,
-  "missing_hours_count": 24,
+  "missing_phone_count": 18,
+  "missing_hours_count": 29,
   "missing_phone": [
     "roundabout-1",
     "english-toilet",
@@ -15,12 +15,6 @@
     "quai-de-la-moselle",
     "calais-station",
     "roundabout-2",
-    "pegasus",
-    "bmx-track-water-point",
-    "jean-bouin-fontinettes",
-    "city-centre-water",
-    "h3-water",
-    "h2-water",
     "secours-catholique",
     "mer",
     "rue-des-huttes-toilet",
@@ -53,6 +47,11 @@
     "pass-calais",
     "coallia-spada",
     "la-ressourcerie",
+    "alarm-phone",
+    "ftda-minors-shelter",
+    "project-play",
+    "msf-minors-day-centre",
+    "detention-support",
     "sandbox-orientation-desk",
     "sandbox-language-tandem",
     "sandbox-bike-commons"
@@ -60,16 +59,16 @@
   "missing_locale_fields": [],
   "coordinates_without_map_url": [],
   "category_counts": {
-    "food": 7,
-    "water": 9,
-    "healthcare": 3,
-    "shelter": 0
+    "food": 9,
+    "water": 10,
+    "healthcare": 10,
+    "shelter": 4
   },
   "category_coverage": {
     "food": true,
     "water": true,
     "healthcare": true,
-    "shelter": false
+    "shelter": true
   },
   "invalid_publishable": []
 }
