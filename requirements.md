@@ -55,3 +55,73 @@ Published comparable-market evidence supports the three added lines: UK public-s
 - Coverage assessment evidence: [Grand Paris Seine Ouest procurement notice](https://ted.europa.eu/fr/notice/760127-2025/pdfs) and [Le Compas published territorial-analysis prices](https://mon-abs.fr/).
 
 Each new revenue line must have a named buyer, fixed deliverable, measured cost, safeguarding review, and a public record of the resulting net-profit donation. Stop any product whose income depends on beneficiary surveillance, restricted access, unsafe work, or sponsor influence over listings.
+
+## Specification for the next increment
+
+This section turns the open work into buildable, testable requirements. Each item lists scope, acceptance criteria, and what stays out of scope. Nothing here relaxes the rules that do not change; where a requirement conflicts with them, the rule wins and the requirement is blocked.
+
+### S1. Listing verification workflow (open work 1, 4)
+
+- Each listing carries a status: `source-lead`, `provider-confirmed`, `independently-verified`, `expired`, or `withdrawn`. Only `independently-verified` listings may enter a signed release.
+- Verification records store: verifier role (provider or independent reviewer), method (phone, visit, written confirmation), date, fields confirmed, and expiry (default 90 days). No personal data of beneficiaries is stored.
+- Two different people must perform provider confirmation and independent verification; the validator rejects a release if one account did both.
+- A listing past expiry is automatically labelled `expired` in the UI and excluded from the next release, but stays visible with a clear warning so essential information is never silently lost.
+- Acceptance: a release build fails when any included listing lacks an unexpired independent verification; the public change log shows every status change with date and reason category.
+
+### S2. Reviewed multilingual content (open work 2)
+
+- French, English, and Arabic are release languages. A string is publishable only when translated and reviewed by a second fluent reviewer; machine translation may be used for drafts only and must be marked `draft` until reviewed.
+- Missing reviewed strings fall back to French with a visible "not yet translated" notice in the user's language, never a blank.
+- Arabic pages render right-to-left with mirrored layout, correct numerals choice per locale setting, and tested line breaking.
+- Acceptance: a CI check reports per-language coverage and blocks a release if any essential-service field (name, address, opening hours, access conditions, contact) is unreviewed in a release language.
+
+### S3. Correction moderation operations (open work 3)
+
+- Define reviewer roles, a two-person rule for edits that change address, hours, or eligibility, and a target first-response time of 72 hours.
+- Moderators see only the correction text and listing, never IP addresses or device data. Intake remains anonymous; the 30-day automated deletion stays in force.
+- Publish a moderation policy page in all three languages, including what is rejected (personal data, accusations about individuals, advertising).
+- Acceptance: a documented dry run with at least 20 synthetic corrections, measured response times, and zero retained personal data after 30 days.
+
+### S4. Sponsor journey and evidence pack (open work 5)
+
+- The sponsor journey lives on separate pages from the directory; no sponsor branding appears next to essential service information.
+- A sponsor package states the fixed deliverable, price, recognition period, and how net profit is donated. Recognition expires automatically through the existing gate.
+- Evidence packs use aggregate outcomes only, with small-number suppression (no figure below 10 is published; it shows as "fewer than 10").
+- Consent records for sponsor recognition are explicit, revocable, and logged; withdrawal removes recognition within 7 days.
+- Acceptance: an end-to-end test from sponsor enquiry to evidence pack using only sandbox data, with the payment step disabled.
+
+### S5. Payment sandboxes and Base sponsorship router (open work 6)
+
+- Card and SEPA flows run only against provider sandboxes, behind the existing disabled payment flags. Production keys must not exist in any environment until gate G-payments passes.
+- The Base router accepts sponsor stablecoin contributions only, routes them to the responsible entity's approved wallet, and emits a reconciliation record per transfer. No project token, swap, liquidity, or yield functionality is permitted, and a static check fails the build if such contract calls appear.
+- Every payment lane supports refunds, produces an invoice record, and reconciles against the public aggregate ledger.
+- Acceptance: automated tests cover success, failure, refund, duplicate, and partial-reconciliation cases on sandbox and testnet; a contract audit is required before any mainnet deployment.
+
+### S6. Activity Idea Lab completion (open work 7)
+
+- Anonymous proposal intake with the same privacy guarantees as correction intake.
+- Accountable triage: each proposal gets a named operator decision (accepted for review, rejected with reason category, or needs legal check) within 14 days.
+- A complaints channel independent from the triage team, with a published escalation path.
+- Pilot activation stays blocked until lawful eligibility, insurance, safeguarding review, and operator approval are each recorded and unexpired; the risk-to-gate validator enforces this.
+- Compensation for voluntary activity is framed strictly as reimbursement of documented expenses and only within the legal limits confirmed by counsel; no wages, piecework, or badges that could imply employment.
+- Acceptance: the validator rejects activation of a pilot missing any single gate, demonstrated by tests for each gate.
+
+### S7. Quality testing (open work 8)
+
+- Independent accessibility review against RGAA 4.1 / WCAG 2.2 AA on the main journeys, plus testing with NVDA, VoiceOver, and TalkBack.
+- Device testing on at least one low-end Android phone on a throttled 3G profile; the directory home page must be usable within 5 seconds and under the existing asset budget.
+- Privacy review confirming no third-party trackers, no fingerprinting, and no cookies without need.
+- Security review including dependency audit, headers, and a penetration test before launch.
+- Acceptance: written reports from each review, all critical findings fixed, and the public status pages updated. No conformity claim is made until an independent auditor issues one.
+
+### S8. Launch approvals (open work 9)
+
+- Each of the 12 gates in the G1–G9 register names an owner, the evidence required, the reviewer, and an expiry date.
+- The dashboard shows gate status publicly in aggregate (passed, pending, expired), never internal documents.
+- Acceptance: the fail-closed validator keeps payments and operational activation disabled while any required gate is not passed and unexpired.
+
+### Definition of done for this increment
+
+- All S1–S8 acceptance criteria met or explicitly marked blocked with a reason.
+- Specs, tests, and public pages exist in French, English, and Arabic where user-facing.
+- The requirements file's "Current open work" list is updated to reflect what was completed.
