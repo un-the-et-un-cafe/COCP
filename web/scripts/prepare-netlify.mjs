@@ -1,5 +1,7 @@
 import { access, copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { generateDirectory } from './generate-directory.mjs';
 
 const client = new URL('../dist/client/', import.meta.url);
 const prerendered = new URL('../dist/server/prerendered-routes/', import.meta.url);
@@ -41,9 +43,39 @@ for (const [source, destination] of pages) {
   if (fixed !== html) await writeFile(output, fixed);
 }
 
-await writeFile(
-  new URL('_redirects', client),
-  '/api/corrections /.netlify/functions/corrections 200\n',
-);
+// Designy redesign: overwrite home with zero-JS locale directories + /card/
+const outDir = fileURLToPath(client);
+const dirResult = await generateDirectory({ outDir });
 
-console.log(`Prepared ${pages.length} static routes for Netlify in ${join('dist', 'client')}.`);
+const secondary = [
+  'privacy',
+  'accessibility',
+  'changes',
+  'sponsors',
+  'sponsors/ledger',
+  'readiness',
+  'activities',
+  'corrections',
+  'shelter-tonight',
+  'need',
+  'listing',
+];
+const redirectLines = [
+  '/api/corrections /.netlify/functions/corrections 200',
+  '/ /fr/ 302 Language=fr',
+  '/ /en/ 302 Language=en',
+  '/ /ar/ 302 Language=ar',
+  '/ /fr/ 302',
+];
+for (const locale of ['fr', 'en', 'ar']) {
+  for (const route of secondary) {
+    redirectLines.push(`/${locale}/${route}/ /${route}/ 200`);
+    redirectLines.push(`/${locale}/${route} /${route}/ 200`);
+  }
+}
+
+await writeFile(new URL('_redirects', client), `${redirectLines.join('\n')}\n`);
+
+console.log(
+  `Prepared ${pages.length} static routes + Designy directory (${dirResult.listings} listings; fr gzip ${dirResult.sizes.fr.gzip} B) for Netlify in ${join('dist', 'client')}.`,
+);

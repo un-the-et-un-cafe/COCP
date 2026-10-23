@@ -89,3 +89,15 @@ test('sandbox has no Stripe when testmode flags are false', async () => {
   assert.equal(flags.flags.payments_sepa_testmode_ui, false);
   assert.doesNotMatch(sandboxPage, /js\.stripe\.com|@stripe|Stripe\(/);
 });
+
+
+const directoryGenerator = await readFile(new URL('../web/scripts/generate-directory.mjs', import.meta.url), 'utf8');
+
+test('Designy static directory merges published + public listings with expiry gate', () => {
+  assert.match(directoryGenerator, /published-listings\.json/);
+  assert.match(directoryGenerator, /listings\.public\.json/);
+  assert.match(directoryGenerator, /Date\.parse\(l\.verification\.expires_at\) > now/);
+  assert.match(directoryGenerator, /badge_unverified|Not yet verified/);
+  assert.match(directoryGenerator, /when_confirm|confirm first/);
+  assert.doesNotMatch(directoryGenerator, /referralCode|campaignId|checkout|paymentToken|adminWallet/);
+});

@@ -1,6 +1,7 @@
 import { readdir, readFile, stat } from 'node:fs/promises';
 import { extname, relative } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { gzipSync } from 'node:zlib';
 import { isSandboxListing } from '../../scripts/lib/sandbox-listings.mjs';
 
 export const budgets = Object.freeze({
@@ -9,6 +10,10 @@ export const budgets = Object.freeze({
   largestJavaScriptBytes: 250_000,
   totalCssBytes: 225_000,
   routeHtmlBytes: 80_000,
+  /** Designy home HTML gzip budget (inline CSS + cards). */
+  homeHtmlGzipBytes: 14_336, // 14 KB
+  /** Preferred total transfer for a locale home (HTML + optional enhance.js). */
+  homeTotalGzipBytes: 51_200, // 50 KB
 });
 
 /** Internal, noindex QA report that names unpublishable listings, including the sandbox ones. */
@@ -35,6 +40,10 @@ export async function routeScriptClosure(html, clientDirectory) {
 
 const routes = [
   ['/', 'index.html'],
+  ['/fr/', 'fr/index.html'],
+  ['/en/', 'en/index.html'],
+  ['/ar/', 'ar/index.html'],
+  ['/card/', 'card/index.html'],
   ['/activities/', 'activities/index.html'],
   ['/accessibility/', 'accessibility/index.html'],
   ['/changes/', 'changes/index.html'],
@@ -51,6 +60,8 @@ const routes = [
   ['/need/', 'need/index.html'],
   ['/listing/', 'listing/index.html'],
 ];
+
+const DIRECTORY_ROUTES = new Set(['/', '/fr/', '/en/', '/ar/', '/card/']);
 
 /** Static artefacts copied as-is (evidence/print) — tracker + secret scan only. */
 const artefactGlobs = [
@@ -80,11 +91,24 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-export function auditHtml(html, route) {
-  assert(
-    /<html[^>]+lang="fr"/i.test(html),
-    `${route}: missing default document language.`,
+function allowedScriptSrc(src) {
+  return (
+    src.startsWith('/_next/') ||
+    src === '/enhance.js' ||
+    src === '/sw.js'
   );
+}
+
+function allowedStylesheetHref(href) {
+  return href.startsWith('/_next/') || href === '/directory.css';
+}
+
+export function auditHtml(html, route) {
+  const langOk = /<html[^>]+lang="(fr|en|ar)"/i.test(html);
+  assert(langOk, `${route}: missing document language fr|en|ar.`);
+  if (route === '/ar/') {
+    assert(/<html[^>]+dir="rtl"/i.test(html), `${route}: Arabic page must set dir=rtl on html.`);
+  }
   assert(
     /<meta[^>]+name="viewport"/i.test(html),
     `${route}: missing mobile viewport metadata.`,
@@ -102,7 +126,7 @@ export function auditHtml(html, route) {
 
   for (const match of html.matchAll(/<script[^>]+src="([^"]+)"[^>]*>/gi)) {
     assert(
-      match[1].startsWith('/_next/'),
+      allowedScriptSrc(match[1]),
       `${route}: external executable script ${match[1]} is forbidden.`,
     );
   }
@@ -111,7 +135,7 @@ export function auditHtml(html, route) {
     /<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"[^>]*>/gi,
   )) {
     assert(
-      match[1].startsWith('/_next/'),
+      allowedStylesheetHref(match[1]),
       `${route}: external stylesheet ${match[1]} is forbidden.`,
     );
   }
@@ -123,7 +147,8 @@ export function auditHtml(html, route) {
     );
   }
 
-  if (route !== '/corrections/') {
+  const allowsSearchForm = DIRECTORY_ROUTES.has(route) || route === '/corrections/';
+  if (!allowsSearchForm) {
     assert(!/<form(?:\s|>)/i.test(html), `${route}: unexpected public form.`);
   }
 }
@@ -207,6 +232,13 @@ export async function auditStaticSite(
         `${route}: sandbox/QA pages must carry a noindex robots signal.`,
       );
     }
+    if (DIRECTORY_ROUTES.has(route) && route !== '/card/') {
+      const gz = gzipSync(Buffer.from(html), { level: 9 }).length;
+      assert(
+        gz <= budgets.homeHtmlGzipBytes,
+        `${route}: home HTML gzip ${gz} exceeds ${budgets.homeHtmlGzipBytes}.`,
+      );
+    }
   }
 
   // Evidence + print artefacts must exist and stay tracker-free (covered by textFiles loop).
@@ -216,7 +248,7 @@ export async function auditStaticSite(
   }
 
   const textFiles = files.filter(({ pathname }) =>
-    /\.(?:html|js|css|json|txt|xml|svg)$/.test(pathname),
+    /\.(?:html|js|css|json|txt|xml|svg|webmanifest)$/.test(pathname),
   );
   for (const file of textFiles) {
     const content = (await readFile(file, 'utf8')).toLowerCase();
@@ -274,6 +306,7 @@ export async function auditStaticSite(
     'X-Content-Type-Options',
     'X-Frame-Options',
     'Permissions-Policy',
+    'Content-Security-Policy',
   ]) {
     assert(
       netlifyConfiguration.includes(header),
