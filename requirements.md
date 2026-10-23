@@ -125,3 +125,29 @@ This section turns the open work into buildable, testable requirements. Each ite
 - All S1–S8 acceptance criteria met or explicitly marked blocked with a reason.
 - Specs, tests, and public pages exist in French, English, and Arabic where user-facing.
 - The requirements file's "Current open work" list is updated to reflect what was completed.
+
+## Specification for the first revenue lines
+
+These specs apply only after the next increment's definition of done is met and the relevant launch gates pass. Before building, each line still needs at least one buyer interview and either a paid pilot, a signed letter of intent, or a procurement route.
+
+### R1. Verification subscriptions
+
+- Buyers are associations, cities, and institutions that maintain their own listings or fund listings in an area.
+- Deliverables per subscription: scheduled freshness checks (default every 30 days per listing), broken-link and phone-number monitoring, alerts by email within 24 hours of detection, and a monthly signed report (PDF and JSON) with verification status per listing.
+- Tiers are priced by the number of monitored listings, not by visibility. Subscribing never changes ranking, placement, badges, or wording of public listings; a static check and review confirm this.
+- Public data stays free and identical for subscribers and non-subscribers. The only difference is the private alerting and reporting for the buyer.
+- Cancellation stops alerts at the end of the period; listings stay public and keep their normal verification schedule.
+- Acceptance: a pilot with one named buyer, alerts measured against seeded broken links (100% detected within 24 hours), signed reports verifiable with the published key, and costs per listing recorded for the public net-profit report.
+
+### R2. White-label city launches
+
+- A fixed-price package to deploy COCP in a new city. It includes setup, an import of the initial source list, training of a local verification team, and translated interface strings for the city's required languages.
+- The city's data stays portable, with full JSON/CSV export and the open schema, and it is published under the same open licence. The buyer can run it independently at any time.
+- A local verification team, independent of the buyer's funding decisions, must be named before launch. The rules that do not change apply in full to every deployment.
+- Acceptance: a documented deployment runbook tested end to end on a staging city, a measured setup cost, and a tested exit export restored into a clean instance.
+
+### R3. Managed operations and support
+
+- Annual contracts covering hosting, security updates within 7 days for high-severity issues, daily encrypted backups, monthly restore tests, uptime monitoring with a published target, incident response, and export support.
+- Every customer receives a tested exit path. An annual export-and-restore drill is part of the contract.
+- Acceptance: published service levels, a restore test log, and an incident runbook reviewed by the security reviewer.
