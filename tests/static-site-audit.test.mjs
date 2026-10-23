@@ -8,8 +8,26 @@ const validHtml = `<!doctype html>
 <body><h1>Directory</h1><a href="https://example.org" target="_blank" rel="noreferrer">External</a>
 <script type="module" src="/_next/static/app.js"></script></body></html>`;
 
+const designyHome = `<!doctype html>
+<html lang="en" dir="ltr"><head><meta name="viewport" content="width=device-width"><title>COCP</title>
+<style>body{}</style></head>
+<body><h1>Need help</h1>
+<form role="search" action="/en/" method="get"><input name="q"></form>
+<script src="/enhance.js" defer></script></body></html>`;
+
 test("static audit accepts self-hosted executable assets and protected external links", () => {
   assert.doesNotThrow(() => auditHtml(validHtml, "/"));
+});
+
+test("static audit accepts Designy home with enhance.js and search form", () => {
+  assert.doesNotThrow(() => auditHtml(designyHome, "/en/"));
+});
+
+test("static audit requires rtl on Arabic home", () => {
+  assert.throws(
+    () => auditHtml(designyHome.replace('lang="en" dir="ltr"', 'lang="ar" dir="ltr"'), "/ar/"),
+    /dir=rtl/,
+  );
 });
 
 test("static audit rejects third-party scripts and embedded content", () => {
@@ -42,4 +60,5 @@ test("static performance budgets remain explicit and bounded", () => {
   assert.equal(budgets.largestJavaScriptBytes, 250_000);
   assert.equal(budgets.totalCssBytes, 225_000);
   assert.equal(budgets.routeHtmlBytes, 80_000);
+  assert.equal(budgets.homeHtmlGzipBytes, 14_336);
 });

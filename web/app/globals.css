@@ -10,7 +10,7 @@
 html { scroll-behavior:smooth; }
 button,input,select { font:inherit; }
 a { color:inherit; }
-:focus-visible { outline:2px solid var(--focus); outline-offset:2px; border-radius:2px; }
+:focus-visible { outline:3px solid var(--focus); outline-offset:2px; border-radius:4px; }
 .sr-only {
   position:absolute;
   width:1px;
@@ -239,7 +239,7 @@ footer a { color:var(--brand-dark); font-weight:800; }
   --foreground:var(--ink-900);
   --muted-text:var(--ink-700);
   --line:#cfdbe3;
-  --brand:#12a4df;
+  --brand:#075986; /* Designy AA text brand; flag azure stays decorative */
   --brand-dark:var(--blue-700);
   --focus:#075986;
   --primary:var(--blue-700);

@@ -1,0 +1,19 @@
+{
+  "name": "Calais Open Commons",
+  "short_name": "COCP",
+  "description": "Free directory of food, water, showers, health and rights services in Calais. No account, no tracking.",
+  "start_url": "/fr/",
+  "display": "standalone",
+  "background_color": "#f4f7f9",
+  "theme_color": "#075986",
+  "lang": "fr",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

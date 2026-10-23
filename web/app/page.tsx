@@ -1,3 +1,4 @@
+/* Production home is overwritten by web/scripts/generate-directory.mjs (Designy static FR/EN/AR). */
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';

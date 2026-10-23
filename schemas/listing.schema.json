@@ -105,6 +105,14 @@
             "null"
           ],
           "format": "uri"
+        },
+        "address": {
+          "type": "string",
+          "minLength": 1
+        },
+        "landmark": {
+          "type": "string",
+          "minLength": 1
         }
       }
     },
@@ -171,6 +179,27 @@
             "string",
             "null"
           ]
+        },
+        "verified_by": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "method": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "enum": [
+                "on_site",
+                "phone",
+                "provider",
+                "written"
+              ]
+            }
+          ]
         }
       }
     },
@@ -185,6 +214,32 @@
         "minLength": 1
       },
       "default": []
+    },
+    "hours": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "days",
+          "opens",
+          "closes"
+        ],
+        "properties": {
+          "days": {
+            "type": "string",
+            "minLength": 1
+          },
+          "opens": {
+            "type": "string",
+            "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+          },
+          "closes": {
+            "type": "string",
+            "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+          }
+        }
+      }
     }
   }
 }

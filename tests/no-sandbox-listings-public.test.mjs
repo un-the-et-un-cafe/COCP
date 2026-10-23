@@ -48,11 +48,18 @@ test('built HTML and JS of Part 1 routes contain no sandbox listing id or name (
   for (const page of part1) {
     const html = readFileSync(new URL(page, dist), 'utf8');
     const assets = await routeScriptClosure(html, dist);
-    assert.ok(assets.length > 0, page);
+    // Designy home (index.html) is zero-JS HTML — no /_next assets. Other Part 1 routes still use vinext.
+    if (page !== 'index.html') assert.ok(assets.length > 0, page);
     if (assets.some((a) => /zone-map-/.test(a))) sawMapChunk = true;
     for (const [where, text] of [[page, html], ...assets.map((a) => [`${page} ${a}`, readFileSync(new URL(`.${a}`, dist), 'utf8')])]) {
       for (const n of needles) assert.ok(!text.includes(n), `${where}: ${n}`);
     }
+  }
+  // Also check Designy locale homes
+  for (const page of ['fr/index.html', 'en/index.html', 'ar/index.html', 'card/index.html']) {
+    if (!existsSync(new URL(page, dist))) continue;
+    const html = readFileSync(new URL(page, dist), 'utf8');
+    for (const n of needles) assert.ok(!html.includes(n), `${page}: ${n}`);
   }
   assert.ok(sawMapChunk, 'the lazy map chunk is part of the /need closure and was checked');
   const walk = (dir) => readdirSync(dir).flatMap((e) => { const p = new URL(e, dir); return statSync(p).isDirectory() ? walk(new URL(`${e}/`, dir)) : [p]; });

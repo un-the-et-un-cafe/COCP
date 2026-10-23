@@ -5,6 +5,7 @@ import { readFile } from "node:fs/promises";
 const home = await readFile(new URL("../web/app/page.tsx", import.meta.url), "utf8");
 const page = await readFile(new URL("../web/app/accessibility/page.tsx", import.meta.url), "utf8");
 const styles = await readFile(new URL("../web/app/globals.css", import.meta.url), "utf8");
+const directoryStyles = await readFile(new URL("../web/public/directory.css", import.meta.url), "utf8");
 const netlifyPreparation = await readFile(
   new URL("../web/scripts/prepare-netlify.mjs", import.meta.url),
   "utf8",
@@ -27,4 +28,11 @@ test("global interaction styles respect keyboard and reduced-motion preferences"
   assert.match(styles, /:focus-visible\s*\{/);
   assert.match(styles, /@media \(prefers-reduced-motion:reduce\)/);
   assert.match(styles, /scroll-behavior:auto!important/);
+});
+
+
+test("Designy directory CSS keeps focus rings and reduced-motion", () => {
+  assert.match(directoryStyles, /:focus-visible\s*\{/);
+  assert.match(directoryStyles, /@media \(prefers-reduced-motion:reduce\)/);
+  assert.match(directoryStyles, /scroll-behavior:auto!important/);
 });
